@@ -4,7 +4,7 @@ namespace CMZero.API.Messages
 {
     public class BaseEntity
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public bool Active { get; set; }
 

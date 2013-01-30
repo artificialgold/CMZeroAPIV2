@@ -5,7 +5,7 @@ using Raven.Client.Document;
 
 namespace CMZero.API.DataAccess.Repositories
 {
-    public class RepositoryBase<T>
+    public class RepositoryBase<T> : IRepositoryBase<T>
     {
         public void Create(T organisation)
         {

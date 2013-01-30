@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8BB3F8A9-2EBB-4C27-B886-29E6FF8B894E}</ProjectGuid>
+    <ProjectGuid>{DB22452A-B67B-4EB4-98FB-63555B22139D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IntegrationTests</RootNamespace>
-    <AssemblyName>IntegrationTests</AssemblyName>
+    <RootNamespace>CMZero.API.Domain</RootNamespace>
+    <AssemblyName>CMZero.API.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,17 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Abstractions">
-      <HintPath>..\packages\RavenDB.Client.2.0.2230\lib\net40\Raven.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Raven.Client.Lightweight">
-      <HintPath>..\packages\RavenDB.Client.2.0.2230\lib\net40\Raven.Client.Lightweight.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -49,20 +39,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccess\ApplicationRepositoryTests.cs" />
+    <Compile Include="BaseService.cs" />
+    <Compile Include="RepositoryInterfaces\IOrganisationRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IRepository.cs" />
+    <Compile Include="OrganisationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">
       <Project>{7161ccf6-2874-4da1-a954-a3433c2acd91}</Project>
       <Name>DataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Domain\Domain.csproj">
-      <Project>{db22452a-b67b-4eb4-98fb-63555b22139d}</Project>
-      <Name>Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\Messages\Messages.csproj">
       <Project>{e38ad2bf-ded4-452a-a59c-d1a94cd25c85}</Project>

@@ -39,7 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application.cs" />
     <Compile Include="BaseEntity.cs" />
+    <Compile Include="BaseEntityWithName.cs" />
+    <Compile Include="Collection.cs" />
     <Compile Include="Organisation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

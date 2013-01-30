@@ -1,7 +1,6 @@
 ﻿namespace CMZero.API.Messages
 {
-    public class Organisation : BaseEntity
+    public class Organisation : BaseEntityWithName
     {
-        public string Name { get; set; }
     }
 }
