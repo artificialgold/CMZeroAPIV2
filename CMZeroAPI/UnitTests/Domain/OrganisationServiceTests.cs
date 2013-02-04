@@ -1,7 +1,7 @@
 ﻿using System;
 
+using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Domain;
-using CMZero.API.Domain.RepositoryInterfaces;
 using CMZero.API.Messages;
 
 using NUnit.Framework;
@@ -22,7 +22,6 @@ namespace UnitTests.Domain
             public virtual void SetUp()
             {
                 OrganisationRepository = MockRepository.GenerateMock<IOrganisationRepository>();
-
                 OrganisationService = new OrganisationService(OrganisationRepository);
             }
         }
@@ -31,13 +30,18 @@ namespace UnitTests.Domain
         {
             private readonly Organisation organisation = new Organisation();
 
+            private DateTime startTime;
+
+            private DateTime endTime;
             private Organisation outcome;
 
             [SetUp]
             public new virtual void SetUp()
             {
                 base.SetUp();
+                startTime = DateTime.UtcNow;
                 outcome = OrganisationService.Create(organisation);
+                endTime = DateTime.UtcNow;
             }
 
             [Test]
@@ -45,25 +49,52 @@ namespace UnitTests.Domain
             {
                 Assert.AreEqual(outcome, organisation);
             }
+
+            [Test]
+            public void it_should_set_created_to_current_datetime()
+            {
+                var testOutcome =
+                    (outcome.Created >= startTime) && (outcome.Created <= endTime);
+                Assert.True(testOutcome);
+            }
+
+            [Test]
+            public void it_should_set_updated_to_current_datetime()
+            {
+                var testOutcome = (outcome.Updated >= startTime) && (outcome.Updated <= endTime);
+                Assert.True(testOutcome);
+            }
         }
 
         public class When_I_call_Update : Given_an_OrganisationService
         {
             private readonly Organisation organisation = new Organisation { Active = true, Name = "hjkljh" };
 
+            private DateTime startTime;
+
+            private DateTime endTime;
             private Organisation outcome;
 
             [SetUp]
-            public virtual void SetUp()
+            public new virtual void SetUp()
             {
                 base.SetUp();
+                startTime = DateTime.UtcNow;
                 outcome = OrganisationService.Update(organisation);
+                endTime = DateTime.UtcNow;
             }
 
             [Test]
             public void it_should_return_outcome_of_update_operation()
             {
                 Assert.AreEqual(outcome, organisation);
+            }
+
+            [Test]
+            public void it_should_set_updated_to_current_datetime()
+            {
+                var testOutcome = (outcome.Updated >= startTime) && (outcome.Updated <= endTime);
+                Assert.True(testOutcome);
             }
         }
 
@@ -74,7 +105,7 @@ namespace UnitTests.Domain
             private readonly Organisation _organisationFromRepository = new Organisation { Active = true };
 
             [SetUp]
-            public virtual void SetUp()
+            public new virtual void SetUp()
             {
                 base.SetUp();
                 OrganisationRepository.Stub(x => x.GetById(id)).Return(_organisationFromRepository);

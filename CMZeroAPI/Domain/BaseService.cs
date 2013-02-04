@@ -1,13 +1,19 @@
-﻿using CMZero.API.Domain.RepositoryInterfaces;
+﻿using System;
+
+using CMZero.API.DataAccess.RepositoryInterfaces;
+using CMZero.API.Messages;
 
 namespace CMZero.API.Domain
 {
-    public class BaseService<T>
+    public class BaseService<T> where T : BaseEntity
     {
         protected IRepository<T> Repository;
 
         public T Create(T organisation)
         {
+            organisation.Created = DateTime.UtcNow;
+            organisation.Updated = DateTime.UtcNow;
+
             Repository.Create(organisation);
 
             return organisation;
@@ -15,6 +21,8 @@ namespace CMZero.API.Domain
 
         public T Update(T organisation)
         {
+            organisation.Updated = DateTime.UtcNow;
+
             Repository.Update(organisation);
 
             return organisation;

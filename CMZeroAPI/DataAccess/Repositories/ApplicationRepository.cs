@@ -1,6 +1,8 @@
-﻿namespace CMZero.API.DataAccess.Repositories
+﻿using CMZero.API.Messages;
+
+namespace CMZero.API.DataAccess.Repositories
 {
-    public class ApplicationRepository
+    public class ApplicationRepository : RepositoryBase<Application>
     {
 
     }

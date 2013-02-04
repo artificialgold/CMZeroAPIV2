@@ -1,11 +1,13 @@
 ﻿using System;
 
+using CMZero.API.DataAccess.RepositoryInterfaces;
+
 using Raven.Client;
 using Raven.Client.Document;
 
 namespace CMZero.API.DataAccess.Repositories
 {
-    public class RepositoryBase<T> : IRepositoryBase<T>
+    public class RepositoryBase<T> : IRepository<T>
     {
         public void Create(T organisation)
         {
@@ -23,7 +25,7 @@ namespace CMZero.API.DataAccess.Repositories
             }
         }
 
-        public T GetById(Guid id)
+        public T GetById(string id)
         {
             try
             {

@@ -57,6 +57,10 @@
     <Compile Include="Repositories\CollectionRepository.cs" />
     <Compile Include="Repositories\OrganisationRepository.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
+    <Compile Include="RepositoryInterfaces\IApplicationRepository.cs" />
+    <Compile Include="RepositoryInterfaces\ICollectionRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IOrganisationRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

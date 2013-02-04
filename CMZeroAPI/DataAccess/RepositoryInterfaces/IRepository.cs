@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CMZero.API.Domain.RepositoryInterfaces
+﻿namespace CMZero.API.DataAccess.RepositoryInterfaces
 {
     public interface IRepository<T>
     {

@@ -39,9 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationService.cs" />
     <Compile Include="BaseService.cs" />
-    <Compile Include="RepositoryInterfaces\IOrganisationRepository.cs" />
-    <Compile Include="RepositoryInterfaces\IRepository.cs" />
+    <Compile Include="CollectionService.cs" />
     <Compile Include="OrganisationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

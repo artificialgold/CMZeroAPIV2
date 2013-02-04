@@ -1,4 +1,4 @@
-﻿using CMZero.API.Domain.RepositoryInterfaces;
+﻿using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Messages;
 
 namespace CMZero.API.Domain
