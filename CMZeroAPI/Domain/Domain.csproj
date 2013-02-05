@@ -42,6 +42,10 @@
     <Compile Include="ApplicationService.cs" />
     <Compile Include="BaseService.cs" />
     <Compile Include="CollectionService.cs" />
+    <Compile Include="IApplicationService.cs" />
+    <Compile Include="IBaseService.cs" />
+    <Compile Include="ICollectionService.cs" />
+    <Compile Include="IOrganisationService.cs" />
     <Compile Include="OrganisationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

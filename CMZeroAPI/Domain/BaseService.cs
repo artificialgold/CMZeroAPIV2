@@ -5,7 +5,7 @@ using CMZero.API.Messages;
 
 namespace CMZero.API.Domain
 {
-    public class BaseService<T> where T : BaseEntity
+    public class BaseService<T> : IBaseService<T> where T : BaseEntity
     {
         protected IRepository<T> Repository;
 
