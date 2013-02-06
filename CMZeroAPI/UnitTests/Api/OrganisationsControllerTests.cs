@@ -11,14 +11,14 @@ namespace UnitTests.Api
     {
         public class Given_an_OrganisationController
         {
-            protected OrganisationsController OrganisationsController;
+            protected OrganisationController OrganisationsController;
             protected IOrganisationService OrganisationService;
 
             [SetUp]
             public void SetUp()
             {
                 OrganisationService = MockRepository.GenerateMock<IOrganisationService>();
-                OrganisationsController = new OrganisationsController(OrganisationService);
+                OrganisationsController = new OrganisationController(OrganisationService);
             }
         }
 

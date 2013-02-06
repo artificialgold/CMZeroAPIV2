@@ -7,11 +7,11 @@ using CMZero.API.Messages;
 
 namespace Api.Controllers
 {
-    public class OrganisationsController : ApiController
+    public class OrganisationController : ApiController
     {
         private readonly IOrganisationService _organisationService;
 
-        public OrganisationsController(IOrganisationService organisationService)
+        public OrganisationController(IOrganisationService organisationService)
         {
             _organisationService = organisationService;
         }
