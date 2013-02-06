@@ -3,7 +3,7 @@ using CMZero.API.Messages;
 
 namespace CMZero.API.Domain
 {
-    public class OrganisationService : BaseService<Organisation>
+    public class OrganisationService : BaseService<Organisation>, IOrganisationService
     {
         public OrganisationService(IOrganisationRepository organisationRepository)
         {

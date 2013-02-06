@@ -3,7 +3,7 @@ using CMZero.API.Messages;
 
 namespace CMZero.API.Domain
 {
-    public class ApplicationService : BaseService<Application>
+    public class ApplicationService : BaseService<Application>, IApplicationService
     {
         public ApplicationService(IApplicationRepository applicationRepository)
         {
