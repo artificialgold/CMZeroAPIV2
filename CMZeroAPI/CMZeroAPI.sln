@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{7161CCF6-2874-4DA1-A954-A3433C2ACD91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messages", "Messages\Messages.csproj", "{E38AD2BF-DED4-452A-A59C-D1A94CD25C85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{8BB3F8A9-2EBB-4C27-B886-29E6FF8B894E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7161CCF6-2874-4DA1-A954-A3433C2ACD91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7161CCF6-2874-4DA1-A954-A3433C2ACD91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7161CCF6-2874-4DA1-A954-A3433C2ACD91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7161CCF6-2874-4DA1-A954-A3433C2ACD91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E38AD2BF-DED4-452A-A59C-D1A94CD25C85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E38AD2BF-DED4-452A-A59C-D1A94CD25C85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E38AD2BF-DED4-452A-A59C-D1A94CD25C85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E38AD2BF-DED4-452A-A59C-D1A94CD25C85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BB3F8A9-2EBB-4C27-B886-29E6FF8B894E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BB3F8A9-2EBB-4C27-B886-29E6FF8B894E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BB3F8A9-2EBB-4C27-B886-29E6FF8B894E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BB3F8A9-2EBB-4C27-B886-29E6FF8B894E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
