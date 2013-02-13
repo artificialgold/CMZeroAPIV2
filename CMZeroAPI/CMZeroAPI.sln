@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceAgent", "ServiceAgen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{B3DABAA4-B7B5-4F61-A2BB-E4CE54D105B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcceptanceTests", "AcceptanceTests\AcceptanceTests.csproj", "{A3A403A7-3BE0-4264-8E68-4E390C977338}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{B3DABAA4-B7B5-4F61-A2BB-E4CE54D105B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3DABAA4-B7B5-4F61-A2BB-E4CE54D105B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3DABAA4-B7B5-4F61-A2BB-E4CE54D105B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3A403A7-3BE0-4264-8E68-4E390C977338}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3A403A7-3BE0-4264-8E68-4E390C977338}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3A403A7-3BE0-4264-8E68-4E390C977338}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3A403A7-3BE0-4264-8E68-4E390C977338}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

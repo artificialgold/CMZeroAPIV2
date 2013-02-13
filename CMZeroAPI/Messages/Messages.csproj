@@ -43,8 +43,18 @@
     <Compile Include="BaseEntity.cs" />
     <Compile Include="BaseEntityWithName.cs" />
     <Compile Include="Collection.cs" />
+    <Compile Include="Error.cs" />
+    <Compile Include="Exceptions\AccessForbiddenException.cs" />
+    <Compile Include="Exceptions\AccessUnauthorisedException.cs" />
+    <Compile Include="Exceptions\BadRequestException.cs" />
+    <Compile Include="Exceptions\BadResponseException.cs" />
+    <Compile Include="Exceptions\BaseHttpException.cs" />
+    <Compile Include="Exceptions\ConflictException.cs" />
+    <Compile Include="Exceptions\ServiceUnavailableException.cs" />
     <Compile Include="Organisation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Responses\GetOrganisationResponse.cs" />
+    <Compile Include="ValidationErrors.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
