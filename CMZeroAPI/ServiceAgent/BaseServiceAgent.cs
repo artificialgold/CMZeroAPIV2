@@ -27,7 +27,7 @@ namespace CMZero.API.ServiceAgent
         {
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
-                return default(T);
+                throw new ItemNotFoundException();
             }
 
             HandleBadResponses(response);

@@ -1,18 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
 
 using CMZero.API.DataAccess.RepositoryInterfaces;
+using CMZero.API.Messages;
 
 using Raven.Client;
 using Raven.Client.Document;
 
 namespace CMZero.API.DataAccess.Repositories
 {
-    public class RepositoryBase<T> : IRepository<T>
+    public class RepositoryBase<T> : IRepository<T> where T : BaseEntity
     {
         public void Create(T organisation)
         {
             try
             {
+                organisation.Id = new Guid().ToString();
+
                 using (var session = GetSession())
                 {
                     session.Store(organisation);
@@ -56,12 +62,28 @@ namespace CMZero.API.DataAccess.Repositories
             }
         }
 
-        protected static IDocumentSession GetSession()
+        public IEnumerable<T> GetAll()
+        {
+            try
+            {
+                using (var session = GetSession())
+                {
+                    return session.Query<T>().Take(100);
+                }
+            }
+            catch (Exception ex)
+            {
+                //TODO: Get correct exceptions
+                throw new Exception();
+            }
+        }
+
+        protected IDocumentSession GetSession()
         {
             var documentStore = new DocumentStore
                                     {
-                                        Url = "https://aeo.ravenhq.com/databases/artificialgold-organisations",
-                                        ApiKey = "1b66e4cb-a050-4d74-89f3-82fbe946627b"
+                                        Url = ConfigurationManager.AppSettings["RavenDBAddress"],
+                                        ApiKey = ConfigurationManager.AppSettings["RavenDBApiKey"]
                                     };
             documentStore.Initialize();
             return documentStore.OpenSession();

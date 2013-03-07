@@ -50,6 +50,7 @@
     <Compile Include="Exceptions\BadResponseException.cs" />
     <Compile Include="Exceptions\BaseHttpException.cs" />
     <Compile Include="Exceptions\ConflictException.cs" />
+    <Compile Include="Exceptions\ItemNotFoundException.cs" />
     <Compile Include="Exceptions\ServiceUnavailableException.cs" />
     <Compile Include="Organisation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

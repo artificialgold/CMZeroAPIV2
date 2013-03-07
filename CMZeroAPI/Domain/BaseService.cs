@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Messages;
+using CMZero.API.Messages.Exceptions;
 
 namespace CMZero.API.Domain
 {
@@ -9,28 +11,38 @@ namespace CMZero.API.Domain
     {
         protected IRepository<T> Repository;
 
-        public T Create(T organisation)
+        public T Create(T entity)
         {
-            organisation.Created = DateTime.UtcNow;
-            organisation.Updated = DateTime.UtcNow;
+            entity.Created = DateTime.UtcNow;
+            entity.Updated = DateTime.UtcNow;
 
-            Repository.Create(organisation);
+            Repository.Create(entity);
 
-            return organisation;
+            return entity;
         }
 
-        public T Update(T organisation)
+        public T Update(T entity)
         {
-            organisation.Updated = DateTime.UtcNow;
+            entity.Updated = DateTime.UtcNow;
 
-            Repository.Update(organisation);
+            Repository.Update(entity);
 
-            return organisation;
+            return entity;
         }
 
         public T GetById(string id)
         {
-            return Repository.GetById(id);
+            var result = Repository.GetById(id);
+
+            if (result==null)
+                throw new ItemNotFoundException();
+
+            return result;
+        }
+
+        public IEnumerable<T> GetAll()
+        {
+            return Repository.GetAll();
         }
     }
 }

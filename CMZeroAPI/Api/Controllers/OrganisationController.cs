@@ -4,6 +4,8 @@ using System.Net.Http;
 using System.Web.Http;
 using CMZero.API.Domain;
 using CMZero.API.Messages;
+using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Responses;
 
 namespace Api.Controllers
 {
@@ -16,19 +18,31 @@ namespace Api.Controllers
             _organisationService = organisationService;
         }
 
-        public Organisation Get(int id)
+        public GetOrganisationsResponse Get()
         {
-            return new Organisation{Name = "TEST"};
+            var organisations = _organisationService.GetAll();
+            return new GetOrganisationsResponse{Organisations = organisations};
+        }
+
+        public GetOrganisationResponse Get(string id)
+        {
+            try
+            {
+                Organisation organisation = _organisationService.GetById(id);
+                return new GetOrganisationResponse { Organisation = organisation };
+            }
+            catch (ItemNotFoundException)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
         }
 
         // POST api/values
-        public HttpResponseMessage Post([FromBody]Organisation organisation)
+        public PostOrganisationResponse Post([FromBody]Organisation organisation)
         {
             organisation = _organisationService.Create(organisation);
-            var response = Request.CreateResponse<Organisation>(HttpStatusCode.Created, organisation);
+            PostOrganisationResponse response = new PostOrganisationResponse { Organisation = organisation };
 
-            string uri = Url.Link("DefaultApi", new { id = organisation.Id });
-            response.Headers.Location = new Uri(uri);
             return response;
         }
 

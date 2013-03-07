@@ -1,11 +1,14 @@
-﻿using CMZero.API.Messages;
+﻿using System.Collections.Generic;
+
+using CMZero.API.Messages;
 
 namespace CMZero.API.Domain
 {
     public interface IBaseService<T> where T : BaseEntity
     {
-        T Create(T organisation);
-        T Update(T organisation);
+        T Create(T entity);
+        T Update(T entity);
         T GetById(string id);
+        IEnumerable<T> GetAll();
     }
 }

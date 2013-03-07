@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Linq;
 
+using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Messages;
 
 using Raven.Client.Linq;
 
 namespace CMZero.API.DataAccess.Repositories
 {
-    public class OrganisationRepository : RepositoryBase<Organisation>
+    public class OrganisationRepository : RepositoryBase<Organisation>, IOrganisationRepository
     {
         //TODO: Make this more efficient if possible, first or default seems poor but might be ok
         public Organisation GetByName(string nameToSearchBy)

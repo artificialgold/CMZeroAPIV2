@@ -50,10 +50,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccess\ApplicationRepositoryTests.cs" />
+    <Compile Include="Domain\OrganisationServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="App.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>App.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>App.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">

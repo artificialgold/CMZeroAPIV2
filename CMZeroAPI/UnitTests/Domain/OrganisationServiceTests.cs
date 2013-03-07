@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Domain;
 using CMZero.API.Messages;
+using CMZero.API.Messages.Exceptions;
 
 using NUnit.Framework;
 
@@ -98,10 +100,10 @@ namespace UnitTests.Domain
             }
         }
 
-        public class When_call_GetById : Given_an_OrganisationService
+        public class When_call_GetById_with_existing_id : Given_an_OrganisationService
         {
             private string id = "ghjkl";
-            private Organisation outcome = new Organisation { Created = DateTime.Now };
+            private Organisation outcome;
             private readonly Organisation _organisationFromRepository = new Organisation { Active = true };
 
             [SetUp]
@@ -116,6 +118,60 @@ namespace UnitTests.Domain
             public void it_should_return_organisation_from_repository()
             {
                 Assert.AreEqual(outcome, _organisationFromRepository);
+            }
+        }
+
+        public class When_call_GetByID_with_non_existent_id : Given_an_OrganisationService
+        {
+            private string id = "ghjklvchjk";
+
+            private Organisation outcome;
+
+            private readonly Organisation _organisationFromRepository = null;
+
+            private Exception exception;
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                OrganisationRepository.Stub(x => x.GetById(id)).Return(_organisationFromRepository);
+                try
+                {
+                    outcome = OrganisationService.GetById(id);
+                }
+                catch (ItemNotFoundException ex)
+                {
+                    exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_return_organisation_from_repository()
+            {
+                Assert.NotNull(exception);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_GetAll : Given_an_OrganisationService
+        {
+            private IEnumerable<Organisation> outcome;
+
+            private readonly IEnumerable<Organisation> organisationsToReturn = new Organisation[3];
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                OrganisationRepository.Stub(x => x.GetAll()).Return(organisationsToReturn);
+                outcome = OrganisationService.GetAll();
+            }
+
+            [Test]
+            public void it_should_return_organisations_from_repository()
+            {
+                Assert.AreEqual(outcome, organisationsToReturn);
             }
         }
     }

@@ -1,6 +1,7 @@
-﻿using System.Web.Http;
-using System.Web.Mvc;
-using System.Web.Optimization;
+﻿using System.Reflection;
+using System.Web.Http;
+
+using Api.Infrastructure;
 
 namespace Api
 {
@@ -8,11 +9,9 @@ namespace Api
     {
         protected void Application_Start()
         {
-            AreaRegistration.RegisterAllAreas();
+            BootStrapper.Init(Assembly.GetExecutingAssembly());
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace CMZero.API.DataAccess.RepositoryInterfaces
+﻿using System.Collections.Generic;
+
+namespace CMZero.API.DataAccess.RepositoryInterfaces
 {
     public interface IRepository<T>
     {
@@ -7,5 +9,7 @@
         T GetById(string id);
 
         void Update(T storedOrganisation);
+
+        IEnumerable<T> GetAll();
     }
 }
