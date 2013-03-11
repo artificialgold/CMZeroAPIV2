@@ -12,6 +12,11 @@ namespace CMZero.API.Messages.Responses
         public Organisation Organisation { get; set; }
     }
 
+    public class PutOrganisationResponse
+    {
+        public Organisation Organisation { get; set; }
+    }
+
     public class GetOrganisationsResponse
     {
         public IEnumerable<Organisation> Organisations { get; set; }

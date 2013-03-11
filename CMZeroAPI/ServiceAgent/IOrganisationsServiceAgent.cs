@@ -10,6 +10,8 @@ namespace CMZero.API.ServiceAgent
         GetOrganisationsResponse Get();
 
         PostOrganisationResponse Post(Organisation organisation);
+
+        PutOrganisationResponse Put(Organisation organisation);
     }
 
 }

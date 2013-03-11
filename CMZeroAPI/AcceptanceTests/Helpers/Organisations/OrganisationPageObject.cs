@@ -25,21 +25,40 @@ namespace AcceptanceTests.Helpers.Organisations
 
         public Organisation NewOrganisation()
         {
+            return NewOrganisationWithSpecifiedName(
+                   string.Format("Test{0}", DateTime.Now.ToString(CultureInfo.InvariantCulture)));
+        }
+
+        public Organisation NewOrganisationWithSpecifiedName(string name)
+        {
             PostOrganisationResponse response =
                 _organisationsServiceAgent.Post(
                     new Organisation
-                        {
-                            Active = true,
-                            Name =
-                                string.Format("Test{0}", DateTime.Now.ToString(CultureInfo.InvariantCulture))
-                        });
+                    {
+                        Active = true,
+                        Name = name
+                    });
 
             return response.Organisation;
         }
 
+        public BadRequestException NewOrganisationWithUnspecifiedName()
+        {
+            try
+            {
+                _organisationsServiceAgent.Post(new Organisation { Active = true, Name = null });
+            }
+            catch (BadRequestException ex)
+            {
+                return ex;
+            }
+
+            return null;
+        }
+
         public Organisation GetOrganisation(string id)
         {
-             var result = _organisationsServiceAgent.Get(id);
+            var result = _organisationsServiceAgent.Get(id);
 
             if (result != null) return result.Organisation;
 
@@ -63,6 +82,11 @@ namespace AcceptanceTests.Helpers.Organisations
         public IEnumerable<Organisation> GetOrganisations()
         {
             return _organisationsServiceAgent.Get().Organisations;
+        }
+
+        public Organisation UpdateOrganisation(Organisation organisation)
+        {
+            return _organisationsServiceAgent.Put(organisation).Organisation;
         }
     }
 

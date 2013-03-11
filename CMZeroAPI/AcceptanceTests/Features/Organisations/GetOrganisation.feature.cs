@@ -11,7 +11,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace AcceptanceTests.Features
+namespace AcceptanceTests.Features.Organisations
 {
     using TechTalk.SpecFlow;
     

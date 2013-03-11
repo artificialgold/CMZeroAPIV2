@@ -68,21 +68,41 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Features\GetOrganisation.feature.cs">
+    <Compile Include="Features\Organisations\CreateOrganisation.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CreateOrganisation.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Organisations\GetOrganisation.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>GetOrganisation.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\Organisations\UpdateOrganisation.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpdateOrganisation.feature</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\Organisations\OrganisationPageObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Steps\GetOrganisationSteps.cs" />
+    <Compile Include="Steps\Organisations\CreateOrganisationSteps.cs" />
+    <Compile Include="Steps\Organisations\GetOrganisationSteps.cs" />
+    <Compile Include="Steps\Organisations\UpdateOrganisationSteps.cs" />
     <Compile Include="Steps\StepBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Features\GetOrganisation.feature">
+    <None Include="Features\Organisations\CreateOrganisation.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>CreateOrganisation.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Organisations\GetOrganisation.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>GetOrganisation.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Organisations\UpdateOrganisation.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>UpdateOrganisation.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
@@ -98,6 +118,7 @@
       <Name>ServiceAgent</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

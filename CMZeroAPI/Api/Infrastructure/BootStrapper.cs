@@ -2,6 +2,8 @@
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
 
+using Api.Filters;
+
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
@@ -16,6 +18,12 @@ namespace Api.Infrastructure
         {
             InitContainer(applicationAssembly);
             InitTasks();
+            InitFilters();
+        }
+
+        private static void InitFilters()
+        {
+            GlobalConfiguration.Configuration.Filters.Add(new ValidationActionFilter());
         }
 
         private static void InitContainer(Assembly applicationAssembly)
