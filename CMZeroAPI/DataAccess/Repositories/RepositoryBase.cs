@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.Linq;
 
 using CMZero.API.DataAccess.RepositoryInterfaces;
@@ -17,7 +18,7 @@ namespace CMZero.API.DataAccess.Repositories
         {
             try
             {
-                organisation.Id = new Guid().ToString();
+                organisation.Id = Guid.NewGuid().ToString();
 
                 using (var session = GetSession())
                 {

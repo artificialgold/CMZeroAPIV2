@@ -3,6 +3,6 @@
     public class Application : BaseEntityWithName
     {
         //TODO: ensure organisation name is unique
-        public string OrganisationName { get; set; }
+        public string OrganisationId { get; set; }
     }
 }

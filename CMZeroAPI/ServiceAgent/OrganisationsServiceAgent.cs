@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 
 using CMZero.API.Messages;
-using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Responses;
 
 namespace CMZero.API.ServiceAgent
 {
     public class OrganisationsServiceAgent : BaseServiceAgent, IOrganisationsServiceAgent
     {
-        private readonly string _baseUri;
-
         public OrganisationsServiceAgent(string baseUri)
             : this(baseUri, new HttpClient())
         {
@@ -51,52 +47,59 @@ namespace CMZero.API.ServiceAgent
             return CheckResult<PostOrganisationResponse>(request);
         }
 
-        private HttpRequestMessage CreatePostRequest<T>(T content, string path)
+        public PutOrganisationResponse Put(Organisation organisation)
         {
-            var uriBuilder = new UriBuilder(_baseUri) { Path = path };
+            HttpRequestMessage request = CreatePutRequest(organisation, "/organisation/");
 
-            return new HttpRequestMessage(HttpMethod.Post, uriBuilder.Uri)
+            return CheckResult<PutOrganisationResponse>(request);
+        }
+    }
+    public class ApplicationsServiceAgent : BaseServiceAgent, IApplicationsServiceAgent
+    {
+        public ApplicationsServiceAgent(string baseUri)
+            : this(baseUri, new HttpClient())
+        {
+        }
+
+        public ApplicationsServiceAgent(string baseUri, HttpClient httpClient)
+            : base(httpClient)
+        {
+            _baseUri = baseUri;
+        }
+
+        public GetApplicationResponse Get(string id)
+        {
+            var uriBuilder = new UriBuilder(_baseUri)
             {
-                Content = new ObjectContent(typeof(T), content, new JsonMediaTypeFormatter())
+                Path = string.Format("/application/{0}", id),
             };
+
+            var request = new HttpRequestMessage(HttpMethod.Get, uriBuilder.Uri);
+
+            return GetResult<GetApplicationResponse>(request);
         }
 
-        private T CheckResult<T>(HttpRequestMessage request)
+        public GetApplicationsResponse Get()
         {
-            try
-            {
-                return GetResult<T>(request);
-            }
-            catch (BaseHttpException ex)
-            {
-                HandleKnownExceptions(ex);
+            var uriBuilder = new UriBuilder(_baseUri) { Path = "/application/" };
 
-                throw;
-            }
+            var request = new HttpRequestMessage(HttpMethod.Get, uriBuilder.Uri);
+
+            return GetResult<GetApplicationsResponse>(request);
         }
 
-        private void HandleKnownExceptions(BaseHttpException baseHttpException)
+        public PostApplicationResponse Post(Application organisation)
         {
-            //baseHttpException.ThrowAs<InvalidEmailAddressException>();
-            //baseHttpException.ThrowAs<InvalidPointsRequestException>();
-            //baseHttpException.ThrowAs<PartnerNotFoundException>();
-            //baseHttpException.ThrowAs<ProductionAccessDisabledException>();
-            //baseHttpException.ThrowAs<ReservationAlreadyCancelledException>();
-            //baseHttpException.ThrowAs<ReservationInThePastException>();
-            //baseHttpException.ThrowAs<ReservationNotFoundException>();
-            //baseHttpException.ThrowAs<SlotLockAuthenticationException>();
-            //baseHttpException.ThrowAs<TimeSlotUnavailableException>();
-            //baseHttpException.ThrowAs<UnableToConnectToErbException>();
-            //baseHttpException.ThrowAs<UserAccountDeactivatedException>();
-            //baseHttpException.ThrowAs<UserAuthenticationException>();
-            //baseHttpException.ThrowAs<WrongEmailAddressForReservationException>();
+            HttpRequestMessage request = CreatePostRequest(organisation, "/application/");
 
-            //var cancellationFailedException = new CancellationFailedException(baseHttpException.Message);
+            return CheckResult<PostApplicationResponse>(request);
+        }
 
-            //if (baseHttpException.Key == cancellationFailedException.Key)
-            //{
-            //    throw cancellationFailedException;
-            //}
+        public PutApplicationResponse Put(Application organisation)
+        {
+            HttpRequestMessage request = CreatePutRequest(organisation, "/application/");
+
+            return CheckResult<PutApplicationResponse>(request);
         }
     }
 }

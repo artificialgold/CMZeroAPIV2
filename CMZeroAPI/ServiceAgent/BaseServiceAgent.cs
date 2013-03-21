@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 
@@ -10,6 +11,8 @@ namespace CMZero.API.ServiceAgent
     public abstract class BaseServiceAgent
     {
         private readonly HttpClient _client;
+
+        protected string _baseUri;
 
         protected BaseServiceAgent(HttpClient client)
         {
@@ -103,6 +106,64 @@ namespace CMZero.API.ServiceAgent
             }
 
             return response.Content.ReadAsStringAsync().Result;
+        }
+
+        protected HttpRequestMessage CreatePostRequest<T>(T content, string path)
+        {
+            var uriBuilder = new UriBuilder(_baseUri) { Path = path };
+
+            return new HttpRequestMessage(HttpMethod.Post, uriBuilder.Uri)
+                       {
+                           Content = new ObjectContent(typeof(T), content, new JsonMediaTypeFormatter())
+                       };
+        }
+
+        protected HttpRequestMessage CreatePutRequest<T>(T content, string path)
+        {
+            var uriBuilder = new UriBuilder(_baseUri) { Path = path };
+
+            return new HttpRequestMessage(HttpMethod.Put, uriBuilder.Uri)
+                       {
+                           Content = new ObjectContent(typeof(T), content, new JsonMediaTypeFormatter())
+                       };
+        }
+
+        protected T CheckResult<T>(HttpRequestMessage request)
+        {
+            try
+            {
+                return GetResult<T>(request);
+            }
+            catch (BaseHttpException ex)
+            {
+                HandleKnownExceptions(ex);
+
+                throw;
+            }
+        }
+
+        private void HandleKnownExceptions(BaseHttpException baseHttpException)
+        {
+            //baseHttpException.ThrowAs<InvalidEmailAddressException>();
+            //baseHttpException.ThrowAs<InvalidPointsRequestException>();
+            //baseHttpException.ThrowAs<PartnerNotFoundException>();
+            //baseHttpException.ThrowAs<ProductionAccessDisabledException>();
+            //baseHttpException.ThrowAs<ReservationAlreadyCancelledException>();
+            //baseHttpException.ThrowAs<ReservationInThePastException>();
+            //baseHttpException.ThrowAs<ReservationNotFoundException>();
+            //baseHttpException.ThrowAs<SlotLockAuthenticationException>();
+            //baseHttpException.ThrowAs<TimeSlotUnavailableException>();
+            //baseHttpException.ThrowAs<UnableToConnectToErbException>();
+            //baseHttpException.ThrowAs<UserAccountDeactivatedException>();
+            //baseHttpException.ThrowAs<UserAuthenticationException>();
+            //baseHttpException.ThrowAs<WrongEmailAddressForReservationException>();
+
+            //var cancellationFailedException = new CancellationFailedException(baseHttpException.Message);
+
+            //if (baseHttpException.Key == cancellationFailedException.Key)
+            //{
+            //    throw cancellationFailedException;
+            //}
         }
     }
 }

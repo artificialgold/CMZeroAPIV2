@@ -1,49 +1,68 @@
 ﻿using System;
 
+using AcceptanceTests.Helpers;
 using AcceptanceTests.Helpers.Organisations;
+
+using Shouldly;
 
 using TechTalk.SpecFlow;
 
-namespace AcceptanceTests.Steps
+namespace AcceptanceTests.Steps.Organisations
 {
     [Binding]
     public class UpdateOrganisationSteps : StepBase
     {
+        private readonly OrganisationResource resource = new Api().Resource<OrganisationResource>();
+
         private string updateName = "updatedName";
 
-        private DateTime updateStartKey;
+        private string updateStartKey = "updateStartKey";
+
+        private string updateEndKey = "updateEndKey";
+
+        private string organisationidkey = "organisationIdKey";
 
         [Given(@"an existing organisation")]
         public void GivenAnExistingOrganisation()
         {
-            OrganisationResource resource = new Api().Resource<OrganisationResource>();
             string id = resource.NewOrganisationWithSpecifiedName("preUpdate").Id;
-            Remember<string>(id);
+            Remember(id, organisationidkey);
         }
 
         [When(@"I update the organisation name with a valid name")]
         public void WhenIUpdateTheOrganisationNameWithAValidName()
         {
-            OrganisationResource resource = new Api().Resource<OrganisationResource>();
-            var organisation = resource.GetOrganisation(Recall<string>());
+            var organisation = resource.GetOrganisation(Recall<string>(organisationidkey));
             organisation.Name = updateName;
             DateTime startUpdateTime = DateTime.UtcNow;
             resource.UpdateOrganisation(organisation);
             DateTime endUpdateTime = DateTime.UtcNow;
-            Remember<DateTime>(updateStartKey);
-            Remember<DateTime>(updateEndKey);
+            Remember(startUpdateTime, updateStartKey);
+            Remember(endUpdateTime, updateEndKey);
         }
+
+        [When(@"I update the organisation name with no name")]
+        public void WhenIUpdateTheOrganisationNameWithNoName()
+        {
+            var organisation = resource.GetOrganisation(Recall<string>(organisationidkey));
+            var exception = resource.UpdateOrganisationWithUnspecifiedName(organisation);
+            Remember(exception);
+        }
+
 
         [Then(@"the organisation should have the new name")]
         public void ThenTheOrganisationShouldHaveTheNewName()
         {
-            ScenarioContext.Current.Pending();
+            var organisation = resource.GetOrganisation(Recall<string>(organisationidkey));
+            organisation.Name.ShouldBe(updateName);
         }
 
         [Then(@"the organisation should have the new updated date")]
         public void ThenTheOrganisationShouldHaveTheNewUpdatedDate()
         {
-            ScenarioContext.Current.Pending();
+            var organisation = resource.GetOrganisation(Recall<string>(organisationidkey));
+            organisation.Updated.ShouldBeGreaterThanOrEqualTo(Recall<DateTime>(updateStartKey));
+            organisation.Updated.ShouldBeLessThan(Recall<DateTime>(updateEndKey).AddTicks(1));
         }
     }
 }

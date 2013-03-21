@@ -11,6 +11,8 @@ namespace Api.Controllers
             container.Register(
                 Component.For<OrganisationController>().ImplementedBy<OrganisationController>().LifeStyle.Transient);
 
+            container.Register(
+                Component.For<ApplicationController>().ImplementedBy<ApplicationController>().LifeStyle.Transient);
         }
     }
 }

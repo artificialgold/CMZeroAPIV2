@@ -11,7 +11,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace AcceptanceTests.Features.Organisations
+namespace AcceptanceTests.Features.Applications
 {
     using TechTalk.SpecFlow;
     
@@ -19,20 +19,20 @@ namespace AcceptanceTests.Features.Organisations
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.9.0.77")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("UpdateOrganisation")]
-    public partial class UpdateOrganisationFeature
+    [NUnit.Framework.DescriptionAttribute("Create Application")]
+    public partial class CreateApplicationFeature
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "UpdateOrganisation.feature"
+#line 1 "CreateApplication.feature"
 #line hidden
         
         [NUnit.Framework.TestFixtureSetUpAttribute()]
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "UpdateOrganisation", "", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Create Application", "", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -65,40 +65,34 @@ namespace AcceptanceTests.Features.Organisations
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Update Organisation")]
-        [NUnit.Framework.CategoryAttribute("Organisation")]
-        public virtual void UpdateOrganisation()
+        [NUnit.Framework.DescriptionAttribute("Creating an application with correct parameters")]
+        [NUnit.Framework.CategoryAttribute("Application")]
+        public virtual void CreatingAnApplicationWithCorrectParameters()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update Organisation", new string[] {
-                        "Organisation"});
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Creating an application with correct parameters", new string[] {
+                        "Application"});
 #line 4
 this.ScenarioSetup(scenarioInfo);
 #line 5
- testRunner.Given("an existing organisation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I create a valid application", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 6
- testRunner.When("I update the organisation name with a valid name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 7
- testRunner.Then("the organisation should have the new name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 8
- testRunner.And("the organisation should have the new updated date", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("I should be able to get the application", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Update Organisation to have no name")]
-        [NUnit.Framework.CategoryAttribute("Organisation")]
-        public virtual void UpdateOrganisationToHaveNoName()
+        [NUnit.Framework.DescriptionAttribute("Creating an application without name")]
+        [NUnit.Framework.CategoryAttribute("Application")]
+        public virtual void CreatingAnApplicationWithoutName()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update Organisation to have no name", new string[] {
-                        "Organisation"});
-#line 11
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Creating an application without name", new string[] {
+                        "Application"});
+#line 9
 this.ScenarioSetup(scenarioInfo);
-#line 12
- testRunner.Given("an existing organisation", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 13
- testRunner.When("I update the organisation name with no name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 14
+#line 10
+ testRunner.Given("I create an application without a name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 11
  testRunner.Then("I should get a BadRequestException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

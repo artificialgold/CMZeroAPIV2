@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using CMZero.API.Domain;
@@ -21,7 +20,7 @@ namespace Api.Controllers
         public GetOrganisationsResponse Get()
         {
             var organisations = _organisationService.GetAll();
-            return new GetOrganisationsResponse{Organisations = organisations};
+            return new GetOrganisationsResponse { Organisations = organisations };
         }
 
         public GetOrganisationResponse Get(string id)
@@ -47,8 +46,10 @@ namespace Api.Controllers
         }
 
         // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
+        public PutOrganisationResponse Put([FromBody]Organisation organisation)
         {
+            organisation = _organisationService.Update(organisation);
+            return new PutOrganisationResponse { Organisation = organisation };
         }
 
         // DELETE api/values/5

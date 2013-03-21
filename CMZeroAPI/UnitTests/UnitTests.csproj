@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\ApplicationsControllerTests.cs" />
     <Compile Include="Api\OrganisationsControllerTests.cs" />
     <Compile Include="Domain\OrganisationServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

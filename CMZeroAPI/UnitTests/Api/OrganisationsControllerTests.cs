@@ -151,5 +151,29 @@ namespace UnitTests.Api
                 Assert.AreEqual(outcome.Organisations, organisations);
             }
         }
+
+        [TestFixture]
+        public class When_I_call_put_with_a_valid_organisation : Given_an_OrganisationController
+        {
+            private Organisation organisationToUpdate= new Organisation{Name = "preUpdate"};
+
+            private Organisation updatedOrganisation= new Organisation{Name = "afterUpdate"};
+
+            private PutOrganisationResponse outcome;
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                OrganisationService.Stub(x => x.Update(organisationToUpdate)).Return(updatedOrganisation);
+                outcome = OrganisationsController.Put(organisationToUpdate);
+            }
+
+            [Test]
+            public void it_should_return_response_with_organisation_from_service()
+            {
+                Assert.AreEqual(outcome.Organisation, updatedOrganisation);
+            }
+        }
     }
 }

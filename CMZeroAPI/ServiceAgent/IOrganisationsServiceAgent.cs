@@ -14,4 +14,14 @@ namespace CMZero.API.ServiceAgent
         PutOrganisationResponse Put(Organisation organisation);
     }
 
+    public interface IApplicationsServiceAgent
+    {
+        GetApplicationResponse Get(string id);
+
+        GetApplicationsResponse Get();
+
+        PostApplicationResponse Post(Application organisation);
+
+        PutApplicationResponse Put(Application organisation);
+    }
 }

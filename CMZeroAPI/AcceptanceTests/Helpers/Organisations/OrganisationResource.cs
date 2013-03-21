@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Globalization;
-using System.Linq;
 using System.Web.Http;
 
 using CMZero.API.Messages;
@@ -56,6 +54,22 @@ namespace AcceptanceTests.Helpers.Organisations
             return null;
         }
 
+        public BadRequestException UpdateOrganisationWithUnspecifiedName(Organisation organisation)
+        {
+            try
+            {
+                organisation.Name = string.Empty;
+                _organisationsServiceAgent.Put(organisation);
+            }
+            catch (BadRequestException ex)
+            {
+                return ex;
+            }
+
+            return null;
+        }
+
+
         public Organisation GetOrganisation(string id)
         {
             var result = _organisationsServiceAgent.Get(id);
@@ -88,31 +102,5 @@ namespace AcceptanceTests.Helpers.Organisations
         {
             return _organisationsServiceAgent.Put(organisation).Organisation;
         }
-    }
-
-    public class Api
-    {
-        private readonly IList<IResource> _knownResourceObjects;
-
-        public Api()
-        {
-            _knownResourceObjects = new List<IResource> { new OrganisationResource(new OrganisationsServiceAgent(ConfigurationManager.AppSettings["BaseUri"])) };
-        }
-
-        public T Resource<T>() where T : IResource
-        {
-            try
-            {
-                return (T)_knownResourceObjects.First(s => s.GetType().Name == typeof(T).Name);
-            }
-            catch (Exception)
-            {
-                throw new ArgumentException(String.Format("Don't know how to make resource object of type '{0}'", typeof(T).Name));
-            }
-        }
-    }
-
-    public interface IResource
-    {
     }
 }

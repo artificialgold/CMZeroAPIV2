@@ -21,4 +21,24 @@ namespace CMZero.API.Messages.Responses
     {
         public IEnumerable<Organisation> Organisations { get; set; }
     }
+
+    public class GetApplicationResponse
+    {
+        public Application Application { get; set; }
+    }
+
+    public class PostApplicationResponse
+    {
+        public Application Application { get; set; }
+    }
+
+    public class PutApplicationResponse
+    {
+        public Application Application { get; set; }
+    }
+
+    public class GetApplicationsResponse
+    {
+        public IEnumerable<Application> Applications { get; set; }
+    }
 }

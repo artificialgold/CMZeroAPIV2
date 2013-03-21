@@ -1,21 +1,19 @@
 ﻿using System;
 
+using AcceptanceTests.Helpers;
 using AcceptanceTests.Helpers.Organisations;
 
 using CMZero.API.Messages;
-using CMZero.API.Messages.Exceptions;
 
 using Shouldly;
 
 using TechTalk.SpecFlow;
 
-namespace AcceptanceTests.Steps
+namespace AcceptanceTests.Steps.Organisations
 {
     [Binding]
     public class CreateOrganisationSteps : StepBase
     {
-        private string NoNameOrganisation;
-
         private const string OrganisationName = "organisationName";
 
         private const string OrganisationIdKey = "organisationId";
@@ -44,16 +42,7 @@ namespace AcceptanceTests.Steps
         public void GivenICreateAnOrganisationWithoutAName()
         {
             OrganisationResource resource = new Api().Resource<OrganisationResource>();
-            NoNameOrganisation = "NoNameOrganisation";
-            Remember(resource.NewOrganisationWithUnspecifiedName(), NoNameOrganisation);
+            Remember(resource.NewOrganisationWithUnspecifiedName());
         }
-
-        [Then(@"I should get a BadRequestException")]
-        public void ThenIShouldGetABadRequestException()
-        {
-            var result = Recall<BadRequestException>(NoNameOrganisation);
-            result.ShouldNotBe(null);
-        }
-
     }
 }
