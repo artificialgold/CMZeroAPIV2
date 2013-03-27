@@ -50,7 +50,7 @@ namespace AcceptanceTests.Steps.Organisations
         }
 
 
-        [Then(@"the organisation should have the new name")]
+        [Then(@"the application should have the new name")]
         public void ThenTheOrganisationShouldHaveTheNewName()
         {
             var organisation = resource.GetOrganisation(Recall<string>(organisationidkey));

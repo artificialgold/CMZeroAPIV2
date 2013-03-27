@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 
 using CMZero.API.DataAccess.Repositories;
 using CMZero.API.Domain;
@@ -48,7 +49,27 @@ namespace IntegrationTests.Domain
                 Assert.AreEqual(outcome.Name, name);
             }
         }
+
+        [TestFixture]
+        public class When_I_call_IdExists_with_an_Id_that_exists : Given_an_organisation_service
+        {
+            private bool result;
+
+            [SetUp]
+            public virtual void SetUp()
+            {
+                base.SetUp();
+
+                var organisationThatExists = OrganisationService.GetAll().FirstOrDefault();
+                
+                result = OrganisationService.IdExists(organisationThatExists.Id);
+            }
+
+            [Test]
+            public void it_should_return_true()
+            {
+                Assert.True(result);
+            }
+        }
     }
-
-
 }

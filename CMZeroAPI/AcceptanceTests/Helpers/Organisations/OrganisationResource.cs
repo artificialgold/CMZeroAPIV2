@@ -6,6 +6,7 @@ using System.Web.Http;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Responses;
+using CMZero.API.Messages.Responses.Organisations;
 using CMZero.API.ServiceAgent;
 
 using TechTalk.SpecFlow;

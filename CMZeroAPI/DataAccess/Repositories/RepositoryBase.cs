@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 
 using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Messages;
@@ -79,7 +80,7 @@ namespace CMZero.API.DataAccess.Repositories
             }
         }
 
-        protected IDocumentSession GetSession()
+        public IDocumentSession GetSession()
         {
             var documentStore = new DocumentStore
                                     {
@@ -88,6 +89,23 @@ namespace CMZero.API.DataAccess.Repositories
                                     };
             documentStore.Initialize();
             return documentStore.OpenSession();
+        }
+
+        public bool IdExists(string id)
+        {
+            try
+            {
+                using (var session = GetSession())
+                {
+                    return session.Load<T>(id) != null;
+                }
+            }
+            catch (Exception ex)
+            {
+                //TODO: LogException
+            }
+
+            throw new Exception("Unable to determine if Id is existing");
         }
     }
 }

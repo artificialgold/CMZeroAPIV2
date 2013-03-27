@@ -9,3 +9,8 @@ Scenario: Creating an application with correct parameters
 Scenario: Creating an application without name
 	Given I create an application without a name
 	Then I should get a BadRequestException
+
+@Application
+Scenario: Creating an application with an organisationId that does not exist
+	Given I create an application with an organisationId that does not exist
+	Then I should get a BadResponseException

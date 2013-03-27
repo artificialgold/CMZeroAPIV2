@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Net;
+using System.Web.Http;
 
 using AcceptanceTests.Helpers;
 using AcceptanceTests.Helpers.Applications;
 using AcceptanceTests.Helpers.Organisations;
 
 using CMZero.API.Messages;
+using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.Organisations;
 
 using Shouldly;
 
@@ -15,6 +19,8 @@ namespace AcceptanceTests.Steps.Applications
     [Binding]
     public class CreateApplicationSteps : StepBase
     {
+        private ApplicationResource resource = new Api().Resource<ApplicationResource>();
+
         private const string ApplicationName = "applicationName";
 
         private const string ApplicationIdKey = "applicationId";
@@ -22,7 +28,6 @@ namespace AcceptanceTests.Steps.Applications
         [Given(@"I create a valid application")]
         public void GivenICreateAValidApplication()
         {
-            ApplicationResource resource = new Api().Resource<ApplicationResource>();
             string name = string.Format("knownName{0}", DateTime.UtcNow.ToString("yyyyMMddSSmm"));
             string id = resource.NewApplicationWithSpecifiedName(name).Id;
             resource.GetApplication(id).Name.ShouldNotBe(null);
@@ -33,18 +38,30 @@ namespace AcceptanceTests.Steps.Applications
         [Then(@"I should be able to get the application")]
         public void ThenIShouldBeAbleToGetTheApplication()
         {
-          ApplicationResource resource = new Api().Resource<ApplicationResource>();
             Application organisation = resource.GetApplication(Recall<string>(ApplicationIdKey));
             organisation.Id.ShouldBe(Recall<string>(ApplicationIdKey));
             organisation.Name.ShouldBe(Recall<string>(ApplicationName));
         }
-
-
         [Given(@"I create an application without a name")]
         public void GivenICreateAnApplicationWithoutAName()
         {
-            ApplicationResource resource = new Api().Resource<ApplicationResource>();
             Remember(resource.NewApplicationWithUnspecifiedName());
         }
+
+        [Given(@"I create an application with an organisationId that does not exist")]
+        public void GivenICreateAnApplicationWithAnOrganisationIdThatDoesNotExist()
+        {
+            Remember(resource.NewApplicationWithNonExistentOrganisation());
+        }
+
+        [Then(@"I should get a BadResponseException")]
+        public void ThenIShouldGetABadResponseException()
+        {
+            var exception = Recall<BadResponseException>();
+            exception.ShouldNotBe(null);
+            //exception.InnerException.Response.ReasonPhrase.ShouldBe("OrganisationId does not exist");
+            //exception.Response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+        }
+
     }
 }

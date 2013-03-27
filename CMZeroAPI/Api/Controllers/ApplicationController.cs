@@ -5,7 +5,9 @@ using System.Web.Http;
 using CMZero.API.Domain;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.Organisations;
 using CMZero.API.Messages.Responses;
+using CMZero.API.Messages.Responses.Applications;
 
 namespace Api.Controllers
 {
@@ -29,7 +31,7 @@ namespace Api.Controllers
             try
             {
                 Application application = _applicationService.GetById(id);
-                return new GetApplicationResponse(){ Application = application };
+                return new GetApplicationResponse() { Application = application };
             }
             catch (ItemNotFoundException)
             {
@@ -40,10 +42,17 @@ namespace Api.Controllers
         // POST api/values
         public PostApplicationResponse Post([FromBody]Application application)
         {
-            application = _applicationService.Create(application);
-            PostApplicationResponse response = new PostApplicationResponse { Application = application };
+            try
+            {
+                application = _applicationService.Create(application);
+                PostApplicationResponse response = new PostApplicationResponse { Application = application };
 
-            return response;
+                return response;
+            }
+            catch (OrganisationDoesNotExistException)
+            {
+                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.ExpectationFailed, ReasonPhrase = "OrganisationId Does Not Exist" });
+            }
         }
 
         // PUT api/values/5

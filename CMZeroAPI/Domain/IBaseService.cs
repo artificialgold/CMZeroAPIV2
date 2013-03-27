@@ -10,5 +10,6 @@ namespace CMZero.API.Domain
         T Update(T entity);
         T GetById(string id);
         IEnumerable<T> GetAll();
+        bool IdExists(string id);
     }
 }

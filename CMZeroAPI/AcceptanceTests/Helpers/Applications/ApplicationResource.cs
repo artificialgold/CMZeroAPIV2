@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Web.Http;
 
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.Organisations;
 using CMZero.API.Messages.Responses;
+using CMZero.API.Messages.Responses.Applications;
 using CMZero.API.ServiceAgent;
 
 using TechTalk.SpecFlow;
@@ -96,6 +99,25 @@ namespace AcceptanceTests.Helpers.Applications
             catch (BadRequestException ex)
             {
                 return ex;
+            }
+
+            return null;
+        }
+
+        public BadResponseException NewApplicationWithNonExistentOrganisation()
+        {
+            try
+            {
+                Application application = new Application
+                {
+                    Name = "validName",
+                    OrganisationId = "I do not exist"
+                };
+                _applicationsServiceAgent.Post(application);
+            }
+            catch (BadResponseException exception)
+            {
+                return exception;
             }
 
             return null;

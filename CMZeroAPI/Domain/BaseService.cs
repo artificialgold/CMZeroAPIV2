@@ -44,5 +44,10 @@ namespace CMZero.API.Domain
         {
             return Repository.GetAll();
         }
+
+        public bool IdExists(string id)
+        {
+            return Repository.IdExists(id);
+        }
     }
 }

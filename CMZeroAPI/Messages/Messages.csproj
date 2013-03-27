@@ -53,10 +53,18 @@
     <Compile Include="Exceptions\ConflictException.cs" />
     <Compile Include="Exceptions\ItemNotFoundException.cs" />
     <Compile Include="Exceptions\NotValidException.cs" />
+    <Compile Include="Exceptions\Organisations\OrganisationDoesNotExistException.cs" />
     <Compile Include="Exceptions\ServiceUnavailableException.cs" />
     <Compile Include="Organisation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Responses\GetOrganisationResponse.cs" />
+    <Compile Include="Responses\Applications\GetApplicationResponse.cs" />
+    <Compile Include="Responses\Applications\GetApplicationsResponse.cs" />
+    <Compile Include="Responses\Organisations\GetOrganisationResponse.cs" />
+    <Compile Include="Responses\Organisations\GetOrganisationsResponse.cs" />
+    <Compile Include="Responses\Applications\PostApplicationResponse.cs" />
+    <Compile Include="Responses\Organisations\PostOrganisationResponse.cs" />
+    <Compile Include="Responses\Applications\PutApplicationResponse.cs" />
+    <Compile Include="Responses\Organisations\PutOrganisationResponse.cs" />
     <Compile Include="ValidationErrors.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

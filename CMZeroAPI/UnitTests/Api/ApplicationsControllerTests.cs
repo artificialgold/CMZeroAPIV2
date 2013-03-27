@@ -7,6 +7,7 @@ using CMZero.API.Domain;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Responses;
+using CMZero.API.Messages.Responses.Applications;
 
 using NUnit.Framework;
 using Rhino.Mocks;
@@ -124,6 +125,11 @@ namespace UnitTests.Api
             }
 
             public IEnumerable<Application> GetAll()
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool IdExists(string id)
             {
                 throw new NotImplementedException();
             }

@@ -1,5 +1,7 @@
 ﻿using CMZero.API.Messages;
 using CMZero.API.Messages.Responses;
+using CMZero.API.Messages.Responses.Applications;
+using CMZero.API.Messages.Responses.Organisations;
 
 namespace CMZero.API.ServiceAgent
 {
@@ -20,8 +22,8 @@ namespace CMZero.API.ServiceAgent
 
         GetApplicationsResponse Get();
 
-        PostApplicationResponse Post(Application organisation);
+        PostApplicationResponse Post(Application application);
 
-        PutApplicationResponse Put(Application organisation);
+        PutApplicationResponse Put(Application application);
     }
 }

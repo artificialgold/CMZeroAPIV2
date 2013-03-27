@@ -174,5 +174,31 @@ namespace UnitTests.Domain
                 Assert.AreEqual(outcome, organisationsToReturn);
             }
         }
+
+        [TestFixture]
+        public class When_I_call_IdExists : Given_an_OrganisationService
+        {
+            private bool result;
+
+            private string shouldReturnAnOrganisation;
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+
+                shouldReturnAnOrganisation = "should_return_an_organisation";
+                OrganisationRepository.Stub(x=>x.IdExists(shouldReturnAnOrganisation)).Return(true);
+
+                result = OrganisationService.IdExists(shouldReturnAnOrganisation);
+            }
+
+            [Test]
+            public void it_should_return_value_from_Repository()
+            {
+                Assert.True(result);
+            }
+        }
+
     }
 }
