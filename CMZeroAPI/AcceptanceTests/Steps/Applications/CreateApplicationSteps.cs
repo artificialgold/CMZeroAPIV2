@@ -57,10 +57,8 @@ namespace AcceptanceTests.Steps.Applications
         [Then(@"I should get a BadResponseException")]
         public void ThenIShouldGetABadResponseException()
         {
-            var exception = Recall<BadResponseException>();
+            var exception = Recall<OrganisationDoesNotExistException>();
             exception.ShouldNotBe(null);
-            //exception.InnerException.Response.ReasonPhrase.ShouldBe("OrganisationId does not exist");
-            //exception.Response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
         }
 
     }

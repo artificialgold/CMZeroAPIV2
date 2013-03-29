@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Web.Http;
 
+using AcceptanceTests.Helpers.Organisations;
+
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Exceptions.Organisations;
@@ -31,12 +33,16 @@ namespace AcceptanceTests.Helpers.Applications
 
         public Application NewApplicationWithSpecifiedName(string name)
         {
+            OrganisationResource resource = new Api().Resource<OrganisationResource>();
+            string organisationId = resource.NewOrganisation().Id;
+
             PostApplicationResponse response =
                 _applicationsServiceAgent.Post(
                     new Application
                         {
                             Active = true,
-                            Name = name
+                            Name = name,
+                            OrganisationId = organisationId
                         });
 
             return response.Application;
@@ -104,7 +110,7 @@ namespace AcceptanceTests.Helpers.Applications
             return null;
         }
 
-        public BadResponseException NewApplicationWithNonExistentOrganisation()
+        public OrganisationDoesNotExistException NewApplicationWithNonExistentOrganisation()
         {
             try
             {
@@ -115,7 +121,7 @@ namespace AcceptanceTests.Helpers.Applications
                 };
                 _applicationsServiceAgent.Post(application);
             }
-            catch (BadResponseException exception)
+            catch (OrganisationDoesNotExistException exception)
             {
                 return exception;
             }

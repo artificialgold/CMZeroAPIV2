@@ -8,7 +8,7 @@ namespace CMZero.API.DataAccess.RepositoryInterfaces
 {
     public interface IRepository<T> where T : BaseEntity
     {
-        void Create(T organisation);
+        void Create(T entity);
 
         T GetById(string id);
 

@@ -1,6 +1,5 @@
 ﻿using CMZero.API.Messages;
 using CMZero.API.Messages.Responses;
-using CMZero.API.Messages.Responses.Applications;
 using CMZero.API.Messages.Responses.Organisations;
 
 namespace CMZero.API.ServiceAgent
@@ -14,16 +13,5 @@ namespace CMZero.API.ServiceAgent
         PostOrganisationResponse Post(Organisation organisation);
 
         PutOrganisationResponse Put(Organisation organisation);
-    }
-
-    public interface IApplicationsServiceAgent
-    {
-        GetApplicationResponse Get(string id);
-
-        GetApplicationsResponse Get();
-
-        PostApplicationResponse Post(Application application);
-
-        PutApplicationResponse Put(Application application);
     }
 }

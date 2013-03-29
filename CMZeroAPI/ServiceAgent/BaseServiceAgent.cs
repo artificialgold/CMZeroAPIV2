@@ -5,6 +5,7 @@ using System.Net.Http.Formatting;
 
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.Organisations;
 
 namespace CMZero.API.ServiceAgent
 {
@@ -60,6 +61,8 @@ namespace CMZero.API.ServiceAgent
         {
             if (response.StatusCode == HttpStatusCode.BadRequest)
             {
+                if (response.ReasonPhrase == ReasonPhrases.OrganisationIdDoesNotExist) throw new OrganisationDoesNotExistException();
+
                 var validationErrors = response.Content.ReadAsAsync<ValidationErrors>(new[] { new JsonMediaTypeFormatter() }).Result;
 
                 throw new BadRequestException(validationErrors);

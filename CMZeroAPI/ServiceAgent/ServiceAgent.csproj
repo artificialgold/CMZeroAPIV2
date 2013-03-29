@@ -47,7 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationsServiceAgent.cs" />
     <Compile Include="BaseServiceAgent.cs" />
+    <Compile Include="IApplicationsServiceAgent.cs" />
     <Compile Include="IOrganisationsServiceAgent.cs" />
     <Compile Include="OrganisationsServiceAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

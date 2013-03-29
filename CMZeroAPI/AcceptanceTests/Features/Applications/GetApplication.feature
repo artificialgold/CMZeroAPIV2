@@ -5,7 +5,6 @@ Scenario: Get Existing Application
 	When I request an existing application
 	Then the application should be returned
 
-
 @Application
 Scenario: Get Non-existent Application
 	When I request a non-existing application

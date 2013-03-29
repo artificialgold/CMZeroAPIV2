@@ -54,6 +54,7 @@
     <Compile Include="Exceptions\ItemNotFoundException.cs" />
     <Compile Include="Exceptions\NotValidException.cs" />
     <Compile Include="Exceptions\Organisations\OrganisationDoesNotExistException.cs" />
+    <Compile Include="Exceptions\ReasonPhrases.cs" />
     <Compile Include="Exceptions\ServiceUnavailableException.cs" />
     <Compile Include="Organisation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -15,15 +15,15 @@ namespace CMZero.API.DataAccess.Repositories
 {
     public class RepositoryBase<T> : IRepository<T> where T : BaseEntity
     {
-        public void Create(T organisation)
+        public void Create(T entity)
         {
             try
             {
-                organisation.Id = Guid.NewGuid().ToString();
+                entity.Id = Guid.NewGuid().ToString();
 
                 using (var session = GetSession())
                 {
-                    session.Store(organisation);
+                    session.Store(entity);
                     session.SaveChanges();
                 }
             }
@@ -95,6 +95,8 @@ namespace CMZero.API.DataAccess.Repositories
         {
             try
             {
+                if (id == null) return false;
+
                 using (var session = GetSession())
                 {
                     return session.Load<T>(id) != null;

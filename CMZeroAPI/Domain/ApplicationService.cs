@@ -21,7 +21,7 @@ namespace CMZero.API.Domain
            if (!organisationService.IdExists(application.OrganisationId))
                 throw new OrganisationDoesNotExistException();
 
-            Repository.Create(application);
+            base.Create(application);
             
             return application;
         }

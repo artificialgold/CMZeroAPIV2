@@ -51,7 +51,7 @@ namespace Api.Controllers
             }
             catch (OrganisationDoesNotExistException)
             {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.ExpectationFailed, ReasonPhrase = "OrganisationId Does Not Exist" });
+                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ReasonPhrases.OrganisationIdDoesNotExist });
             }
         }
 
