@@ -80,6 +80,91 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Create a new collection without a name")]
+        [NUnit.Framework.CategoryAttribute("Collection")]
+        public virtual void CreateANewCollectionWithoutAName()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a new collection without a name", new string[] {
+                        "Collection"});
+#line 9
+this.ScenarioSetup(scenarioInfo);
+#line 10
+ testRunner.When("I post a collection with no name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 11
+ testRunner.Then("I should get a BadRequestException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Create a new collection with applicationId that is not part of the organisation")]
+        [NUnit.Framework.CategoryAttribute("Collection")]
+        public virtual void CreateANewCollectionWithApplicationIdThatIsNotPartOfTheOrganisation()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a new collection with applicationId that is not part of the organisation", new string[] {
+                        "Collection"});
+#line 14
+this.ScenarioSetup(scenarioInfo);
+#line 15
+ testRunner.When("I post a collection with applicationId not for the same organisationId", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 16
+ testRunner.Then("I should get a ApplicationNotInOrganisationException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Create a new collection with applicationId blank")]
+        [NUnit.Framework.CategoryAttribute("Collection")]
+        public virtual void CreateANewCollectionWithApplicationIdBlank()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a new collection with applicationId blank", new string[] {
+                        "Collection"});
+#line 19
+this.ScenarioSetup(scenarioInfo);
+#line 20
+ testRunner.When("I post a collection with no applicationId", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 21
+ testRunner.Then("I should get a BadRequestException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Create a new collection with organisationId blank")]
+        [NUnit.Framework.CategoryAttribute("Collection")]
+        public virtual void CreateANewCollectionWithOrganisationIdBlank()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a new collection with organisationId blank", new string[] {
+                        "Collection"});
+#line 24
+this.ScenarioSetup(scenarioInfo);
+#line 25
+ testRunner.When("I post a collection with no organisationId", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 26
+ testRunner.Then("I should get a BadRequestException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Create a new collection with same name as existing collection in application")]
+        [NUnit.Framework.CategoryAttribute("Collection")]
+        public virtual void CreateANewCollectionWithSameNameAsExistingCollectionInApplication()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create a new collection with same name as existing collection in application", new string[] {
+                        "Collection"});
+#line 29
+this.ScenarioSetup(scenarioInfo);
+#line 30
+ testRunner.When("I post a collection with existing name in application", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 31
+ testRunner.Then("I should get a CollectionNameAlreadyExistsException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore
