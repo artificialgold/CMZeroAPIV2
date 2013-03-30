@@ -21,7 +21,7 @@ namespace AcceptanceTests.Steps.Applications
     {
         private ApplicationResource resource = new Api().Resource<ApplicationResource>();
 
-        private const string ApplicationName = "applicationName";
+        private const string ApplicationNameKey = "applicationName";
 
         private const string ApplicationIdKey = "applicationId";
 
@@ -32,7 +32,7 @@ namespace AcceptanceTests.Steps.Applications
             string id = resource.NewApplicationWithSpecifiedName(name).Id;
             resource.GetApplication(id).Name.ShouldNotBe(null);
             Remember(id, ApplicationIdKey);
-            Remember(name, ApplicationName);
+            Remember(name, ApplicationNameKey);
         }
 
         [Then(@"I should be able to get the application")]
@@ -40,7 +40,7 @@ namespace AcceptanceTests.Steps.Applications
         {
             Application organisation = resource.GetApplication(Recall<string>(ApplicationIdKey));
             organisation.Id.ShouldBe(Recall<string>(ApplicationIdKey));
-            organisation.Name.ShouldBe(Recall<string>(ApplicationName));
+            organisation.Name.ShouldBe(Recall<string>(ApplicationNameKey));
         }
         [Given(@"I create an application without a name")]
         public void GivenICreateAnApplicationWithoutAName()

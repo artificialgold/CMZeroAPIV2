@@ -2,7 +2,7 @@
 
 namespace CMZero.API.Messages
 {
-    public class Collection : BaseEntity
+    public class Collection : BaseEntityWithName
     {
         public string OrganisationId { get; set; }
         public string ApplicationId { get; set; }

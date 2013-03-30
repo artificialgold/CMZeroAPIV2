@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 
 using AcceptanceTests.Helpers.Applications;
+using AcceptanceTests.Helpers.Collections;
 using AcceptanceTests.Helpers.Organisations;
 
 using CMZero.API.ServiceAgent;
@@ -16,8 +17,10 @@ namespace AcceptanceTests.Helpers
 
         public Api()
         {
-            _knownResourceObjects = new List<IResource> { new OrganisationResource(new OrganisationsServiceAgent(ConfigurationManager.AppSettings["BaseUri"])),
-            new ApplicationResource(new ApplicationsServiceAgent(ConfigurationManager.AppSettings["BaseUri"]))};
+            _knownResourceObjects = new List<IResource> { 
+                new OrganisationResource(new OrganisationsServiceAgent(ConfigurationManager.AppSettings["BaseUri"])),
+            new ApplicationResource(new ApplicationsServiceAgent(ConfigurationManager.AppSettings["BaseUri"])),
+            new CollectionResource(new CollectionsServiceAgent(ConfigurationManager.AppSettings["BaseUri"]))};
         }
 
         public T Resource<T>() where T : IResource

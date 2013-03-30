@@ -30,6 +30,7 @@ namespace CMZero.API.DataAccess.Repositories
             catch (Exception ex)
             {
                 //TODO Get correct exceptions
+                throw ex;
             }
         }
 
@@ -82,11 +83,24 @@ namespace CMZero.API.DataAccess.Repositories
 
         public IDocumentSession GetSession()
         {
-            var documentStore = new DocumentStore
+            DocumentStore documentStore;
+
+            if (ConfigurationManager.AppSettings["RavenDBUseLocal"] == "true")
+            {
+                documentStore = new DocumentStore
+                {
+                    ConnectionStringName = "RavenDB"
+                };
+            }
+            else
+            {
+                documentStore = new DocumentStore
                                     {
                                         Url = ConfigurationManager.AppSettings["RavenDBAddress"],
                                         ApiKey = ConfigurationManager.AppSettings["RavenDBApiKey"]
                                     };
+            }
+
             documentStore.Initialize();
             return documentStore.OpenSession();
         }

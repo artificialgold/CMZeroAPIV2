@@ -83,6 +83,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>UpdateApplication.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\Collections\CreateCollection.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CreateCollection.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\Organisations\CreateOrganisation.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -100,12 +105,14 @@
     </Compile>
     <Compile Include="Helpers\Api.cs" />
     <Compile Include="Helpers\Applications\ApplicationResource.cs" />
+    <Compile Include="Helpers\Collections\CollectionResource.cs" />
     <Compile Include="Helpers\IResource.cs" />
     <Compile Include="Helpers\Organisations\OrganisationResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steps\Applications\CreateApplicationSteps.cs" />
     <Compile Include="Steps\Applications\GetApplicationSteps.cs" />
     <Compile Include="Steps\Applications\UpdateApplicationSteps.cs" />
+    <Compile Include="Steps\Collections\CreateCollectionSteps.cs" />
     <Compile Include="Steps\Organisations\CreateOrganisationSteps.cs" />
     <Compile Include="Steps\Organisations\GetOrganisationSteps.cs" />
     <Compile Include="Steps\Organisations\UpdateOrganisationSteps.cs" />
@@ -125,6 +132,10 @@
     <None Include="Features\Applications\UpdateApplication.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>UpdateApplication.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Collections\CreateCollection.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>CreateCollection.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Organisations\CreateOrganisation.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
