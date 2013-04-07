@@ -5,6 +5,7 @@ using AcceptanceTests.Helpers.Applications;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Exceptions.Applications;
+using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Responses.Collections;
 using CMZero.API.ServiceAgent;
 
@@ -139,7 +140,38 @@ namespace AcceptanceTests.Helpers.Collections
 
         public CollectionNameAlreadyExistsException NewCollectionWithExistingNameInApplication()
         {
-            throw new NotImplementedException();
+            var application = applicationResource.NewApplication();
+            var applicationId = application.Id;
+            var organisationId = application.OrganisationId;
+
+            string collectionNameToBeDuplicated = "testNameForCollection" + DateTime.UtcNow.ToString("yyyyMMddSSmm");
+            _collectionServiceAgent.Post(
+                new Collection
+                    {
+                        Name = collectionNameToBeDuplicated,
+                        Active = true,
+                        ApplicationId = applicationId,
+                        OrganisationId = organisationId
+                    });
+
+            try
+            {
+                _collectionServiceAgent.Post(
+                    new Collection
+                    {
+                        Name = collectionNameToBeDuplicated,
+                        Active = true,
+                        ApplicationId = applicationId,
+                        OrganisationId = organisationId
+                    });
+            }
+            catch (CollectionNameAlreadyExistsException exception)
+            {
+                return exception;
+            }
+
+            return null;
+
         }
     }
 }
