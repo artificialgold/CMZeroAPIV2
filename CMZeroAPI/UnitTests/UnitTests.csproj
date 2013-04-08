@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\ApplicationsControllerTests.cs" />
+    <Compile Include="Api\CollectionControllerTests.cs" />
     <Compile Include="Api\OrganisationsControllerTests.cs" />
     <Compile Include="Domain\ApplicationServiceTests.cs" />
     <Compile Include="Domain\OrganisationServiceTests.cs" />

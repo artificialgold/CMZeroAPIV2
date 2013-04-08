@@ -1,0 +1,41 @@
+﻿using System;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+
+using CMZero.API.Domain;
+using CMZero.API.Messages;
+using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.Collections;
+using CMZero.API.Messages.Responses.Collections;
+
+namespace Api.Controllers
+{
+    public class CollectionController : ApiController
+    {
+        private readonly ICollectionService _collectionService;
+
+        public CollectionController(ICollectionService collectionService)
+        {
+            _collectionService = collectionService;
+        }
+
+        public GetCollectionResponse Get(string id)
+        {
+            var collection = _collectionService.GetById(id);
+            return new GetCollectionResponse { Collection = collection };
+        }
+
+        public PostCollectionResponse Post(Collection collection)
+        {
+            try
+            {
+                return new PostCollectionResponse { Collection = _collectionService.Create(collection) };
+            }
+            catch (CollectionNameAlreadyExistsException exception)
+            {
+                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ReasonPhrases.CollectionNameAlreadyExists });
+            }
+        }
+    }
+}

@@ -14,8 +14,6 @@ namespace AcceptanceTests.Helpers.Collections
     public class CollectionResource : IResource
     {
         private ICollectionServiceAgent _collectionServiceAgent;
-        private ApplicationResource applicationResource = new Api().Resource<ApplicationResource>();
-
 
         public CollectionResource(ICollectionServiceAgent collectionServiceAgent)
         {
@@ -24,6 +22,7 @@ namespace AcceptanceTests.Helpers.Collections
 
         public Collection NewCollectionWithSpecifiedName(string name)
         {
+            ApplicationResource applicationResource = new Api().Resource<ApplicationResource>();
             var newApplication = applicationResource.NewApplication();
             var applicationId = newApplication.Id;
             var organisationId = newApplication.OrganisationId;
@@ -48,6 +47,7 @@ namespace AcceptanceTests.Helpers.Collections
 
         public BadRequestException NewCollectionWithUnspecifiedName()
         {
+            ApplicationResource applicationResource = new Api().Resource<ApplicationResource>();
             var application = applicationResource.NewApplication();
             var applicationId = application.Id;
             var organisationId = application.OrganisationId;
@@ -72,6 +72,7 @@ namespace AcceptanceTests.Helpers.Collections
 
         public ApplicationIdNotPartOfOrganisationException NewCollectionWithApplicationIdNotPartOfOrganisationId()
         {
+            ApplicationResource applicationResource = new Api().Resource<ApplicationResource>();
             var application = applicationResource.NewApplication();
             var applicationId = application.Id;
             var organisationId = application.OrganisationId + "xx";
@@ -117,6 +118,7 @@ namespace AcceptanceTests.Helpers.Collections
 
         public BadRequestException NewCollectionWithNoOrganisationId()
         {
+            ApplicationResource applicationResource = new Api().Resource<ApplicationResource>();
             var application = applicationResource.NewApplication();
             var applicationId = application.Id;
 
@@ -140,6 +142,7 @@ namespace AcceptanceTests.Helpers.Collections
 
         public CollectionNameAlreadyExistsException NewCollectionWithExistingNameInApplication()
         {
+            ApplicationResource applicationResource = new Api().Resource<ApplicationResource>();
             var application = applicationResource.NewApplication();
             var applicationId = application.Id;
             var organisationId = application.OrganisationId;

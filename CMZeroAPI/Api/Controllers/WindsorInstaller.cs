@@ -4,7 +4,7 @@ using Castle.Windsor;
 
 namespace Api.Controllers
 {
-    public class WindsorInstaller:IWindsorInstaller
+    public class WindsorInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
@@ -13,6 +13,9 @@ namespace Api.Controllers
 
             container.Register(
                 Component.For<ApplicationController>().ImplementedBy<ApplicationController>().LifeStyle.Transient);
+            
+            container.Register(
+                Component.For<CollectionController>().ImplementedBy<CollectionController>().LifeStyle.Transient);
         }
     }
 }

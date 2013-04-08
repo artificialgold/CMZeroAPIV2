@@ -4,8 +4,8 @@ using AcceptanceTests.Helpers;
 using AcceptanceTests.Helpers.Collections;
 
 using CMZero.API.Messages;
-using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Exceptions.Applications;
+using CMZero.API.Messages.Exceptions.Collections;
 
 using Shouldly;
 
@@ -81,5 +81,11 @@ namespace AcceptanceTests.Steps.Collections
             Remember(resource.NewCollectionWithExistingNameInApplication());
         }
 
+        [Then(@"I should get a CollectionNameAlreadyExistsException")]
+        public void ThenIShouldGetACollectionNameAlreadyExistsException()
+        {
+            var result = Recall<CollectionNameAlreadyExistsException>();
+            result.ShouldNotBe(null);
+        }
     }
 }
