@@ -1,4 +1,6 @@
-﻿using CMZero.API.DataAccess.RepositoryInterfaces;
+﻿using System.Collections.Generic;
+
+using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Domain;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions.Organisations;
@@ -60,6 +62,7 @@ namespace UnitTests.Domain
             }
         }
 
+        [TestFixture]
         public class When_I_call_with_an_organisationId_that_exists : Given_an_application_service
         {
             private Application application;
@@ -80,6 +83,31 @@ namespace UnitTests.Domain
             public void it_should_return_created_application()
             {
                 Assert.AreEqual(result, application);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_GetApplicationsForOrganisation : Given_an_application_service
+        {
+            private string organisationId = "orgId";
+
+            private IList<Application> result;
+
+            private List<Application> objToReturn;
+
+            [SetUp]
+            public virtual void SetUp()
+            {
+                base.SetUp();
+                objToReturn = new List<Application>();
+                applicationRepository.Stub(x=>x.GetApplicationsForOrganisation(organisationId)).Return(objToReturn);
+                result = applicationService.GetApplicationsForOrganisation(organisationId);
+            }
+
+            [Test]
+            public void it_should_return_result_from_repository()
+            {
+               Assert.AreEqual(result, objToReturn);
             }
         }
     }

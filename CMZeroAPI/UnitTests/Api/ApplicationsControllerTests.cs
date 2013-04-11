@@ -132,6 +132,11 @@ namespace UnitTests.Api
             {
                 throw new NotImplementedException();
             }
+
+            public IList<Application> GetApplicationsForOrganisation(string organisationId)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         [TestFixture]

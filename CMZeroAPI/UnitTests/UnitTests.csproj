@@ -51,6 +51,7 @@
     <Compile Include="Api\CollectionControllerTests.cs" />
     <Compile Include="Api\OrganisationsControllerTests.cs" />
     <Compile Include="Domain\ApplicationServiceTests.cs" />
+    <Compile Include="Domain\CollectionServiceTests.cs" />
     <Compile Include="Domain\OrganisationServiceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

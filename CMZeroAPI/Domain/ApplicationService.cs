@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Messages;
@@ -24,6 +24,18 @@ namespace CMZero.API.Domain
             base.Create(application);
             
             return application;
+        }
+
+        //private bool ApplicationIsInOrganisation(string applicationId, string organisationId)
+        //{
+        //    var result = appl
+        //}
+
+        public IList<Application> GetApplicationsForOrganisation(string organisationId)
+        {
+            IApplicationRepository applicationRepository = (IApplicationRepository)Repository;
+
+            return applicationRepository.GetApplicationsForOrganisation(organisationId);
         }
     }
 }

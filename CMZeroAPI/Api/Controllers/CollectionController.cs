@@ -6,6 +6,7 @@ using System.Web.Http;
 using CMZero.API.Domain;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Responses.Collections;
 
@@ -32,9 +33,23 @@ namespace Api.Controllers
             {
                 return new PostCollectionResponse { Collection = _collectionService.Create(collection) };
             }
-            catch (CollectionNameAlreadyExistsException exception)
+            catch (CollectionNameAlreadyExistsException)
             {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ReasonPhrases.CollectionNameAlreadyExists });
+                throw new HttpResponseException(
+                    new HttpResponseMessage
+                        {
+                            StatusCode = HttpStatusCode.BadRequest,
+                            ReasonPhrase = ReasonPhrases.CollectionNameAlreadyExists
+                        });
+            }
+            catch (ApplicationIdNotPartOfOrganisationException)
+            {
+                throw new HttpResponseException(
+                    new HttpResponseMessage
+                        {
+                            StatusCode = HttpStatusCode.BadRequest,
+                            ReasonPhrase = ReasonPhrases.ApplicationNotPartOfOrganisation
+                        });
             }
         }
     }
