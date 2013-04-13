@@ -23,6 +23,9 @@ namespace CMZero.API.Domain
 
         public T Update(T entity)
         {
+            var entityFromRepository = Repository.GetById(entity.Id);
+            if (entityFromRepository == null) throw new ItemNotFoundException();
+
             entity.Updated = DateTime.UtcNow;
 
             Repository.Update(entity);
@@ -34,7 +37,7 @@ namespace CMZero.API.Domain
         {
             var result = Repository.GetById(id);
 
-            if (result==null)
+            if (result == null)
                 throw new ItemNotFoundException();
 
             return result;

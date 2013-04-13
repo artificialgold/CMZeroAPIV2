@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 using AcceptanceTests.Helpers.Applications;
 
@@ -9,6 +10,8 @@ using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Responses.Collections;
 using CMZero.API.ServiceAgent;
 
+using TechTalk.SpecFlow;
+
 namespace AcceptanceTests.Helpers.Collections
 {
     public class CollectionResource : IResource
@@ -18,6 +21,12 @@ namespace AcceptanceTests.Helpers.Collections
         public CollectionResource(ICollectionServiceAgent collectionServiceAgent)
         {
             _collectionServiceAgent = collectionServiceAgent;
+        }
+
+        public Collection NewCollection()
+        {
+            return NewCollectionWithSpecifiedName(
+                string.Format("Test{0}", DateTime.Now.ToString(CultureInfo.InvariantCulture)));
         }
 
         public Collection NewCollectionWithSpecifiedName(string name)
@@ -173,8 +182,41 @@ namespace AcceptanceTests.Helpers.Collections
                 return exception;
             }
 
-            return null;
+            throw new SpecFlowException("Did not get expected CollectionNameAlreadyExistsException");
+        }
 
+        public ItemNotFoundException GetCollectionThatDoesNotExist()
+        {
+            try
+            {
+                _collectionServiceAgent.Get("IDoNotExist", "arse");
+            }
+            catch (ItemNotFoundException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected HttpResponseException not thrown");
+        }
+
+        public Collection UpdateCollection(Collection collection)
+        {
+            return _collectionServiceAgent.Put(collection).Collection;
+        }
+
+        public BadRequestException UpdateCollectionWithUnspecifiedName(Collection collection)
+        {
+            try
+            {
+                collection.Name = string.Empty;
+                _collectionServiceAgent.Put(collection);
+            }
+            catch (BadRequestException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected Bad Request Exception not caught");
         }
     }
 }

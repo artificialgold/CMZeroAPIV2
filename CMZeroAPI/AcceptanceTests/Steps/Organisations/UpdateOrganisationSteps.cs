@@ -3,6 +3,9 @@
 using AcceptanceTests.Helpers;
 using AcceptanceTests.Helpers.Organisations;
 
+using CMZero.API.Messages;
+using CMZero.API.Messages.Exceptions;
+
 using Shouldly;
 
 using TechTalk.SpecFlow;
@@ -63,6 +66,19 @@ namespace AcceptanceTests.Steps.Organisations
             var organisation = resource.GetOrganisation(Recall<string>(organisationidkey));
             organisation.Updated.ShouldBeGreaterThanOrEqualTo(Recall<DateTime>(updateStartKey));
             organisation.Updated.ShouldBeLessThan(Recall<DateTime>(updateEndKey).AddTicks(1));
+        }
+
+        [When(@"I update an organisation that does not exist")]
+        public void WhenIUpdateAnOrganisationThatDoesNotExist()
+        {
+            Remember(resource.UpdateOrganisationThatDoesNotExist());
+        }
+
+        [Then(@"I should get an ItemNotFoundException")]
+        public void ThenIShouldGetAnItemNotFoundException()
+        {
+            var result = Recall<ItemNotFoundException>();
+            result.ShouldNotBe(null);
         }
     }
 }

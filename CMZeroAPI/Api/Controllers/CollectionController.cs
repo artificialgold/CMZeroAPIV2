@@ -23,8 +23,15 @@ namespace Api.Controllers
 
         public GetCollectionResponse Get(string id)
         {
-            var collection = _collectionService.GetById(id);
-            return new GetCollectionResponse { Collection = collection };
+            try
+            {
+                var collection = _collectionService.GetById(id);
+                return new GetCollectionResponse { Collection = collection };
+            }
+            catch (ItemNotFoundException)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
         }
 
         public PostCollectionResponse Post(Collection collection)
@@ -51,6 +58,11 @@ namespace Api.Controllers
                             ReasonPhrase = ReasonPhrases.ApplicationNotPartOfOrganisation
                         });
             }
+        }
+
+        public PutCollectionResponse Put(Collection collection)
+        {
+
         }
     }
 }

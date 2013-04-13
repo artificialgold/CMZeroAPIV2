@@ -103,6 +103,23 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Update Organisation that does not exist")]
+        [NUnit.Framework.CategoryAttribute("Organisation")]
+        public virtual void UpdateOrganisationThatDoesNotExist()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update Organisation that does not exist", new string[] {
+                        "Organisation"});
+#line 17
+this.ScenarioSetup(scenarioInfo);
+#line 18
+ testRunner.When("I update an organisation that does not exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 19
+ testRunner.Then("I should get an ItemNotFoundException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

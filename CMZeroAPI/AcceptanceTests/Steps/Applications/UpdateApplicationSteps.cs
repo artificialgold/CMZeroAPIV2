@@ -36,7 +36,7 @@ namespace AcceptanceTests.Steps.Applications
             var application = resource.GetApplication(Recall<string>(applicationIdKey));
             application.Name = updateName;
             DateTime startUpdateTime = DateTime.UtcNow;
-            resource.UpdateOrganisation(application);
+            resource.UpdateApplication(application);
             DateTime endUpdateTime = DateTime.UtcNow;
             Remember(startUpdateTime, updateStartKey);
             Remember(endUpdateTime, updateEndKey);

@@ -6,11 +6,13 @@ namespace Api
     {
         public static void Register(HttpConfiguration config)
         {
+            //config.Routes.MapHttpRoute(
+            //    name: "CollectionsByApplication",
+            //    routeTemplate: "collection/application/{applicationid}",
+            //    defaults: new { controller = "CollectionApplication" });
+
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+                name: "DefaultApi", routeTemplate: "{controller}/{id}", defaults: new { id = RouteParameter.Optional });
         }
     }
 }

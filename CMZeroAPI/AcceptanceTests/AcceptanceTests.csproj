@@ -88,6 +88,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CreateCollection.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\Collections\GetCollection.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GetCollection.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\Collections\UpdateCollection.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpdateCollection.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\ContentAreas\CreateContentArea.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CreateContentArea.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\Organisations\CreateOrganisation.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -113,6 +128,8 @@
     <Compile Include="Steps\Applications\GetApplicationSteps.cs" />
     <Compile Include="Steps\Applications\UpdateApplicationSteps.cs" />
     <Compile Include="Steps\Collections\CreateCollectionSteps.cs" />
+    <Compile Include="Steps\Collections\GetCollectionSteps.cs" />
+    <Compile Include="Steps\Collections\UpdateCollectionSteps.cs" />
     <Compile Include="Steps\Organisations\CreateOrganisationSteps.cs" />
     <Compile Include="Steps\Organisations\GetOrganisationSteps.cs" />
     <Compile Include="Steps\Organisations\UpdateOrganisationSteps.cs" />
@@ -136,6 +153,18 @@
     <None Include="Features\Collections\CreateCollection.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>CreateCollection.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Collections\GetCollection.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>GetCollection.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\Collections\UpdateCollection.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>UpdateCollection.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\ContentAreas\CreateContentArea.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>CreateContentArea.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Organisations\CreateOrganisation.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

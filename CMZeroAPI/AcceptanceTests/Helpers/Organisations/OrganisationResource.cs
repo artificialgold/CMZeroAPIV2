@@ -103,5 +103,22 @@ namespace AcceptanceTests.Helpers.Organisations
         {
             return _organisationsServiceAgent.Put(organisation).Organisation;
         }
+
+        public ItemNotFoundException UpdateOrganisationThatDoesNotExist()
+        {
+            try
+            {
+                _organisationsServiceAgent.Put(
+                    new Organisation { Name = "test", Id = "newId" + DateTime.Now.ToBinary() });
+            }
+            catch (ItemNotFoundException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected ItemNotFoundException was not caught");
+        }
+
+
     }
 }

@@ -47,10 +47,17 @@ namespace Api.Controllers
         }
 
         // PUT api/values/5
-        public PutOrganisationResponse Put([FromBody]Organisation organisation)
+        public PutOrganisationResponse Put([FromBody] Organisation organisation)
         {
-            organisation = _organisationService.Update(organisation);
-            return new PutOrganisationResponse { Organisation = organisation };
+            try
+            {
+                organisation = _organisationService.Update(organisation);
+                return new PutOrganisationResponse { Organisation = organisation };
+            }
+            catch (ItemNotFoundException)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
         }
 
         // DELETE api/values/5

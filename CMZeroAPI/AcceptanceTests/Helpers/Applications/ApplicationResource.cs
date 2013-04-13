@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Web.Http;
 
 using AcceptanceTests.Helpers.Organisations;
 
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Exceptions.Organisations;
-using CMZero.API.Messages.Responses;
 using CMZero.API.Messages.Responses.Applications;
 using CMZero.API.ServiceAgent;
 
@@ -90,7 +88,7 @@ namespace AcceptanceTests.Helpers.Applications
             return _applicationsServiceAgent.Get().Applications;
         }
 
-        public Application UpdateOrganisation(Application application)
+        public Application UpdateApplication(Application application)
         {
             return _applicationsServiceAgent.Put(application).Application;
         }

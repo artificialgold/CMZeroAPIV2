@@ -12,3 +12,8 @@ Scenario: Update Organisation to have no name
 	Given an existing organisation
 	When I update the organisation name with no name
 	Then I should get a BadRequestException
+
+@Organisation
+Scenario: Update Organisation that does not exist
+	When I update an organisation that does not exist
+	Then I should get an ItemNotFoundException
