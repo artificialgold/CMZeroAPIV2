@@ -7,6 +7,7 @@ using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
+using CMZero.API.Messages.Exceptions.Organisations;
 using CMZero.API.Messages.Responses.Collections;
 using CMZero.API.ServiceAgent;
 
@@ -217,6 +218,59 @@ namespace AcceptanceTests.Helpers.Collections
             }
 
             throw new SpecFlowException("Expected Bad Request Exception not caught");
+        }
+
+        public ItemNotFoundException UpdateCollectionThatDoesNotExist()
+        {
+            try
+            {
+                _collectionServiceAgent.Put(
+                    new Collection
+                        {
+                            Id = "notExisting",
+                            Name = "IDoNotExist",
+                            ApplicationId = "pp",
+                            OrganisationId = "jhj"
+                        });
+            }
+            catch (ItemNotFoundException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected ItemNotFoundException was not caught");
+        }
+
+        public ApplicationIdNotValidException UpdateCollectionToHaveDifferentApplicationId()
+        {
+            try
+            {
+                var collection = NewCollection();
+                collection.ApplicationId = "newApplicationId";
+                _collectionServiceAgent.Put(collection);
+            }
+            catch (ApplicationIdNotValidException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected ApplicationIdNotValidException was not caught");
+        }
+
+        public OrganisationIdNotValidException UpdateCollectionToHaveDifferentOrganisationId()
+        {
+            try
+            {
+                var collection = NewCollection();
+                collection.OrganisationId = "newOrganisationId";
+                _collectionServiceAgent.Put(collection);
+            }
+            catch (OrganisationIdNotValidException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected OrganisationIdNotValidException was not caught");
         }
     }
 }

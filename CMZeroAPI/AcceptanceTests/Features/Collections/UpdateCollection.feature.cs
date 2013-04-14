@@ -103,6 +103,57 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Update a collection that does not exist")]
+        [NUnit.Framework.CategoryAttribute("Collection")]
+        public virtual void UpdateACollectionThatDoesNotExist()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update a collection that does not exist", new string[] {
+                        "Collection"});
+#line 17
+this.ScenarioSetup(scenarioInfo);
+#line 18
+ testRunner.When("I update a collection that does not exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 19
+ testRunner.Then("I should get an ItemNotFoundException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Update a collection to have a different applicationId")]
+        [NUnit.Framework.CategoryAttribute("Collection")]
+        public virtual void UpdateACollectionToHaveADifferentApplicationId()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update a collection to have a different applicationId", new string[] {
+                        "Collection"});
+#line 22
+this.ScenarioSetup(scenarioInfo);
+#line 23
+ testRunner.When("I update a collection to have a different applicationId", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 24
+ testRunner.Then("I should get an ApplicationIdNotValidException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Update a collection to have a different organisationId")]
+        [NUnit.Framework.CategoryAttribute("Collection")]
+        public virtual void UpdateACollectionToHaveADifferentOrganisationId()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update a collection to have a different organisationId", new string[] {
+                        "Collection"});
+#line 27
+this.ScenarioSetup(scenarioInfo);
+#line 28
+ testRunner.When("I update a collection to have a different organisationId", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 29
+ testRunner.Then("I should get a OrganisationIdNotValidException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

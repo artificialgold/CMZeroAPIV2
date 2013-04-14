@@ -6,6 +6,7 @@ using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
+using CMZero.API.Messages.Exceptions.Organisations;
 
 namespace CMZero.API.Domain
 {
@@ -48,6 +49,15 @@ namespace CMZero.API.Domain
             return (from a in applicationsInOrganisation
                              where a.Id == collection.ApplicationId
                              select a).Count() == 1;
+        }
+
+        public new Collection Update(Collection collection)
+        {
+            var originalCollection = GetById(collection.Id);
+            if (collection.ApplicationId != originalCollection.ApplicationId) throw new ApplicationIdNotValidException();
+            if (collection.OrganisationId!=originalCollection.OrganisationId) throw new OrganisationIdNotValidException();
+
+            return base.Update(collection);
         }
     }
 }

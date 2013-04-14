@@ -13,4 +13,4 @@ Scenario: Creating an application without name
 @Application
 Scenario: Creating an application with an organisationId that does not exist
 	Given I create an application with an organisationId that does not exist
-	Then I should get a BadResponseException
+	Then I should get a OrganisationDoesNotExistException

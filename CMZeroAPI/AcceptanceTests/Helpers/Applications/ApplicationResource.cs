@@ -126,5 +126,34 @@ namespace AcceptanceTests.Helpers.Applications
 
             return null;
         }
+
+        public OrganisationIdNotValidException UpdateApplicationWithDifferentOrganisationId(Application application)
+        {
+            try
+            {
+                application.OrganisationId = "different";
+                _applicationsServiceAgent.Put(application);
+            }
+            catch (OrganisationIdNotValidException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected OrganisationIdNotValidException not caught");
+        }
+
+        public ItemNotFoundException UpdateApplicationThatDoesNotExist()
+        {
+            try
+            {
+                _applicationsServiceAgent.Put(new Application{Id = "khjsassd", Name="madeUp"});
+            }
+            catch (ItemNotFoundException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected ItemNotFoundException not caught");
+        }
     }
 }

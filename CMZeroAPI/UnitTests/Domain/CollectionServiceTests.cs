@@ -5,10 +5,13 @@ using CMZero.API.Domain;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
+using CMZero.API.Messages.Exceptions.Organisations;
 
 using NUnit.Framework;
 
 using Rhino.Mocks;
+
+using Shouldly;
 
 namespace UnitTests.Domain
 {
@@ -103,6 +106,68 @@ namespace UnitTests.Domain
             public void it_should_throw_CollectionNameAlreadyExistsException()
             {
                 Assert.NotNull(exception);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_update_with_applicationId_different_from_original : Given_a_CollectionService
+        {
+            private string collectionId = "collection_original";
+
+            private ApplicationIdNotValidException exception;
+
+            [SetUp]
+            public virtual void SetUp()
+            {
+                base.SetUp();
+                collectionRepository.Stub(x => x.GetById(collectionId))
+                                    .Return(new Collection { Id = collectionId, ApplicationId = "old" });
+                try
+                {
+                    collectionService.Update(new Collection { Id = collectionId, ApplicationId = "new" });
+                }
+                catch (ApplicationIdNotValidException ex)
+                {
+                    exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_throw_exception_ApplicationIdNotValidException()
+            {
+                exception.ShouldNotBe(null);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_update_with_a_collection_having_organisationId_changed : Given_a_CollectionService
+        {
+            private string collectionId = "collection_original";
+
+            private string applicationId = "applicationId";
+
+            private OrganisationIdNotValidException exception;
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                collectionRepository.Stub(x => x.GetById(collectionId))
+                                        .Return(new Collection { Id = collectionId, ApplicationId = applicationId, OrganisationId = "old" });
+                try
+                {
+                    collectionService.Update(new Collection { Id = collectionId, ApplicationId = applicationId, OrganisationId = "new" });
+                }
+                catch (OrganisationIdNotValidException ex)
+                {
+                    exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_throw_exception_OrganisationIdNotValidException()
+            {
+                exception.ShouldNotBe(null);
             }
         }
     }

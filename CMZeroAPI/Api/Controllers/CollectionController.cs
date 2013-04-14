@@ -8,6 +8,7 @@ using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
+using CMZero.API.Messages.Exceptions.Organisations;
 using CMZero.API.Messages.Responses.Collections;
 
 namespace Api.Controllers
@@ -62,7 +63,32 @@ namespace Api.Controllers
 
         public PutCollectionResponse Put(Collection collection)
         {
-
+            try
+            {
+                collection = _collectionService.Update(collection);
+                return new PutCollectionResponse { Collection = collection };
+            }
+            catch (ItemNotFoundException)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
+            catch (ApplicationIdNotValidException)
+            {
+                throw new HttpResponseException(
+                    new HttpResponseMessage(HttpStatusCode.BadRequest)
+                        {
+                            ReasonPhrase =
+                                ReasonPhrases.ApplicationIdNotValid
+                        });
+            }
+            catch (OrganisationIdNotValidException)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
+                    {
+                        ReasonPhrase =
+                           ReasonPhrases.OrganisationIdNotValid
+                    });
+            }
         }
     }
 }

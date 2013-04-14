@@ -67,5 +67,23 @@ namespace AcceptanceTests.Steps.Collections
             Remember(exception);
         }
 
+        [When(@"I update a collection that does not exist")]
+        public void WhenIUpdateACollectionThatDoesNotExist()
+        {
+           Remember(resource.UpdateCollectionThatDoesNotExist());
+        }
+
+        [When(@"I update a collection to have a different applicationId")]
+        public void WhenIUpdateACollectionToHaveADifferentApplicationId()
+        {
+            Remember(resource.UpdateCollectionToHaveDifferentApplicationId());
+        }
+
+        [When(@"I update a collection to have a different organisationId")]
+        public void WhenIUpdateACollectionToHaveADifferentOrganisationId()
+        {
+            Remember(resource.UpdateCollectionToHaveDifferentOrganisationId());
+        }
+
     }
 }

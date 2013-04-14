@@ -66,6 +66,8 @@ namespace CMZero.API.ServiceAgent
                 if (response.ReasonPhrase == ReasonPhrases.OrganisationIdDoesNotExist) throw new OrganisationDoesNotExistException();
                 if (response.ReasonPhrase == ReasonPhrases.CollectionNameAlreadyExists) throw new CollectionNameAlreadyExistsException();
                 if (response.ReasonPhrase == ReasonPhrases.ApplicationNotPartOfOrganisation) throw new ApplicationIdNotPartOfOrganisationException();
+                if (response.ReasonPhrase == ReasonPhrases.OrganisationIdNotValid) throw new OrganisationIdNotValidException();
+                if (response.ReasonPhrase == ReasonPhrases.ApplicationIdNotValid) throw new ApplicationIdNotValidException();
 
                 var validationErrors = response.Content.ReadAsAsync<ValidationErrors>(new[] { new JsonMediaTypeFormatter() }).Result;
 

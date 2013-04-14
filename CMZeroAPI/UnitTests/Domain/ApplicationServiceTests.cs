@@ -9,6 +9,8 @@ using NUnit.Framework;
 
 using Rhino.Mocks;
 
+using Shouldly;
+
 namespace UnitTests.Domain
 {
     public class ApplicationServiceTests
@@ -34,10 +36,10 @@ namespace UnitTests.Domain
         {
             private string organisationIdThatDoesNotExist = "doesnotexist";
 
-            private OrganisationDoesNotExistException Exception;
+            private OrganisationDoesNotExistException exception;
 
             [SetUp]
-            public virtual void SetUp()
+            public new virtual void SetUp()
             {
                 organisationService.Stub(x => x.IdExists(organisationIdThatDoesNotExist)).Return(false);
                 Application application = new Application
@@ -51,14 +53,14 @@ namespace UnitTests.Domain
                 }
                 catch (OrganisationDoesNotExistException exception)
                 {
-                    Exception = exception;
+                    this.exception = exception;
                 }
             }
 
             [Test]
             public void it_should_return_OrganisationIdNotValid_exception()
             {
-                Assert.NotNull(Exception);
+                Assert.NotNull(exception);
             }
         }
 
@@ -72,7 +74,7 @@ namespace UnitTests.Domain
             private Application result;
 
             [SetUp]
-            public virtual void SetUp()
+            public new virtual void SetUp()
             {
                 application = new Application { OrganisationId = organisationIdThatExists };
                 organisationService.Stub(x => x.IdExists(organisationIdThatExists)).Return(true);
@@ -96,7 +98,7 @@ namespace UnitTests.Domain
             private List<Application> objToReturn;
 
             [SetUp]
-            public virtual void SetUp()
+            public new virtual void SetUp()
             {
                 base.SetUp();
                 objToReturn = new List<Application>();
@@ -108,6 +110,37 @@ namespace UnitTests.Domain
             public void it_should_return_result_from_repository()
             {
                Assert.AreEqual(result, objToReturn);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_update_with_different_organisationId_from_original : Given_an_application_service
+        {
+            private OrganisationIdNotValidException exception;
+
+            private readonly Application applicationToUpdate=new Application{Id=ApplicationId, OrganisationId = "newId"};
+
+            private const string ApplicationId = "toUpdate";
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                applicationRepository.Stub(x => x.GetById(applicationToUpdate.Id))
+                                     .Return(new Application { Id = ApplicationId, OrganisationId = "original" });
+                try
+                {
+                    applicationService.Update(applicationToUpdate);
+                }
+                catch (OrganisationIdNotValidException ex)
+                {
+                    exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_throw_OrganisationIdNotValidException()
+            {
+                exception.ShouldNotBe(null);
             }
         }
     }

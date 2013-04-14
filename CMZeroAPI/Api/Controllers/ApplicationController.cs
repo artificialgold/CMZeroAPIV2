@@ -58,8 +58,24 @@ namespace Api.Controllers
         // PUT api/values/5
         public PutApplicationResponse Put([FromBody]Application application)
         {
-            application = _applicationService.Update(application);
-            return new PutApplicationResponse { Application = application };
+            try
+            {
+                application = _applicationService.Update(application);
+                return new PutApplicationResponse { Application = application };
+            }
+            catch (OrganisationIdNotValidException)
+            {
+                throw new HttpResponseException(
+                    new HttpResponseMessage
+                        {
+                            ReasonPhrase = ReasonPhrases.OrganisationIdNotValid,
+                            StatusCode = HttpStatusCode.BadRequest
+                        });
+            }
+            catch (ItemNotFoundException)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
         }
 
         // DELETE api/values/5

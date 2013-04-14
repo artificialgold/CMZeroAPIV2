@@ -26,16 +26,22 @@ namespace CMZero.API.Domain
             return application;
         }
 
-        //private bool ApplicationIsInOrganisation(string applicationId, string organisationId)
-        //{
-        //    var result = appl
-        //}
-
         public IList<Application> GetApplicationsForOrganisation(string organisationId)
         {
             IApplicationRepository applicationRepository = (IApplicationRepository)Repository;
 
             return applicationRepository.GetApplicationsForOrganisation(organisationId);
+        }
+
+        public new Application Update(Application application)
+        {
+            var applicationToCheck = GetById(application.Id);
+            if (applicationToCheck.OrganisationId != application.OrganisationId)
+                throw new OrganisationIdNotValidException();
+
+            base.Update(application);
+
+            return application;
         }
     }
 }

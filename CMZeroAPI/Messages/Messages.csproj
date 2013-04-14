@@ -48,6 +48,7 @@
     <Compile Include="Exceptions\AccessForbiddenException.cs" />
     <Compile Include="Exceptions\AccessUnauthorisedException.cs" />
     <Compile Include="Exceptions\Applications\ApplicationIdNotPartOfOrganisationException.cs" />
+    <Compile Include="Exceptions\Applications\ApplicationIdNotValidException.cs" />
     <Compile Include="Exceptions\BadRequestException.cs" />
     <Compile Include="Exceptions\BadResponseException.cs" />
     <Compile Include="Exceptions\BaseHttpException.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Exceptions\ItemNotFoundException.cs" />
     <Compile Include="Exceptions\NotValidException.cs" />
     <Compile Include="Exceptions\Organisations\OrganisationDoesNotExistException.cs" />
+    <Compile Include="Exceptions\Organisations\OrganisationIdNotValidException.cs" />
     <Compile Include="Exceptions\ReasonPhrases.cs" />
     <Compile Include="Exceptions\ServiceUnavailableException.cs" />
     <Compile Include="Organisation.cs" />

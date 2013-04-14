@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Web.Http;
 
 using Api.Controllers;
 using CMZero.API.Domain;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.Organisations;
 using CMZero.API.Messages.Responses.Applications;
 
 using NUnit.Framework;
 using Rhino.Mocks;
+
+using Shouldly;
 
 namespace UnitTests.Api
 {
@@ -182,6 +186,69 @@ namespace UnitTests.Api
             public void it_should_return_response_with_organisation_from_service()
             {
                 Assert.AreEqual(outcome.Application, updatedApplication);
+            }
+        }
+
+        [TestFixture]
+        public class When_ApplicationService_throws_OrganisationIdNotValidException : Given_an_ApplicationsController
+        {
+            private HttpResponseException exception;
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                Application applicationToUpdate = new Application();
+                OrganisationIdNotValidException organisationIdNotValidException = new OrganisationIdNotValidException();
+                try
+                {
+                    ApplicationService.Stub(x => x.Update(applicationToUpdate)).Throw(organisationIdNotValidException);
+                    ApplicationsController.Put(applicationToUpdate);
+                }
+                catch (HttpResponseException ex)
+                {
+                    exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_return_HttpResponseException_with_BadRequestStatusCode()
+            {
+                exception.Response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            }
+
+            [Test]
+            public void it_should_return_HttpResponseException_with_ReasonPhrase_OrganisationIdNotValid()
+            {
+                exception.Response.ReasonPhrase.ShouldBe(ReasonPhrases.OrganisationIdNotValid);
+            }
+        }
+
+        [TestFixture]
+        public class When_ApplicationService_throws_ItemNotFoundException_on_update : Given_an_ApplicationsController
+        {
+            private HttpResponseException exception;
+
+            [SetUp]
+            public virtual void SetUp()
+            {
+                base.SetUp();
+                Application applicationThatDoesNotExist = new Application();
+                ApplicationService.Stub(x => x.Update(applicationThatDoesNotExist)).Throw(new ItemNotFoundException());
+                try
+                {
+                    ApplicationsController.Put(applicationThatDoesNotExist);
+                }
+                catch (HttpResponseException ex)
+                {
+                    exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_return_exception_with_NotFound_statuscode()
+            {
+                exception.Response.StatusCode.ShouldBe(HttpStatusCode.NotFound);                
             }
         }
     }

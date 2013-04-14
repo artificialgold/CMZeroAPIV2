@@ -110,7 +110,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 15
  testRunner.Given("I create an application with an organisationId that does not exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 16
- testRunner.Then("I should get a BadResponseException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I should get a OrganisationDoesNotExistException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

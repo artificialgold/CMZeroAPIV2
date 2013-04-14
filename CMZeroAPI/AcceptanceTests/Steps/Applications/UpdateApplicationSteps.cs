@@ -65,5 +65,20 @@ namespace AcceptanceTests.Steps.Applications
             application.Updated.ShouldBeGreaterThanOrEqualTo(Recall<DateTime>(updateStartKey));
             application.Updated.ShouldBeLessThan(Recall<DateTime>(updateEndKey).AddTicks(1));
         }
+   
+        [When(@"I update the application with a different organisationId")]
+        public void WhenIUpdateTheApplicationWithADifferentOrganisationId()
+        {
+            var application = resource.NewApplication();
+            Remember(resource.UpdateApplicationWithDifferentOrganisationId(application));
+        }
+
+        [When(@"I update an application that does not exist")]
+        public void WhenIUpdateAnApplicationThatDoesNotExist()
+        {
+            Remember(resource.UpdateApplicationThatDoesNotExist());
+            
+        }
+
     }
 }
