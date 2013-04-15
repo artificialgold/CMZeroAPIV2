@@ -44,6 +44,8 @@
     <Compile Include="BaseEntity.cs" />
     <Compile Include="BaseEntityWithName.cs" />
     <Compile Include="Collection.cs" />
+    <Compile Include="ContentArea.cs" />
+    <Compile Include="ContentAreaType.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="Exceptions\AccessForbiddenException.cs" />
     <Compile Include="Exceptions\AccessUnauthorisedException.cs" />

@@ -13,14 +13,3 @@ namespace CMZero.API.Messages
         public DateTime Updated { get; set; }
     }
 }
-
-
-namespace OpenTable.Services.Common.Messages
-{
-}
-
-
-
-namespace OpenTable.Services.Common.Messages
-{
-}
