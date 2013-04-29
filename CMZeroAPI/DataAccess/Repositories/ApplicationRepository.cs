@@ -21,7 +21,7 @@ namespace CMZero.API.DataAccess.Repositories
                     return result.ToList();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //TODO: Get correct exceptions
                 throw new Exception();

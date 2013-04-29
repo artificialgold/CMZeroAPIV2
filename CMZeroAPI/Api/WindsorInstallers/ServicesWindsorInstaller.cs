@@ -19,6 +19,8 @@ namespace Api.Infrastructure
                 Component.For<ICollectionService>().ImplementedBy<CollectionService>().LifeStyle.Transient);
             container.Register(
                 Component.For<IOrganisationService>().ImplementedBy<OrganisationService>().LifeStyle.Transient);
+            container.Register(
+                Component.For<IContentAreaService>().ImplementedBy<ContentAreaService>().LifeStyle.Transient);
 
             container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel));
         }

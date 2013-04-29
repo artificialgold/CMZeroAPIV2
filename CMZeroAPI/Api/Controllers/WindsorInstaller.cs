@@ -13,7 +13,7 @@ namespace Api.Controllers
 
             container.Register(
                 Component.For<ApplicationController>().ImplementedBy<ApplicationController>().LifeStyle.Transient);
-            
+
             container.Register(
                 Component.For<CollectionController>().ImplementedBy<CollectionController>().LifeStyle.Transient);
 
@@ -21,6 +21,9 @@ namespace Api.Controllers
                 Component.For<CollectionApplicationController>()
                          .ImplementedBy<CollectionApplicationController>()
                          .LifeStyle.Transient);
+
+            container.Register(
+                Component.For<ContentAreaController>().ImplementedBy<ContentAreaController>().LifeStyle.Transient);
         }
     }
 }

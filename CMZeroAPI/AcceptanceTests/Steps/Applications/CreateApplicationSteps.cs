@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Net;
-using System.Web.Http;
 
 using AcceptanceTests.Helpers;
 using AcceptanceTests.Helpers.Applications;
-using AcceptanceTests.Helpers.Organisations;
 
 using CMZero.API.Messages;
-using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Exceptions.Organisations;
 
 using Shouldly;

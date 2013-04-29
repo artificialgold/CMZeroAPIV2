@@ -230,7 +230,7 @@ namespace UnitTests.Api
             private HttpResponseException exception;
 
             [SetUp]
-            public virtual void SetUp()
+            public new virtual void SetUp()
             {
                 base.SetUp();
                 Application applicationThatDoesNotExist = new Application();

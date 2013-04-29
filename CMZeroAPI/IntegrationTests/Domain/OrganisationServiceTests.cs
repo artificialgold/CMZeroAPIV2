@@ -56,7 +56,7 @@ namespace IntegrationTests.Domain
             private bool result;
 
             [SetUp]
-            public virtual void SetUp()
+            public new virtual void SetUp()
             {
                 base.SetUp();
 

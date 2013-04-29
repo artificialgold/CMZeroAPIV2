@@ -2,6 +2,8 @@
 {
     public class ReasonPhrases
     {
+        public const string CollectionIdDoesNotExist = "CollectionId is not valid";
+
         public const string ApplicationIdNotValid = "ApplicationId is not valid";
 
         public const string OrganisationIdNotValid = "OrganisationId is not valid";

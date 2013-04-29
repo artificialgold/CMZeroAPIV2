@@ -54,8 +54,11 @@
     <Compile Include="Exceptions\BadRequestException.cs" />
     <Compile Include="Exceptions\BadResponseException.cs" />
     <Compile Include="Exceptions\BaseHttpException.cs" />
+    <Compile Include="Exceptions\Collections\CollectionIdNotPartOfApplicationException.cs" />
     <Compile Include="Exceptions\Collections\CollectionNameAlreadyExistsException.cs" />
     <Compile Include="Exceptions\ConflictException.cs" />
+    <Compile Include="Exceptions\ContentAreas\CollectionIdNotValidException.cs" />
+    <Compile Include="Exceptions\ContentAreas\ContentAreaNameAlreadyExistsInCollectionException.cs" />
     <Compile Include="Exceptions\ItemNotFoundException.cs" />
     <Compile Include="Exceptions\NotValidException.cs" />
     <Compile Include="Exceptions\Organisations\OrganisationDoesNotExistException.cs" />
@@ -69,6 +72,10 @@
     <Compile Include="Responses\Collections\GetCollectionResponse.cs" />
     <Compile Include="Responses\Collections\PostCollectionResponse.cs" />
     <Compile Include="Responses\Collections\PutCollectionResponse.cs" />
+    <Compile Include="Responses\ContentAreas\GetContentAreaResponse.cs" />
+    <Compile Include="Responses\ContentAreas\GetContentAreasResponse.cs" />
+    <Compile Include="Responses\ContentAreas\PostContentAreaResponse.cs" />
+    <Compile Include="Responses\ContentAreas\PutContentAreaResponse.cs" />
     <Compile Include="Responses\Organisations\GetOrganisationResponse.cs" />
     <Compile Include="Responses\Organisations\GetOrganisationsResponse.cs" />
     <Compile Include="Responses\Applications\PostApplicationResponse.cs" />

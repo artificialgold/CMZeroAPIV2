@@ -52,7 +52,7 @@ namespace AcceptanceTests.Helpers.Collections
 
         public Collection GetCollection(string id, string applicationId)
         {
-            return _collectionServiceAgent.Get(id, applicationId).Collection;
+            return _collectionServiceAgent.Get(id).Collection;
         }
 
         public BadRequestException NewCollectionWithUnspecifiedName()
@@ -190,7 +190,7 @@ namespace AcceptanceTests.Helpers.Collections
         {
             try
             {
-                _collectionServiceAgent.Get("IDoNotExist", "arse");
+                _collectionServiceAgent.Get("IDoNotExist");
             }
             catch (ItemNotFoundException ex)
             {

@@ -9,6 +9,5 @@ namespace CMZero.API.Messages
 
         [Required]
         public string ApplicationId { get; set; }
-        public ContentArea[] ContentAreas { get; set; }
     }
 }

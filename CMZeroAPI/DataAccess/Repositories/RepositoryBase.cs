@@ -43,7 +43,7 @@ namespace CMZero.API.DataAccess.Repositories
                     return session.Load<T>(id);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //TODO: Get correct exceptions
                 throw new Exception();
@@ -60,7 +60,7 @@ namespace CMZero.API.DataAccess.Repositories
                     session.SaveChanges();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }
@@ -74,7 +74,7 @@ namespace CMZero.API.DataAccess.Repositories
                     return session.Query<T>().Take(100);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //TODO: Get correct exceptions
                 throw new Exception();
@@ -116,7 +116,7 @@ namespace CMZero.API.DataAccess.Repositories
                     return session.Load<T>(id) != null;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //TODO: LogException
             }

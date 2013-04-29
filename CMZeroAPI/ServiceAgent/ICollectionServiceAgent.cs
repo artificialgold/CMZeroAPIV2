@@ -5,7 +5,7 @@ namespace CMZero.API.ServiceAgent
 {
     public interface ICollectionServiceAgent
     {
-        GetCollectionResponse Get(string id, string applicationId);
+        GetCollectionResponse Get(string id);
 
         PostCollectionResponse Post(Collection collection);
 

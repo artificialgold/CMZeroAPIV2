@@ -56,10 +56,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ApplicationRepository.cs" />
     <Compile Include="Repositories\CollectionRepository.cs" />
+    <Compile Include="Repositories\ContentAreaRepository.cs" />
     <Compile Include="Repositories\OrganisationRepository.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
     <Compile Include="RepositoryInterfaces\IApplicationRepository.cs" />
     <Compile Include="RepositoryInterfaces\ICollectionRepository.cs" />
+    <Compile Include="RepositoryInterfaces\IContentAreaRepository.cs" />
     <Compile Include="RepositoryInterfaces\IOrganisationRepository.cs" />
     <Compile Include="RepositoryInterfaces\IRepository.cs" />
   </ItemGroup>

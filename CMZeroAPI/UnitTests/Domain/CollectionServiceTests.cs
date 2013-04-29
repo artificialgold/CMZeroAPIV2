@@ -117,7 +117,7 @@ namespace UnitTests.Domain
             private ApplicationIdNotValidException exception;
 
             [SetUp]
-            public virtual void SetUp()
+            public new virtual void SetUp()
             {
                 base.SetUp();
                 collectionRepository.Stub(x => x.GetById(collectionId))

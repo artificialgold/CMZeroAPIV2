@@ -7,6 +7,7 @@ using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
+using CMZero.API.Messages.Exceptions.ContentAreas;
 using CMZero.API.Messages.Exceptions.Organisations;
 
 namespace CMZero.API.ServiceAgent
@@ -68,6 +69,7 @@ namespace CMZero.API.ServiceAgent
                 if (response.ReasonPhrase == ReasonPhrases.ApplicationNotPartOfOrganisation) throw new ApplicationIdNotPartOfOrganisationException();
                 if (response.ReasonPhrase == ReasonPhrases.OrganisationIdNotValid) throw new OrganisationIdNotValidException();
                 if (response.ReasonPhrase == ReasonPhrases.ApplicationIdNotValid) throw new ApplicationIdNotValidException();
+                if (response.ReasonPhrase == ReasonPhrases.CollectionIdDoesNotExist) throw new CollectionIdNotValidException();
 
                 var validationErrors = response.Content.ReadAsAsync<ValidationErrors>(new[] { new JsonMediaTypeFormatter() }).Result;
 

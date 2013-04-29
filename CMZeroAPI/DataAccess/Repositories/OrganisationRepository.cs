@@ -23,7 +23,7 @@ namespace CMZero.API.DataAccess.Repositories
                     return organisations.ToArray().FirstOrDefault();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //TODO: Get correct exceptions
                 throw new Exception();

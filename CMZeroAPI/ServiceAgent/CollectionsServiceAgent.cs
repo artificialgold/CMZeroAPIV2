@@ -18,7 +18,7 @@ namespace CMZero.API.ServiceAgent
             _baseUri = baseUri;
         }
 
-        public GetCollectionResponse Get(string id, string applicationId)
+        public GetCollectionResponse Get(string id)
         {
             var uriBuilder = new UriBuilder(_baseUri)
             {

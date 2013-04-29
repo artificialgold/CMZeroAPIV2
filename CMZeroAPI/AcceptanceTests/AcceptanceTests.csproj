@@ -121,6 +121,7 @@
     <Compile Include="Helpers\Api.cs" />
     <Compile Include="Helpers\Applications\ApplicationResource.cs" />
     <Compile Include="Helpers\Collections\CollectionResource.cs" />
+    <Compile Include="Helpers\ContentAreas\ContentAreaResource.cs" />
     <Compile Include="Helpers\IResource.cs" />
     <Compile Include="Helpers\Organisations\OrganisationResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Steps\Collections\CreateCollectionSteps.cs" />
     <Compile Include="Steps\Collections\GetCollectionSteps.cs" />
     <Compile Include="Steps\Collections\UpdateCollectionSteps.cs" />
+    <Compile Include="Steps\ContentAreas\CreateContentAreaSteps.cs" />
     <Compile Include="Steps\Organisations\CreateOrganisationSteps.cs" />
     <Compile Include="Steps\Organisations\GetOrganisationSteps.cs" />
     <Compile Include="Steps\Organisations\UpdateOrganisationSteps.cs" />

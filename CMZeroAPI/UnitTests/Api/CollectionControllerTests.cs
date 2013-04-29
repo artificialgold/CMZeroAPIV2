@@ -118,7 +118,7 @@ namespace UnitTests.Api
             private HttpResponseException exception;
 
             [SetUp]
-            public virtual void SetUp()
+            public new virtual void SetUp()
             {
                 base.SetUp();
                 CollectionService.Stub(x => x.Update(collection)).Throw(new ApplicationIdNotValidException());
@@ -153,7 +153,7 @@ namespace UnitTests.Api
             private HttpResponseException exception;
 
             [SetUp]
-            public virtual void SetUp()
+            public new virtual void SetUp()
             {
                 base.SetUp();
                 CollectionService.Stub(x => x.Update(collection)).Throw(new OrganisationIdNotValidException());

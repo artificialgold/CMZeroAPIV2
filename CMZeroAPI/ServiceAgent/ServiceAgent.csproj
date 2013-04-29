@@ -50,8 +50,10 @@
     <Compile Include="ApplicationsServiceAgent.cs" />
     <Compile Include="BaseServiceAgent.cs" />
     <Compile Include="CollectionsServiceAgent.cs" />
+    <Compile Include="ContentAreasServiceAgent.cs" />
     <Compile Include="IApplicationsServiceAgent.cs" />
     <Compile Include="ICollectionServiceAgent.cs" />
+    <Compile Include="IContentAreasServiceAgent.cs" />
     <Compile Include="IOrganisationsServiceAgent.cs" />
     <Compile Include="OrganisationsServiceAgent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
