@@ -13,7 +13,7 @@ namespace UnitTests.Domain
             [SetUp]
             public virtual void SetUp()
             {
-                ContentAreaRepository 
+                //ContentAreaRepository 
 
                 ContentAreaService = new ContentAreaService();
             }

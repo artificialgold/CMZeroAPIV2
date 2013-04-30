@@ -2,6 +2,8 @@
 {
     public class ReasonPhrases
     {
+        public const string ContentAreaNameAlreadyExistsInCollection = "Content area name already exists in collection";
+
         public const string CollectionIdDoesNotExist = "CollectionId is not valid";
 
         public const string ApplicationIdNotValid = "ApplicationId is not valid";

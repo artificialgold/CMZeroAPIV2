@@ -44,7 +44,7 @@ namespace Api.Controllers
             }
             catch (ContentAreaNameAlreadyExistsInCollectionException)
             {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ReasonPhrases.CollectionNameAlreadyExists });
+                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ReasonPhrases.ContentAreaNameAlreadyExistsInCollection });
             }
         }
 
