@@ -1,11 +1,29 @@
-﻿Feature: UpdateContentArea
-	In order to avoid silly mistakes
-	As a math idiot
-	I want to be told the sum of two numbers
+﻿Feature: Update Content Area
 
-@mytag
-Scenario: Add two numbers
-	Given I have entered 50 into the calculator
-	And I have entered 70 into the calculator
-	When I press add
-	Then the result should be 120 on the screen
+@contentarea
+Scenario: Update an existing content area
+	Given an existing content area
+	When I update the content area name
+	Then the content area should have the new name
+	And the content area should have the new updated date
+
+@contentarea
+Scenario: Update an existing content area to have no name
+	Given an existing content area
+	When I update the content area name to no name
+	Then I should get a BadRequestException
+
+@contentarea
+Scenario: Update a content area that does not exist
+	When I update a content area that does not exist
+	Then I should get an ItemNotFoundException
+
+@contentarea
+Scenario: Update a content area to have a different applicationId 
+	When I update a content area to have a different applicationId
+	Then I should get an ApplicationIdNotValidException
+
+@contentarea
+Scenario: Update a content area to have a different collectionId not in the application
+	When I update a content area to haev a different collectionId that is not part of the application
+	Then I should get a CollectionIdNotValidException
