@@ -103,6 +103,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CreateContentArea.feature</DependentUpon>
     </Compile>
+    <Compile Include="Features\ContentAreas\GetContentArea.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GetContentArea.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Features\ContentAreas\UpdateContentArea.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UpdateContentArea.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\Organisations\CreateOrganisation.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -132,6 +142,7 @@
     <Compile Include="Steps\Collections\GetCollectionSteps.cs" />
     <Compile Include="Steps\Collections\UpdateCollectionSteps.cs" />
     <Compile Include="Steps\ContentAreas\CreateContentAreaSteps.cs" />
+    <Compile Include="Steps\ContentAreas\GetContentAreaSteps.cs" />
     <Compile Include="Steps\Organisations\CreateOrganisationSteps.cs" />
     <Compile Include="Steps\Organisations\GetOrganisationSteps.cs" />
     <Compile Include="Steps\Organisations\UpdateOrganisationSteps.cs" />
@@ -167,6 +178,14 @@
     <None Include="Features\ContentAreas\CreateContentArea.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>CreateContentArea.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\ContentAreas\GetContentArea.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>GetContentArea.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Features\ContentAreas\UpdateContentArea.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>UpdateContentArea.feature.cs</LastGenOutput>
     </None>
     <None Include="Features\Organisations\CreateOrganisation.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

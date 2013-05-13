@@ -172,5 +172,19 @@ namespace AcceptanceTests.Helpers.ContentAreas
 
             throw new SpecFlowException("Expected exception ApplicationIdNotValidException was not caught");
         }
+
+        public ItemNotFoundException GetContentAreaThatDoesNotExist()
+        {
+            try
+            {
+                _contentAreasServiceAgent.Get("IDoNotExist");
+            }
+            catch (ItemNotFoundException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected HttpResponseException not thrown");
+        }
     }
 }
