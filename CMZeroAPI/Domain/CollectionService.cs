@@ -47,17 +47,22 @@ namespace CMZero.API.Domain
                 collection.OrganisationId);
 
             return (from a in applicationsInOrganisation
-                             where a.Id == collection.ApplicationId
-                             select a).Count() == 1;
+                    where a.Id == collection.ApplicationId
+                    select a).Count() == 1;
         }
 
         public new Collection Update(Collection collection)
         {
             var originalCollection = GetById(collection.Id);
             if (collection.ApplicationId != originalCollection.ApplicationId) throw new ApplicationIdNotValidException();
-            if (collection.OrganisationId!=originalCollection.OrganisationId) throw new OrganisationIdNotValidException();
+            if (collection.OrganisationId != originalCollection.OrganisationId) throw new OrganisationIdNotValidException();
 
             return base.Update(collection);
+        }
+
+        public IList<Collection> GetCollectionsForApplication(string applicationId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

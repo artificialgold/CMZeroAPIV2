@@ -36,6 +36,8 @@ namespace Api.Infrastructure
                 Component.For<ICollectionRepository>().ImplementedBy<CollectionRepository>().LifeStyle.Transient);
             container.Register(
                 Component.For<IOrganisationRepository>().ImplementedBy<OrganisationRepository>().LifeStyle.Transient);
+            container.Register(
+                Component.For<IContentAreaRepository>().ImplementedBy<ContentAreaRepository>().LifeStyle.Transient);
         }
     }
 }

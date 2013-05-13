@@ -23,4 +23,4 @@ Scenario: Create a content area for a collection that is not part of the applica
 @ContentArea
 Scenario: Create a content area with blank application specified
 	When I create a content area for an existing collection and do not specify an applicationId
-	Then I should get an ApplicationIdNotValidException
+	Then I should get a BadRequestException

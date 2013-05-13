@@ -77,7 +77,7 @@ namespace AcceptanceTests.Helpers.Collections
                 return ex;
             }
 
-            return null;
+            throw new SpecFlowException("Expected BadRequestException was not caught");
         }
 
         public ApplicationIdNotPartOfOrganisationException NewCollectionWithApplicationIdNotPartOfOrganisationId()

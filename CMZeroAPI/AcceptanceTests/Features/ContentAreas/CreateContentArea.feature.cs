@@ -149,7 +149,7 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.When("I create a content area for an existing collection and do not specify an applicat" +
                     "ionId", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 26
- testRunner.Then("I should get an ApplicationIdNotValidException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I should get a BadRequestException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

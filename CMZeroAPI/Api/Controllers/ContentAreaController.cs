@@ -5,6 +5,7 @@ using System.Web.Http;
 using CMZero.API.Domain;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Exceptions.ContentAreas;
 using CMZero.API.Messages.Responses.ContentAreas;
 
@@ -37,14 +38,36 @@ namespace Api.Controllers
         {
             try
             {
-            contentArea = _contentAreaService.Create(contentArea);
-            PostContentAreaResponse response = new PostContentAreaResponse { ContentArea = contentArea };
+                contentArea = _contentAreaService.Create(contentArea);
+                PostContentAreaResponse response = new PostContentAreaResponse { ContentArea = contentArea };
 
-            return response;
+                return response;
             }
             catch (ContentAreaNameAlreadyExistsInCollectionException)
             {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ReasonPhrases.ContentAreaNameAlreadyExistsInCollection });
+                throw new HttpResponseException(
+                    new HttpResponseMessage
+                        {
+                            StatusCode = HttpStatusCode.BadRequest,
+                            ReasonPhrase = ReasonPhrases.ContentAreaNameAlreadyExistsInCollection
+                        });
+            }
+            catch (CollectionIdNotValidException)
+            {
+                throw new HttpResponseException(
+                    new HttpResponseMessage
+                        {
+                            StatusCode = HttpStatusCode.BadRequest,
+                            ReasonPhrase = ReasonPhrases.CollectionIdDoesNotExist
+                        });
+            }
+            catch (CollectionIdNotPartOfApplicationException)
+            {
+                throw new HttpResponseException(new HttpResponseMessage
+                                                    {
+                                                        StatusCode = HttpStatusCode.BadRequest,
+                                                        ReasonPhrase = ReasonPhrases.CollectionNotPartOfApplication
+                                                    });
             }
         }
 

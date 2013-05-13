@@ -2,6 +2,8 @@
 {
     public class ReasonPhrases
     {
+        public const string CollectionNotPartOfApplication = "CollectionId is not part of the application specified";
+
         public const string ContentAreaNameAlreadyExistsInCollection = "Content area name already exists in collection";
 
         public const string CollectionIdDoesNotExist = "CollectionId is not valid";

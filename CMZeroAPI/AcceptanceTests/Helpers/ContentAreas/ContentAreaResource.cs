@@ -4,6 +4,8 @@ using System.Globalization;
 using AcceptanceTests.Helpers.Collections;
 
 using CMZero.API.Messages;
+using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Exceptions.ContentAreas;
 using CMZero.API.Messages.Responses.ContentAreas;
@@ -130,9 +132,8 @@ namespace AcceptanceTests.Helpers.ContentAreas
                 var collectionId = newCollection.Id;
                 var applicationId = newCollection.ApplicationId;
 
-                PostContentAreaResponse response =
-                    _contentAreasServiceAgent.Post(
-                        new ContentArea
+                _contentAreasServiceAgent.Post(
+                    new ContentArea
                         {
                             Active = true,
                             Name = "name",
@@ -149,9 +150,27 @@ namespace AcceptanceTests.Helpers.ContentAreas
             throw new SpecFlowException("Expected CollectionIdNotPartOfApplicationException was not caught");
         }
 
-        public object NewContentAreaWithBlankApplicationId()
+        public BadRequestException NewContentAreaWithBlankApplicationId()
         {
-            throw new NotImplementedException();
+            try
+            {
+                _contentAreasServiceAgent.Post(
+                    new ContentArea
+                        {
+                            Active = true,
+                            Name = "name",
+                            ApplicationId = null,
+                            Content = "testContentArea",
+                            ContentType = ContentAreaType.HtmlArea,
+                            CollectionId = "doesNotExistButDoesNotMatterAsApplicationIdIsBlank"
+                        });
+            }
+            catch (BadRequestException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected exception ApplicationIdNotValidException was not caught");
         }
     }
 }

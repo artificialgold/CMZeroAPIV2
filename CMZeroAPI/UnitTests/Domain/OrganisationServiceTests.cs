@@ -70,17 +70,20 @@ namespace UnitTests.Domain
 
         public class When_I_call_Update : Given_an_OrganisationService
         {
-            private readonly Organisation organisation = new Organisation { Active = true, Name = "hjkljh" };
+            private readonly Organisation organisation = new Organisation { Active = true, Name = "hjkljh",Id=organisationId };
 
             private DateTime startTime;
 
             private DateTime endTime;
             private Organisation outcome;
 
+            private static string organisationId="ghjkl";
+
             [SetUp]
             public new virtual void SetUp()
             {
                 base.SetUp();
+                OrganisationRepository.Stub(x => x.GetById(organisationId)).Return(new Organisation());
                 startTime = DateTime.UtcNow;
                 outcome = OrganisationService.Update(organisation);
                 endTime = DateTime.UtcNow;

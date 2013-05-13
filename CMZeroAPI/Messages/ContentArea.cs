@@ -7,8 +7,8 @@ namespace CMZero.API.Messages
     {
         [Required]
         public string Content { get; set; }
-        [Required]
-        public ContentAreaType ContentType { get; set; }
+
+        public ContentAreaType? ContentType { get; set; }
         [Required]
         public string CollectionId { get; set; }
         [Required]
