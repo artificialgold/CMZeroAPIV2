@@ -143,6 +143,7 @@
     <Compile Include="Steps\Collections\UpdateCollectionSteps.cs" />
     <Compile Include="Steps\ContentAreas\CreateContentAreaSteps.cs" />
     <Compile Include="Steps\ContentAreas\GetContentAreaSteps.cs" />
+    <Compile Include="Steps\ContentAreas\UpdateContentAreaSteps.cs" />
     <Compile Include="Steps\Organisations\CreateOrganisationSteps.cs" />
     <Compile Include="Steps\Organisations\GetOrganisationSteps.cs" />
     <Compile Include="Steps\Organisations\UpdateOrganisationSteps.cs" />

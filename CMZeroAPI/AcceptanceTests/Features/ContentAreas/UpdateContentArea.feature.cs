@@ -148,7 +148,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 27
 this.ScenarioSetup(scenarioInfo);
 #line 28
- testRunner.When("I update a content area to haev a different collectionId that is not part of the " +
+ testRunner.When("I update a content area to have a different collectionId that is not part of the " +
                     "application", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 29
  testRunner.Then("I should get a CollectionIdNotValidException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

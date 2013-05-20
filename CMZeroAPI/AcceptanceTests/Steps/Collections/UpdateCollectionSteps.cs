@@ -62,8 +62,8 @@ namespace AcceptanceTests.Steps.Collections
         [When(@"I update the collection name to no name")]
         public void WhenIUpdateTheCollectionNameToNoName()
         {
-            var organisation = resource.GetCollection(Recall<string>(collectionidkey), Recall<string>(applicationIdKey));
-            var exception = resource.UpdateCollectionWithUnspecifiedName(organisation);
+            var collection = resource.GetCollection(Recall<string>(collectionidkey), Recall<string>(applicationIdKey));
+            var exception = resource.UpdateCollectionWithUnspecifiedName(collection);
             Remember(exception);
         }
 

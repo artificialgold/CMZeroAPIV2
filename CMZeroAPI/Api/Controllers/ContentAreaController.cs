@@ -5,6 +5,7 @@ using System.Web.Http;
 using CMZero.API.Domain;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Exceptions.ContentAreas;
 using CMZero.API.Messages.Responses.ContentAreas;
@@ -74,24 +75,24 @@ namespace Api.Controllers
         // PUT api/values/5
         public PutContentAreaResponse Put([FromBody]ContentArea contentArea)
         {
-            //try
-            //{
+            try
+            {
             contentArea = _contentAreaService.Update(contentArea);
             return new PutContentAreaResponse { ContentArea = contentArea };
-            //}
-            //catch (OrganisationIdNotValidException)
-            //{
-            //    throw new HttpResponseException(
-            //        new HttpResponseMessage
-            //            {
-            //                ReasonPhrase = ReasonPhrases.OrganisationIdNotValid,
-            //                StatusCode = HttpStatusCode.BadRequest
-            //            });
-            //}
-            //catch (ItemNotFoundException)
-            //{
-            //    throw new HttpResponseException(HttpStatusCode.NotFound);
-            //}
+            }
+            catch (ApplicationIdNotValidException)
+            {
+                throw new HttpResponseException(
+                    new HttpResponseMessage
+                        {
+                            ReasonPhrase = ReasonPhrases.ApplicationIdNotValid,
+                            StatusCode = HttpStatusCode.BadRequest
+                        });
+            }
+            catch (ItemNotFoundException)
+            {
+                throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
         }
     }
 }

@@ -150,7 +150,7 @@ namespace UnitTests.Domain
             }
 
             [Test]
-            public void it_should_return_organisation_from_repository()
+            public void it_should_throw_ItemNotFoundException()
             {
                 Assert.NotNull(exception);
             }

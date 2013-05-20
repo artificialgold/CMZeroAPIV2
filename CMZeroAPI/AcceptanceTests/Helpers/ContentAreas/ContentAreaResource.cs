@@ -31,7 +31,7 @@ namespace AcceptanceTests.Helpers.ContentAreas
                     string.Format("Test{0}", DateTime.Now.ToString(CultureInfo.InvariantCulture)));
         }
 
-        private ContentArea NewContentAreaWithSpecifiedName(string name)
+        public ContentArea NewContentAreaWithSpecifiedName(string name)
         {
             CollectionResource collectionResource = new Api().Resource<CollectionResource>();
             var newCollection = collectionResource.NewCollection();
@@ -185,6 +185,79 @@ namespace AcceptanceTests.Helpers.ContentAreas
             }
 
             throw new SpecFlowException("Expected HttpResponseException not thrown");
+        }
+
+        public ContentArea UpdateContentArea(ContentArea contentArea)
+        {
+            return _contentAreasServiceAgent.Put(contentArea).ContentArea;
+        }
+
+        public BadRequestException UpdateContentAreaWithUnspecifiedName(ContentArea contentArea)
+        {
+            try
+            {
+                contentArea.Name = string.Empty;
+                _contentAreasServiceAgent.Put(contentArea);
+            }
+            catch (BadRequestException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected Bad Request Exception not caught");
+        }
+
+        public ItemNotFoundException UpdateContentAreaThatDoesNotExist()
+        {
+            try
+            {
+                _contentAreasServiceAgent.Put(
+                    new ContentArea()
+                    {
+                        Id = "notExisting",
+                        Name = "IDoNotExist",
+                        ApplicationId = "pp",
+                        CollectionId = "jhj"
+                    });
+            }
+            catch (ItemNotFoundException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected ItemNotFoundException was not caught");
+        }
+
+        public ApplicationIdNotValidException UpdateContentAreaToHaveDifferentApplicationId()
+        {
+            try
+            {
+                var contentArea = NewContentArea();
+                contentArea.ApplicationId = "newApplicationId";
+                _contentAreasServiceAgent.Put(contentArea);
+            }
+            catch (ApplicationIdNotValidException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected ApplicationIdNotValidException was not caught"); 
+        }
+
+        public CollectionIdNotValidException UpdateContentAreaToHaveCollectionIdNotPartOfApplicationId()
+        {
+            try
+            {
+                var contentArea = NewContentArea();
+                contentArea.CollectionId = "notValidCollectionId";
+                _contentAreasServiceAgent.Put(contentArea);
+            }
+            catch (CollectionIdNotValidException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected CollectionIdNotValidException was not caught");
         }
     }
 }
