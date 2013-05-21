@@ -5,6 +5,7 @@ using System.Linq;
 using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Exceptions.ContentAreas;
 
@@ -25,13 +26,13 @@ namespace CMZero.API.Domain
 
         public new ContentArea Create(ContentArea contentArea)
         {
-            if (NameExistsInCollection(contentArea.CollectionId, contentArea.Name)) {throw new ContentAreaNameAlreadyExistsInCollectionException();}
+            if (NameExistsInCollection(contentArea.CollectionId, contentArea.Name)) { throw new ContentAreaNameAlreadyExistsInCollectionException(); }
 
             Collection collection;
 
             try
             {
-               collection = _collectionService.GetById(contentArea.CollectionId);
+                collection = _collectionService.GetById(contentArea.CollectionId);
             }
             catch (ItemNotFoundException)
             {
@@ -48,6 +49,19 @@ namespace CMZero.API.Domain
             IList<ContentArea> contentAreas = _contentAreaRepository.ContentAreasInCollection(collectionId);
 
             return (from ca in contentAreas where ca.Name == name select ca).Any();
+        }
+
+        public new ContentArea Update(ContentArea contentArea)
+        {
+            ContentArea existingContentArea = _contentAreaRepository.GetById(contentArea.Id);
+            if (existingContentArea == null) throw new ItemNotFoundException();
+            if (existingContentArea.ApplicationId != contentArea.ApplicationId) throw new ApplicationIdNotValidException();
+
+            var collections = _collectionService.GetCollectionsForApplication(contentArea.ApplicationId);
+            var x = (from c in collections where c.Id == contentArea.CollectionId select c).Any();
+            if (!x) throw new CollectionIdNotPartOfApplicationException();
+
+            return base.Update(contentArea);
         }
     }
 }

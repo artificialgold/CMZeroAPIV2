@@ -4,6 +4,7 @@ using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Domain;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Exceptions.ContentAreas;
 
@@ -43,7 +44,7 @@ namespace UnitTests.Domain
             private ContentAreaNameAlreadyExistsInCollectionException exception;
 
             [SetUp]
-            public virtual void SetUp()
+            public new virtual void SetUp()
             {
                 base.SetUp();
                 const string Alreadyexists = "alreadyExists";
@@ -133,6 +134,75 @@ namespace UnitTests.Domain
 
             [Test]
             public void it_should_throw_a_CollectionIdNotValidException()
+            {
+                exception.ShouldNotBe(null);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_put_a_content_area_with_different_applicationId : Given_a_content_area_service
+        {
+            private readonly ContentArea contentArea = new ContentArea { ApplicationId = DifferentApplicationId, Id = ContentAreaId };
+            private const string OriginalApplicationId = "original";
+            private const string DifferentApplicationId = "new";
+            private const string ContentAreaId = "contentAreaId";
+            private readonly ContentArea contentAreaOriginal = new ContentArea { ApplicationId = OriginalApplicationId };
+            private ApplicationIdNotValidException exception;
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                ContentAreaRepository.Stub(x => x.GetById(ContentAreaId)).Return(contentAreaOriginal);
+
+                try
+                {
+                    ContentAreaService.Update(contentArea);
+                }
+                catch (ApplicationIdNotValidException ex)
+                {
+                    exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_throw_ApplicationIdNotValidException()
+            {
+                exception.ShouldNotBe(null);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_put_with_a_collectionId_that_is_not_part_of_application : Given_a_content_area_service
+        {
+            private ContentArea contentArea = new ContentArea{Id = ContentAreaId, ApplicationId = ApplicationId, CollectionId = "collectionIdNotInReturnedCollection"};
+
+            private CollectionIdNotPartOfApplicationException exception;
+
+            private const string ContentAreaId = "contentAreaId";
+
+            private const string ApplicationId = "applicationId";
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                ContentAreaRepository.Stub(x => x.GetById(ContentAreaId)).Return(new ContentArea {ApplicationId = ApplicationId});
+                CollectionService.Stub(x => x.GetCollectionsForApplication(ApplicationId))
+                                 .Return(new List<Collection>{new Collection{}});
+
+                try
+                {
+                    ContentAreaService.Update(contentArea);
+                }
+                catch (CollectionIdNotPartOfApplicationException ex)
+                {
+                    exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_throw_a_CollectionIdNotPartOfApplicationException()
             {
                 exception.ShouldNotBe(null);
             }

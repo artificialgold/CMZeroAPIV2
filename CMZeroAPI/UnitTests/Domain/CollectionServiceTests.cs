@@ -170,5 +170,35 @@ namespace UnitTests.Domain
                 exception.ShouldNotBe(null);
             }
         }
+
+        [TestFixture]
+        public class When_I_call_GetCollectionsForApplication : Given_a_CollectionService
+        {
+            private string applicationId="appId";
+
+            private string organisationId="orgId";
+
+            private IList<Collection> result;
+
+            private List<Collection> listToReturn;
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                listToReturn = new List<Collection>();
+                applicationService.Stub(x => x.GetById(applicationId))
+                                  .Return(new Application { OrganisationId = organisationId, Id = applicationId });
+                collectionRepository.Stub(x => x.GetCollectionsForApplication(applicationId, organisationId))
+                                    .Return(listToReturn);
+                result = collectionService.GetCollectionsForApplication(applicationId);
+            }
+
+            [Test]
+            public void it_should_return_value_from_repository_GetCollectionsForApplication()
+            {
+                result.ShouldBe(listToReturn);
+            }
+        }
     }
 }

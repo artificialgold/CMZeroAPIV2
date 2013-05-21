@@ -77,8 +77,8 @@ namespace Api.Controllers
         {
             try
             {
-            contentArea = _contentAreaService.Update(contentArea);
-            return new PutContentAreaResponse { ContentArea = contentArea };
+                contentArea = _contentAreaService.Update(contentArea);
+                return new PutContentAreaResponse { ContentArea = contentArea };
             }
             catch (ApplicationIdNotValidException)
             {
@@ -92,6 +92,15 @@ namespace Api.Controllers
             catch (ItemNotFoundException)
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
+            catch (CollectionIdNotPartOfApplicationException)
+            {
+                throw new HttpResponseException(
+                    new HttpResponseMessage
+                        {
+                            StatusCode = HttpStatusCode.BadRequest,
+                            ReasonPhrase = ReasonPhrases.CollectionNotPartOfApplication
+                        });
             }
         }
     }

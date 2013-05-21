@@ -62,7 +62,11 @@ namespace CMZero.API.Domain
 
         public IList<Collection> GetCollectionsForApplication(string applicationId)
         {
-            throw new NotImplementedException();
+            var collectionRepository = (ICollectionRepository)Repository;
+
+            var application = applicationService.GetById(applicationId);
+
+            return collectionRepository.GetCollectionsForApplication(applicationId, application.OrganisationId);
         }
     }
 }

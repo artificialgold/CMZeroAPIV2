@@ -190,7 +190,7 @@ namespace UnitTests.Api
         public class When_I_call_put_and_service_returns_ApplicationIdNotValidException :
             Given_a_content_area_controller
         {
-            private ContentArea contentArea= new ContentArea();
+            private ContentArea contentArea = new ContentArea();
 
             private HttpResponseException exception;
 
@@ -213,6 +213,44 @@ namespace UnitTests.Api
             public void exception_should_have_status_code_bad_request()
             {
                 exception.Response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_Put_and_service_returns_CollectionIdNotPartOfApplicationException
+        : Given_a_content_area_controller
+        {
+            private ContentArea contentArea = new ContentArea();
+
+            private HttpResponseException exception;
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                ContentAreaService.Stub(x => x.Update(contentArea))
+                                  .Throw(new CollectionIdNotPartOfApplicationException());
+
+                try
+                {
+                    ContentAreaController.Put(contentArea);
+                }
+                catch (HttpResponseException ex)
+                {
+                    exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_throw_a_HttpResponseException_with_bad_request_status_code()
+            {
+                exception.Response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            }
+
+            [Test]
+            public void it_should_have_reason_phrase_collection_id_not_part_of_application()
+            {
+                exception.Response.ReasonPhrase.ShouldBe(ReasonPhrases.CollectionNotPartOfApplication);
             }
         }
     }

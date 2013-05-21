@@ -244,7 +244,7 @@ namespace AcceptanceTests.Helpers.ContentAreas
             throw new SpecFlowException("Expected ApplicationIdNotValidException was not caught"); 
         }
 
-        public CollectionIdNotValidException UpdateContentAreaToHaveCollectionIdNotPartOfApplicationId()
+        public CollectionIdNotPartOfApplicationException UpdateContentAreaToHaveCollectionIdNotPartOfApplicationId()
         {
             try
             {
@@ -252,7 +252,7 @@ namespace AcceptanceTests.Helpers.ContentAreas
                 contentArea.CollectionId = "notValidCollectionId";
                 _contentAreasServiceAgent.Put(contentArea);
             }
-            catch (CollectionIdNotValidException ex)
+            catch (CollectionIdNotPartOfApplicationException ex)
             {
                 return ex;
             }

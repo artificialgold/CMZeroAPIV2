@@ -26,4 +26,4 @@ Scenario: Update a content area to have a different applicationId
 @contentarea
 Scenario: Update a content area to have a different collectionId not in the application
 	When I update a content area to have a different collectionId that is not part of the application
-	Then I should get a CollectionIdNotValidException
+	Then I should get a CollectionIdNotPartOfApplicationException
