@@ -18,7 +18,7 @@ namespace CMZero.API.ServiceAgent
             _baseUri = baseUri;
         }
 
-        public GetCollectionResponse Get(string id)
+        public Collection Get(string id)
         {
             var uriBuilder = new UriBuilder(_baseUri)
             {
@@ -27,21 +27,21 @@ namespace CMZero.API.ServiceAgent
 
             var request = new HttpRequestMessage(HttpMethod.Get, uriBuilder.Uri);
 
-            return GetResult<GetCollectionResponse>(request);
+            return GetResult<Collection>(request);
         }
 
-        public PostCollectionResponse Post(Collection collection)
+        public Collection Post(Collection collection)
         {
             HttpRequestMessage request = CreatePostRequest(collection, "/collection/");
 
-            return CheckResult<PostCollectionResponse>(request);
+            return CheckResult<Collection>(request);
         }
 
-        public PutCollectionResponse Put(Collection collection)
+        public Collection Put(Collection collection)
         {
             HttpRequestMessage request = CreatePutRequest(collection, "/collection/");
 
-            return CheckResult<PutCollectionResponse>(request);
+            return CheckResult<Collection>(request);
         }
     }
 }

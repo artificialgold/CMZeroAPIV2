@@ -19,18 +19,18 @@ namespace Api.Controllers
             _applicationService = applicationService;
         }
 
-        public GetApplicationsResponse Get()
+        public HttpResponseMessage Get()
         {
             var applications = _applicationService.GetAll();
-            return new GetApplicationsResponse { Applications = applications };
+            return Request.CreateResponse(HttpStatusCode.OK, applications);
         }
 
-        public GetApplicationResponse Get(string id)
+        public HttpResponseMessage Get(string id)
         {
             try
             {
                 Application application = _applicationService.GetById(id);
-                return new GetApplicationResponse() { Application = application };
+                return Request.CreateResponse(HttpStatusCode.OK, application);
             }
             catch (ItemNotFoundException)
             {
@@ -38,15 +38,12 @@ namespace Api.Controllers
             }
         }
 
-        // POST api/values
-        public PostApplicationResponse Post([FromBody]Application application)
+        public HttpResponseMessage Post([FromBody]Application application)
         {
             try
             {
                 application = _applicationService.Create(application);
-                PostApplicationResponse response = new PostApplicationResponse { Application = application };
-
-                return response;
+                return Request.CreateResponse(HttpStatusCode.Created, application);
             }
             catch (OrganisationDoesNotExistException)
             {
@@ -54,13 +51,12 @@ namespace Api.Controllers
             }
         }
 
-        // PUT api/values/5
-        public PutApplicationResponse Put([FromBody]Application application)
+        public HttpResponseMessage Put([FromBody]Application application)
         {
             try
             {
                 application = _applicationService.Update(application);
-                return new PutApplicationResponse { Application = application };
+                return Request.CreateResponse(HttpStatusCode.OK, application);
             }
             catch (OrganisationIdNotValidException)
             {
@@ -75,11 +71,6 @@ namespace Api.Controllers
             {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
         }
     }
 }

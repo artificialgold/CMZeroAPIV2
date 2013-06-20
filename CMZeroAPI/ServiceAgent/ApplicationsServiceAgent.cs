@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 
 using CMZero.API.Messages;
@@ -19,7 +20,7 @@ namespace CMZero.API.ServiceAgent
             _baseUri = baseUri;
         }
 
-        public GetApplicationResponse Get(string id)
+        public Application Get(string id)
         {
             var uriBuilder = new UriBuilder(_baseUri)
                                  {
@@ -28,30 +29,30 @@ namespace CMZero.API.ServiceAgent
 
             var request = new HttpRequestMessage(HttpMethod.Get, uriBuilder.Uri);
 
-            return GetResult<GetApplicationResponse>(request);
+            return GetResult<Application>(request);
         }
 
-        public GetApplicationsResponse Get()
+        public IList<Application> Get()
         {
             var uriBuilder = new UriBuilder(_baseUri) { Path = "/application/" };
 
             var request = new HttpRequestMessage(HttpMethod.Get, uriBuilder.Uri);
 
-            return GetResult<GetApplicationsResponse>(request);
+            return GetResult<IList<Application>>(request);
         }
 
-        public PostApplicationResponse Post(Application application)
+        public Application Post(Application application)
         {
             HttpRequestMessage request = CreatePostRequest(application, "/application/");
 
-            return CheckResult<PostApplicationResponse>(request);
+            return CheckResult<Application>(request);
         }
 
-        public PutApplicationResponse Put(Application application)
+        public Application Put(Application application)
         {
             HttpRequestMessage request = CreatePutRequest(application, "/application/");
 
-            return CheckResult<PutApplicationResponse>(request);
+            return CheckResult<Application>(request);
         }
     }
 }

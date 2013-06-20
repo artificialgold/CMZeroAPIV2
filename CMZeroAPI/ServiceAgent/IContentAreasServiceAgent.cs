@@ -5,10 +5,10 @@ namespace CMZero.API.ServiceAgent
 {
     public interface IContentAreasServiceAgent
     {
-        GetContentAreaResponse Get(string id);
+        ContentArea Get(string id);
 
-        PostContentAreaResponse Post(ContentArea contentArea);
+        ContentArea Post(ContentArea contentArea);
 
-        PutContentAreaResponse Put(ContentArea contentArea);
+        ContentArea Put(ContentArea contentArea);
     }
 }

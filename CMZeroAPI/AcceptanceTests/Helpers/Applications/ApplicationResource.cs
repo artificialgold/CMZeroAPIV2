@@ -34,7 +34,7 @@ namespace AcceptanceTests.Helpers.Applications
             OrganisationResource resource = new Api().Resource<OrganisationResource>();
             string organisationId = resource.NewOrganisation().Id;
 
-            PostApplicationResponse response =
+            Application response =
                 _applicationsServiceAgent.Post(
                     new Application
                         {
@@ -43,7 +43,7 @@ namespace AcceptanceTests.Helpers.Applications
                             OrganisationId = organisationId
                         });
 
-            return response.Application;
+            return response;
         }
 
         public BadRequestException NewApplicationWithUnspecifiedName()
@@ -64,7 +64,7 @@ namespace AcceptanceTests.Helpers.Applications
         {
             var result = _applicationsServiceAgent.Get(id);
 
-            if (result != null) return result.Application;
+            if (result != null) return result;
 
             return null;
         }
@@ -83,14 +83,14 @@ namespace AcceptanceTests.Helpers.Applications
             throw new SpecFlowException("Expected HttpResponseException not thrown");
         }
 
-        public IEnumerable<Application> GetApplications()
+        public IList<Application> GetApplications()
         {
-            return _applicationsServiceAgent.Get().Applications;
+            return _applicationsServiceAgent.Get();
         }
 
         public Application UpdateApplication(Application application)
         {
-            return _applicationsServiceAgent.Put(application).Application;
+            return _applicationsServiceAgent.Put(application);
         }
 
         public BadRequestException UpdateApplicationWithUnspecifiedName(Application application)

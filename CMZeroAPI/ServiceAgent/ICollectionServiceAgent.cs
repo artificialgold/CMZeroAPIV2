@@ -1,14 +1,13 @@
 ﻿using CMZero.API.Messages;
-using CMZero.API.Messages.Responses.Collections;
 
 namespace CMZero.API.ServiceAgent
 {
     public interface ICollectionServiceAgent
     {
-        GetCollectionResponse Get(string id);
+        Collection Get(string id);
 
-        PostCollectionResponse Post(Collection collection);
+        Collection Post(Collection collection);
 
-        PutCollectionResponse Put(Collection collection);
+        Collection Put(Collection collection);
     }
 }

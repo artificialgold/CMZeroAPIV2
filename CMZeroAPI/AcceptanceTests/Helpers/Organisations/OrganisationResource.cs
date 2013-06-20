@@ -31,7 +31,7 @@ namespace AcceptanceTests.Helpers.Organisations
 
         public Organisation NewOrganisationWithSpecifiedName(string name)
         {
-            PostOrganisationResponse response =
+            Organisation response =
                 _organisationsServiceAgent.Post(
                     new Organisation
                     {
@@ -39,7 +39,7 @@ namespace AcceptanceTests.Helpers.Organisations
                         Name = name
                     });
 
-            return response.Organisation;
+            return response;
         }
 
         public BadRequestException NewOrganisationWithUnspecifiedName()
@@ -76,7 +76,7 @@ namespace AcceptanceTests.Helpers.Organisations
         {
             var result = _organisationsServiceAgent.Get(id);
 
-            if (result != null) return result.Organisation;
+            if (result != null) return result;
 
             return null;
         }
@@ -97,12 +97,12 @@ namespace AcceptanceTests.Helpers.Organisations
 
         public IEnumerable<Organisation> GetOrganisations()
         {
-            return _organisationsServiceAgent.Get().Organisations;
+            return _organisationsServiceAgent.Get();
         }
 
         public Organisation UpdateOrganisation(Organisation organisation)
         {
-            return _organisationsServiceAgent.Put(organisation).Organisation;
+            return _organisationsServiceAgent.Put(organisation);
         }
 
         public ItemNotFoundException UpdateOrganisationThatDoesNotExist()

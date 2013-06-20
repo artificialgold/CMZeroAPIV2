@@ -36,5 +36,12 @@ namespace AcceptanceTests.Steps.ContentAreas
             Remember(resource.GetContentAreaThatDoesNotExist());
         }
 
+        [When(@"I request content areas for a collectionId that does not exist")]
+        public void WhenIRequestContentAreasForACollectionIdThatDoesNotExist()
+        {
+            Remember(resource.GetContentAreasForACollectionThatDoesNotExist());
+        }
+
+
     }
 }

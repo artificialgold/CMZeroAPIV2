@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
@@ -22,12 +21,12 @@ namespace Api.Controllers
             _collectionService = collectionService;
         }
 
-        public GetCollectionResponse Get(string id)
+        public HttpResponseMessage Get(string id)
         {
             try
             {
                 var collection = _collectionService.GetById(id);
-                return new GetCollectionResponse { Collection = collection };
+                return Request.CreateResponse(HttpStatusCode.OK, collection);
             }
             catch (ItemNotFoundException)
             {
@@ -35,11 +34,11 @@ namespace Api.Controllers
             }
         }
 
-        public PostCollectionResponse Post(Collection collection)
+        public HttpResponseMessage Post(Collection collection)
         {
             try
             {
-                return new PostCollectionResponse { Collection = _collectionService.Create(collection) };
+                return Request.CreateResponse(HttpStatusCode.Created, _collectionService.Create(collection));
             }
             catch (CollectionNameAlreadyExistsException)
             {
@@ -61,12 +60,12 @@ namespace Api.Controllers
             }
         }
 
-        public PutCollectionResponse Put(Collection collection)
+        public HttpResponseMessage Put(Collection collection)
         {
             try
             {
                 collection = _collectionService.Update(collection);
-                return new PutCollectionResponse { Collection = collection };
+                return Request.CreateResponse(HttpStatusCode.OK, collection);
             }
             catch (ItemNotFoundException)
             {

@@ -19,7 +19,7 @@ namespace CMZero.API.ServiceAgent
             _baseUri = baseUri;
         }
 
-        public GetContentAreaResponse Get(string id)
+        public ContentArea Get(string id)
         {
             var uriBuilder = new UriBuilder(_baseUri)
             {
@@ -28,21 +28,21 @@ namespace CMZero.API.ServiceAgent
 
             var request = new HttpRequestMessage(HttpMethod.Get, uriBuilder.Uri);
 
-            return GetResult<GetContentAreaResponse>(request);
+            return GetResult<ContentArea>(request);
         }
 
-        public PostContentAreaResponse Post(ContentArea contentArea)
+        public ContentArea Post(ContentArea contentArea)
         {
             HttpRequestMessage request = CreatePostRequest(contentArea, "/contentarea/");
 
-            return CheckResult<PostContentAreaResponse>(request);
+            return CheckResult<ContentArea>(request);
         }
 
-        public PutContentAreaResponse Put(ContentArea contentArea)
+        public ContentArea Put(ContentArea contentArea)
         {
             HttpRequestMessage request = CreatePutRequest(contentArea, "/contentArea/");
 
-            return CheckResult<PutContentAreaResponse>(request);
+            return CheckResult<ContentArea>(request);
         }
     }
 }

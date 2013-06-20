@@ -1,16 +1,17 @@
-﻿using CMZero.API.Messages;
-using CMZero.API.Messages.Responses.Applications;
+﻿using System.Collections.Generic;
+
+using CMZero.API.Messages;
 
 namespace CMZero.API.ServiceAgent
 {
     public interface IApplicationsServiceAgent
     {
-        GetApplicationResponse Get(string id);
+        Application Get(string id);
 
-        GetApplicationsResponse Get();
+        IList<Application> Get();
 
-        PostApplicationResponse Post(Application application);
+        Application Post(Application application);
 
-        PutApplicationResponse Put(Application application);
+        Application Put(Application application);
     }
 }

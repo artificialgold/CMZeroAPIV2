@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 
 using CMZero.API.Messages;
@@ -20,7 +21,7 @@ namespace CMZero.API.ServiceAgent
             _baseUri = baseUri;
         }
 
-        public GetOrganisationResponse Get(string id)
+        public Organisation Get(string id)
         {
             var uriBuilder = new UriBuilder(_baseUri)
             {
@@ -29,30 +30,30 @@ namespace CMZero.API.ServiceAgent
 
             var request = new HttpRequestMessage(HttpMethod.Get, uriBuilder.Uri);
 
-            return GetResult<GetOrganisationResponse>(request);
+            return GetResult<Organisation>(request);
         }
 
-        public GetOrganisationsResponse Get()
+        public IEnumerable<Organisation> Get()
         {
             var uriBuilder = new UriBuilder(_baseUri) { Path = "/organisation/" };
 
             var request = new HttpRequestMessage(HttpMethod.Get, uriBuilder.Uri);
 
-            return GetResult<GetOrganisationsResponse>(request);
+            return GetResult<IEnumerable<Organisation>>(request);
         }
 
-        public PostOrganisationResponse Post(Organisation organisation)
+        public Organisation Post(Organisation organisation)
         {
             HttpRequestMessage request = CreatePostRequest(organisation, "/organisation/");
 
-            return CheckResult<PostOrganisationResponse>(request);
+            return CheckResult<Organisation>(request);
         }
 
-        public PutOrganisationResponse Put(Organisation organisation)
+        public Organisation Put(Organisation organisation)
         {
             HttpRequestMessage request = CreatePutRequest(organisation, "/organisation/");
 
-            return CheckResult<PutOrganisationResponse>(request);
+            return CheckResult<Organisation>(request);
         }
     }
 }

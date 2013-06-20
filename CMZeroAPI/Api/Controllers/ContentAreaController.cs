@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 using CMZero.API.Domain;
@@ -21,12 +22,12 @@ namespace Api.Controllers
             _contentAreaService = contentAreaService;
         }
 
-        public GetContentAreaResponse Get(string id)
+        public HttpResponseMessage Get(string id)
         {
             try
             {
                 ContentArea application = _contentAreaService.GetById(id);
-                return new GetContentAreaResponse { ContentArea = application };
+                return Request.CreateResponse(HttpStatusCode.OK, application );
             }
             catch (ItemNotFoundException)
             {
@@ -35,14 +36,13 @@ namespace Api.Controllers
         }
 
         // POST api/values
-        public PostContentAreaResponse Post([FromBody]ContentArea contentArea)
+        public HttpResponseMessage Post([FromBody]ContentArea contentArea)
         {
             try
             {
                 contentArea = _contentAreaService.Create(contentArea);
-                PostContentAreaResponse response = new PostContentAreaResponse { ContentArea = contentArea };
-
-                return response;
+                
+                return Request.CreateResponse(HttpStatusCode.Created, contentArea);
             }
             catch (ContentAreaNameAlreadyExistsInCollectionException)
             {
@@ -73,12 +73,12 @@ namespace Api.Controllers
         }
 
         // PUT api/values/5
-        public PutContentAreaResponse Put([FromBody]ContentArea contentArea)
+        public HttpResponseMessage Put([FromBody]ContentArea contentArea)
         {
             try
             {
                 contentArea = _contentAreaService.Update(contentArea);
-                return new PutContentAreaResponse { ContentArea = contentArea };
+                return Request.CreateResponse(HttpStatusCode.OK, contentArea);
             }
             catch (ApplicationIdNotValidException)
             {

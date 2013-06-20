@@ -1,17 +1,17 @@
-﻿using CMZero.API.Messages;
-using CMZero.API.Messages.Responses;
-using CMZero.API.Messages.Responses.Organisations;
+﻿using System.Collections.Generic;
+
+using CMZero.API.Messages;
 
 namespace CMZero.API.ServiceAgent
 {
     public interface IOrganisationsServiceAgent
     {
-        GetOrganisationResponse Get(string id);
+        Organisation Get(string id);
 
-        GetOrganisationsResponse Get();
+        IEnumerable<Organisation> Get();
 
-        PostOrganisationResponse Post(Organisation organisation);
+        Organisation Post(Organisation organisation);
 
-        PutOrganisationResponse Put(Organisation organisation);
+        Organisation Put(Organisation organisation);
     }
 }

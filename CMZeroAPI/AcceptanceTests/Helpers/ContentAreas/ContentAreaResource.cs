@@ -8,7 +8,6 @@ using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Exceptions.ContentAreas;
-using CMZero.API.Messages.Responses.ContentAreas;
 using CMZero.API.ServiceAgent;
 
 using TechTalk.SpecFlow;
@@ -38,7 +37,7 @@ namespace AcceptanceTests.Helpers.ContentAreas
             var collectionId = newCollection.Id;
             var applicationId = newCollection.ApplicationId;
 
-            PostContentAreaResponse response =
+            ContentArea response =
                 _contentAreasServiceAgent.Post(
                     new ContentArea
                     {
@@ -50,12 +49,12 @@ namespace AcceptanceTests.Helpers.ContentAreas
                         CollectionId = collectionId
                     });
 
-            return response.ContentArea;
+            return response;
         }
 
         public ContentArea GetContentArea(string contentAreaId)
         {
-            return _contentAreasServiceAgent.Get(contentAreaId).ContentArea;
+            return _contentAreasServiceAgent.Get(contentAreaId);
         }
 
         public ContentAreaNameAlreadyExistsInCollectionException NewContentAreaWithExistingName()
@@ -189,7 +188,7 @@ namespace AcceptanceTests.Helpers.ContentAreas
 
         public ContentArea UpdateContentArea(ContentArea contentArea)
         {
-            return _contentAreasServiceAgent.Put(contentArea).ContentArea;
+            return _contentAreasServiceAgent.Put(contentArea);
         }
 
         public BadRequestException UpdateContentAreaWithUnspecifiedName(ContentArea contentArea)
@@ -258,6 +257,11 @@ namespace AcceptanceTests.Helpers.ContentAreas
             }
 
             throw new SpecFlowException("Expected CollectionIdNotValidException was not caught");
+        }
+
+        public BadRequestException GetContentAreasForACollectionThatDoesNotExist()
+        {
+            throw new NotImplementedException();
         }
     }
 }

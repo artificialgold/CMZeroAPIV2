@@ -37,7 +37,7 @@ namespace AcceptanceTests.Helpers.Collections
             var applicationId = newApplication.Id;
             var organisationId = newApplication.OrganisationId;
 
-            PostCollectionResponse response =
+            Collection response =
                 _collectionServiceAgent.Post(
                     new Collection
                     {
@@ -47,12 +47,12 @@ namespace AcceptanceTests.Helpers.Collections
                         OrganisationId = organisationId
                     });
 
-            return response.Collection;
+            return response;
         }
 
         public Collection GetCollection(string id, string applicationId)
         {
-            return _collectionServiceAgent.Get(id).Collection;
+            return _collectionServiceAgent.Get(id);
         }
 
         public BadRequestException NewCollectionWithUnspecifiedName()
@@ -202,7 +202,7 @@ namespace AcceptanceTests.Helpers.Collections
 
         public Collection UpdateCollection(Collection collection)
         {
-            return _collectionServiceAgent.Put(collection).Collection;
+            return _collectionServiceAgent.Put(collection);
         }
 
         public BadRequestException UpdateCollectionWithUnspecifiedName(Collection collection)

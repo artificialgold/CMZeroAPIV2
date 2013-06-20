@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using CMZero.API.Domain;
@@ -18,18 +19,18 @@ namespace Api.Controllers
             _organisationService = organisationService;
         }
 
-        public GetOrganisationsResponse Get()
+        public HttpResponseMessage Get()
         {
-            var organisations = _organisationService.GetAll();
-            return new GetOrganisationsResponse { Organisations = organisations };
+            IEnumerable<Organisation> organisations = _organisationService.GetAll();
+            return Request.CreateResponse(HttpStatusCode.OK, organisations);
         }
 
-        public GetOrganisationResponse Get(string id)
+        public HttpResponseMessage Get(string id)
         {
             try
             {
                 Organisation organisation = _organisationService.GetById(id);
-                return new GetOrganisationResponse { Organisation = organisation };
+                return Request.CreateResponse(HttpStatusCode.OK, organisation);
             }
             catch (ItemNotFoundException)
             {
@@ -38,21 +39,19 @@ namespace Api.Controllers
         }
 
         // POST api/values
-        public PostOrganisationResponse Post([FromBody]Organisation organisation)
+        public HttpResponseMessage Post([FromBody]Organisation organisation)
         {
             organisation = _organisationService.Create(organisation);
-            PostOrganisationResponse response = new PostOrganisationResponse { Organisation = organisation };
-
-            return response;
+            return Request.CreateResponse(HttpStatusCode.Created, organisation);
         }
 
         // PUT api/values/5
-        public PutOrganisationResponse Put([FromBody] Organisation organisation)
+        public HttpResponseMessage Put([FromBody] Organisation organisation)
         {
             try
             {
                 organisation = _organisationService.Update(organisation);
-                return new PutOrganisationResponse { Organisation = organisation };
+                return Request.CreateResponse(HttpStatusCode.OK, organisation);
             }
             catch (ItemNotFoundException)
             {
