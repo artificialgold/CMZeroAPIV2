@@ -11,8 +11,11 @@ namespace Api
             //    routeTemplate: "collection/application/{applicationid}",
             //    defaults: new { controller = "CollectionApplication" });
 
+            config.Routes.MapHttpRoute("CollectionContentAreas", "contentarea/collection/{collectionId}", new { controller = "ContentArea", action = "GetByCollection" });
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi", routeTemplate: "{controller}/{id}", defaults: new { id = RouteParameter.Optional });
+
         }
     }
 }

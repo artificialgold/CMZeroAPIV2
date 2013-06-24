@@ -8,7 +8,6 @@ using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Exceptions.Organisations;
-using CMZero.API.Messages.Responses.Collections;
 
 namespace Api.Controllers
 {

@@ -9,7 +9,6 @@ using CMZero.API.Domain;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Exceptions.Organisations;
-using CMZero.API.Messages.Responses.Applications;
 
 using NUnit.Framework;
 using Rhino.Mocks;

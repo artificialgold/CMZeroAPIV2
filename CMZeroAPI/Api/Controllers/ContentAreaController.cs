@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 
 using CMZero.API.Domain;
@@ -9,7 +8,6 @@ using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Exceptions.ContentAreas;
-using CMZero.API.Messages.Responses.ContentAreas;
 
 namespace Api.Controllers
 {
@@ -27,7 +25,7 @@ namespace Api.Controllers
             try
             {
                 ContentArea application = _contentAreaService.GetById(id);
-                return Request.CreateResponse(HttpStatusCode.OK, application );
+                return Request.CreateResponse(HttpStatusCode.OK, application);
             }
             catch (ItemNotFoundException)
             {
@@ -41,7 +39,7 @@ namespace Api.Controllers
             try
             {
                 contentArea = _contentAreaService.Create(contentArea);
-                
+
                 return Request.CreateResponse(HttpStatusCode.Created, contentArea);
             }
             catch (ContentAreaNameAlreadyExistsInCollectionException)
@@ -101,6 +99,18 @@ namespace Api.Controllers
                             StatusCode = HttpStatusCode.BadRequest,
                             ReasonPhrase = ReasonPhrases.CollectionNotPartOfApplication
                         });
+            }
+        }
+
+        public HttpResponseMessage GetByCollection(string collectionId)
+        {
+            try
+            {
+               return Request.CreateResponse(HttpStatusCode.OK, _contentAreaService.GetByCollection(collectionId));
+            }
+            catch (CollectionIdNotValidException)
+            {
+                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ReasonPhrases.CollectionIdDoesNotExist });
             }
         }
     }

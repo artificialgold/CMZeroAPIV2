@@ -1,5 +1,10 @@
-﻿using AcceptanceTests.Helpers;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using AcceptanceTests.Helpers;
 using AcceptanceTests.Helpers.ContentAreas;
+
+using CMZero.API.Messages;
 
 using Shouldly;
 
@@ -42,6 +47,18 @@ namespace AcceptanceTests.Steps.ContentAreas
             Remember(resource.GetContentAreasForACollectionThatDoesNotExist());
         }
 
+        [When(@"I request content areas for a collectionId that does exist")]
+        public void WhenIRequestContentAreasForACollectionIdThatDoesExist()
+        {
+            Remember(resource.GetContentAreasForValidCollection());
+        }
 
+        [Then(@"I should get all content areas in the that collection")]
+        public void ThenIShouldGetAllContentAreasInTheThatCollection()
+        {
+            var contentAreas = Recall<IEnumerable<ContentArea>>();
+            contentAreas.ShouldNotBe(null);
+            contentAreas.Count().ShouldBe(1);
+        }
     }
 }

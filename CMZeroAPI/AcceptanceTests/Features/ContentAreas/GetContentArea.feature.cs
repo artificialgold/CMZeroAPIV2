@@ -97,6 +97,40 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Get content areas by collectionId that does not exist")]
+        [NUnit.Framework.CategoryAttribute("ContentAreas")]
+        public virtual void GetContentAreasByCollectionIdThatDoesNotExist()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get content areas by collectionId that does not exist", new string[] {
+                        "ContentAreas"});
+#line 14
+this.ScenarioSetup(scenarioInfo);
+#line 15
+ testRunner.When("I request content areas for a collectionId that does not exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 16
+ testRunner.Then("I should get a CollectionIdNotValidException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Get content areas by collectionId that does exist")]
+        [NUnit.Framework.CategoryAttribute("ContentAreas")]
+        public virtual void GetContentAreasByCollectionIdThatDoesExist()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get content areas by collectionId that does exist", new string[] {
+                        "ContentAreas"});
+#line 19
+this.ScenarioSetup(scenarioInfo);
+#line 20
+ testRunner.When("I request content areas for a collectionId that does exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 21
+ testRunner.Then("I should get all content areas in the that collection", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

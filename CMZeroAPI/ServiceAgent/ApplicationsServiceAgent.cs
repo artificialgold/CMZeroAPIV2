@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net.Http;
 
 using CMZero.API.Messages;
-using CMZero.API.Messages.Responses.Applications;
 
 namespace CMZero.API.ServiceAgent
 {

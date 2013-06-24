@@ -1,5 +1,6 @@
-﻿using CMZero.API.Messages;
-using CMZero.API.Messages.Responses.ContentAreas;
+﻿using System.Collections.Generic;
+
+using CMZero.API.Messages;
 
 namespace CMZero.API.ServiceAgent
 {
@@ -10,5 +11,7 @@ namespace CMZero.API.ServiceAgent
         ContentArea Post(ContentArea contentArea);
 
         ContentArea Put(ContentArea contentArea);
+
+        IEnumerable<ContentArea> GetByCollection(string collectionId);
     }
 }

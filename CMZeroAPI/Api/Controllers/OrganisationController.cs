@@ -5,8 +5,6 @@ using System.Web.Http;
 using CMZero.API.Domain;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
-using CMZero.API.Messages.Responses;
-using CMZero.API.Messages.Responses.Organisations;
 
 namespace Api.Controllers
 {

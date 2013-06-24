@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -11,7 +12,6 @@ using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Exceptions.ContentAreas;
-using CMZero.API.Messages.Responses.ContentAreas;
 
 using NUnit.Framework;
 
@@ -251,6 +251,68 @@ namespace UnitTests.Api
             public void it_should_have_reason_phrase_collection_id_not_part_of_application()
             {
                 exception.Response.ReasonPhrase.ShouldBe(ReasonPhrases.CollectionNotPartOfApplication);
+            }
+        }
+
+        [Ignore("Ignored until we can test the Response (or delete)")]
+        [TestFixture]
+        public class When_I_call_GetByCollection_with_valid_collectionId : Given_a_content_area_controller
+        {
+            private string collectionId="collectionId";
+
+            private IEnumerable<ContentArea> contentAreas=new List<ContentArea>();
+
+            private HttpResponseMessage returnedResponse;
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                ContentAreaService.Stub(x => x.GetByCollection(collectionId)).Return(contentAreas);
+
+                returnedResponse = ContentAreaController.GetByCollection(collectionId);
+            }
+
+            [Test]
+            public void it_should_return_response_code_OK()
+            {
+                returnedResponse.StatusCode.ShouldBe(HttpStatusCode.OK);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_GetByCollection_with_collectionId_that_does_not_exist : Given_a_content_area_controller
+        {
+            private HttpResponseException exception;
+
+            private const string CollectionId = "collectionIdThatDoesNotExist";
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                ContentAreaService.Stub(x => x.GetByCollection(CollectionId)).Throw(new CollectionIdNotValidException());
+
+                try
+                {
+                    ContentAreaController.GetByCollection(CollectionId);
+                }
+                catch (HttpResponseException ex)
+                {
+                    exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_return_HttpResponseException_with_status_code_BadRequest()
+            {
+                exception.Response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            }
+
+            [Test]
+            public void it_should_return_reason_phrase_collection_id_does_not_exist()
+            {
+                exception.Response.ReasonPhrase.ShouldBe(ReasonPhrases.CollectionIdDoesNotExist);
             }
         }
     }

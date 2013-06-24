@@ -10,7 +10,12 @@ Scenario: Get non-existent content area
 	When I request a non-existing content area
 	Then not found exception should be returned
 
-#@ContentAreas
-#Scenario: Get content areas by collectionId that does not exist#
-#	When I request content areas for a collectionId that does not exist
-#	Then I should get a BadRequestException
+@ContentAreas
+Scenario: Get content areas by collectionId that does not exist
+	When I request content areas for a collectionId that does not exist
+	Then I should get a CollectionIdNotValidException
+
+@ContentAreas
+Scenario: Get content areas by collectionId that does exist
+	When I request content areas for a collectionId that does exist
+	Then I should get all content areas in the that collection

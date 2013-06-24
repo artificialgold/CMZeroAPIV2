@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 using AcceptanceTests.Helpers.Collections;
@@ -240,7 +241,7 @@ namespace AcceptanceTests.Helpers.ContentAreas
                 return ex;
             }
 
-            throw new SpecFlowException("Expected ApplicationIdNotValidException was not caught"); 
+            throw new SpecFlowException("Expected ApplicationIdNotValidException was not caught");
         }
 
         public CollectionIdNotPartOfApplicationException UpdateContentAreaToHaveCollectionIdNotPartOfApplicationId()
@@ -259,9 +260,40 @@ namespace AcceptanceTests.Helpers.ContentAreas
             throw new SpecFlowException("Expected CollectionIdNotValidException was not caught");
         }
 
-        public BadRequestException GetContentAreasForACollectionThatDoesNotExist()
+        public CollectionIdNotValidException GetContentAreasForACollectionThatDoesNotExist()
         {
-            throw new NotImplementedException();
+            try
+            {
+                string collectionId = "XXXXXXXX" + DateTime.Now.Ticks.ToString(CultureInfo.InvariantCulture);
+                _contentAreasServiceAgent.GetByCollection(collectionId);
+            }
+            catch (CollectionIdNotValidException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected CollectionIdNotValidException was not caught");
+        }
+
+        public IEnumerable<ContentArea> GetContentAreasForValidCollection()
+        {
+            CollectionResource collectionResource = new Api().Resource<CollectionResource>();
+            var newCollection = collectionResource.NewCollection();
+            var collectionId = newCollection.Id;
+            var applicationId = newCollection.ApplicationId;
+
+            _contentAreasServiceAgent.Post(
+                     new ContentArea
+                     {
+                         Active = true,
+                         Name = "name",
+                         ApplicationId = applicationId,
+                         Content = "testContentArea",
+                         ContentType = ContentAreaType.HtmlArea,
+                         CollectionId = collectionId
+                     });
+
+            return _contentAreasServiceAgent.GetByCollection(collectionId);
         }
     }
 }

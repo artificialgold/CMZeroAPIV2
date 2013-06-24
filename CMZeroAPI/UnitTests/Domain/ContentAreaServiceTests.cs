@@ -207,5 +207,60 @@ namespace UnitTests.Domain
                 exception.ShouldNotBe(null);
             }
         }
+
+        [TestFixture]
+        public class When_I_call_GetByCollection_with_a_collectionId_that_does_not_exist : Given_a_content_area_service
+        {
+            private CollectionIdNotValidException exception;
+
+            private const string CollectionId = "collectionId";
+
+            [SetUp]
+            public virtual void SetUp()
+            {
+                base.SetUp();
+                try
+                {
+                    CollectionService.Stub(x => x.GetById(CollectionId)).Throw(new ItemNotFoundException());
+                    ContentAreaService.GetByCollection(CollectionId);
+                }
+                catch (CollectionIdNotValidException ex)
+                {
+                    exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_return_CollectionIdNotValidException()
+            {
+                exception.ShouldNotBe(null);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_GetByCollection_with_a_collectionId_that_exists : Given_a_content_area_service
+        {
+            private const string CollectionId = "collection";
+
+            private IEnumerable<ContentArea> returned;
+
+            private List<ContentArea> contentAreasFromRepository;
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                CollectionService.Stub(x => x.GetById(CollectionId)).Return(new Collection { Id = CollectionId });
+                contentAreasFromRepository = new List<ContentArea>();
+                ContentAreaRepository.Stub(x => x.ContentAreasInCollection(CollectionId)).Return(contentAreasFromRepository);
+                returned = ContentAreaService.GetByCollection(CollectionId);
+            }
+
+            [Test]
+            public void it_should_return_content_areas_from_repository()
+            {
+                returned.ShouldBe(contentAreasFromRepository);
+            }
+        }
     }
 }

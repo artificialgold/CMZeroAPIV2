@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 
 using CMZero.API.Messages;
-using CMZero.API.Messages.Responses.ContentAreas;
 
 namespace CMZero.API.ServiceAgent
 {
@@ -43,6 +43,18 @@ namespace CMZero.API.ServiceAgent
             HttpRequestMessage request = CreatePutRequest(contentArea, "/contentArea/");
 
             return CheckResult<ContentArea>(request);
+        }
+
+        public IEnumerable<ContentArea> GetByCollection(string collectionId)
+        {
+            var uriBuilder = new UriBuilder(_baseUri)
+            {
+                Path = string.Format("/contentarea/collection/{0}", collectionId),
+            };
+
+            var request = new HttpRequestMessage(HttpMethod.Get, uriBuilder.Uri);
+
+            return GetResult<IEnumerable<ContentArea>>(request);
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Net.Http;
 
 using CMZero.API.Messages;
-using CMZero.API.Messages.Responses.Collections;
 
 namespace CMZero.API.ServiceAgent
 {

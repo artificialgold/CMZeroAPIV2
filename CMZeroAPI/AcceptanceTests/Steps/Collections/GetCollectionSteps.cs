@@ -10,7 +10,7 @@ namespace AcceptanceTests.Steps.Collections
     [Binding]
     public class GetCollectionSteps : StepBase
     {
-        private CollectionResource resource = new Api().Resource<CollectionResource>();
+        private readonly CollectionResource resource = new Api().Resource<CollectionResource>();
 
         private const string ApplicationIdKey = "ApplicationIdKey";
 

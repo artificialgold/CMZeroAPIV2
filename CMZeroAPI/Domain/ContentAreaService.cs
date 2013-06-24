@@ -63,5 +63,21 @@ namespace CMZero.API.Domain
 
             return base.Update(contentArea);
         }
+
+        public IEnumerable<ContentArea> GetByCollection(string collectionId)
+        {
+            try
+            {
+                var collection = _collectionService.GetById(collectionId);
+                if (collection == null)
+                    throw new CollectionIdNotValidException();
+
+                return _contentAreaRepository.ContentAreasInCollection(collectionId);
+            }
+            catch (ItemNotFoundException)
+            {
+                throw new CollectionIdNotValidException();
+            }
+        }
     }
 }
