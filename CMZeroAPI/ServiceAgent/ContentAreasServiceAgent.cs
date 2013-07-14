@@ -56,5 +56,21 @@ namespace CMZero.API.ServiceAgent
 
             return GetResult<IEnumerable<ContentArea>>(request);
         }
+
+        public IEnumerable<ContentArea> GetByCollectionNameAndApiKey(string apiKey, string collectionName)
+        {
+            var uriBuilder = new UriBuilder(_baseUri)
+                                 {
+                                     Path =
+                                         string.Format(
+                                             "/contentarea/collection/?apiKey={0}&collectionName={1}",
+                                             apiKey,
+                                             collectionName)
+                                 };
+
+            var request = new HttpRequestMessage(HttpMethod.Get, uriBuilder.Uri);
+
+            return GetResult<IEnumerable<ContentArea>>(request);
+        }
     }
 }

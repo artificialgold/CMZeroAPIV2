@@ -49,6 +49,7 @@
     <Compile Include="Error.cs" />
     <Compile Include="Exceptions\AccessForbiddenException.cs" />
     <Compile Include="Exceptions\AccessUnauthorisedException.cs" />
+    <Compile Include="Exceptions\ApiKeys\ApiKeyNotValidException.cs" />
     <Compile Include="Exceptions\Applications\ApplicationIdNotPartOfOrganisationException.cs" />
     <Compile Include="Exceptions\Applications\ApplicationIdNotValidException.cs" />
     <Compile Include="Exceptions\BadRequestException.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Exceptions\BaseHttpException.cs" />
     <Compile Include="Exceptions\Collections\CollectionIdNotPartOfApplicationException.cs" />
     <Compile Include="Exceptions\Collections\CollectionNameAlreadyExistsException.cs" />
+    <Compile Include="Exceptions\Collections\CollectionNameNotValidException.cs" />
     <Compile Include="Exceptions\ConflictException.cs" />
     <Compile Include="Exceptions\ContentAreas\CollectionIdNotValidException.cs" />
     <Compile Include="Exceptions\ContentAreas\ContentAreaNameAlreadyExistsInCollectionException.cs" />

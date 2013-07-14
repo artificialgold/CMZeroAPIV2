@@ -18,11 +18,12 @@ namespace AcceptanceTests.Helpers
 
         public Api()
         {
+            string baseUri = ConfigurationManager.AppSettings["BaseUri"];
             _knownResourceObjects = new List<IResource> { 
-                new OrganisationResource(new OrganisationsServiceAgent(ConfigurationManager.AppSettings["BaseUri"])),
-            new ApplicationResource(new ApplicationsServiceAgent(ConfigurationManager.AppSettings["BaseUri"])),
-            new CollectionResource(new CollectionsServiceAgent(ConfigurationManager.AppSettings["BaseUri"])),
-            new ContentAreaResource(new ContentAreasServiceAgent(ConfigurationManager.AppSettings["BaseUri"]))};
+                new OrganisationResource(new OrganisationsServiceAgent(baseUri)),
+            new ApplicationResource(new ApplicationsServiceAgent(baseUri)),
+            new CollectionResource(new CollectionsServiceAgent(baseUri)),
+            new ContentAreaResource(new ContentAreasServiceAgent(baseUri), new ApplicationsServiceAgent(baseUri))};
         }
 
         public T Resource<T>() where T : IResource

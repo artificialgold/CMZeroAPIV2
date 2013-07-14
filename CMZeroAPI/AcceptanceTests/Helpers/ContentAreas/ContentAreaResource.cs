@@ -6,6 +6,7 @@ using AcceptanceTests.Helpers.Collections;
 
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.ApiKeys;
 using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Exceptions.ContentAreas;
@@ -19,9 +20,12 @@ namespace AcceptanceTests.Helpers.ContentAreas
     {
         private readonly IContentAreasServiceAgent _contentAreasServiceAgent;
 
-        public ContentAreaResource(IContentAreasServiceAgent contentAreasServiceAgent)
+        private readonly IApplicationsServiceAgent _applicationsServiceAgent;
+
+        public ContentAreaResource(IContentAreasServiceAgent contentAreasServiceAgent, IApplicationsServiceAgent applicationsServiceAgent)
         {
             _contentAreasServiceAgent = contentAreasServiceAgent;
+            _applicationsServiceAgent = applicationsServiceAgent;
         }
 
         public ContentArea NewContentArea()
@@ -294,6 +298,44 @@ namespace AcceptanceTests.Helpers.ContentAreas
                      });
 
             return _contentAreasServiceAgent.GetByCollection(collectionId);
+        }
+
+        public ApiKeyNotValidException GetContentAreasForApiKeyThatIsNotValid()
+        {
+            try
+            {
+                const string ApiKeyThatDoesNotExist = "idonotexist";
+                _contentAreasServiceAgent.GetByCollectionNameAndApiKey(ApiKeyThatDoesNotExist, "collectionName");
+            }
+            catch (ApiKeyNotValidException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected ApiKeyNotValidException was not caught");
+        }
+
+        public CollectionNameNotValidException GetContentAreasForNameWithValidApiKey()
+        {
+            try
+            {
+                CollectionResource collectionResource = new Api().Resource<CollectionResource>();
+                var newCollection = collectionResource.NewCollection();
+
+                var applicationId = newCollection.ApplicationId;
+                var application = _applicationsServiceAgent.Get(applicationId);
+
+                var apiKey = application.ApiKey;
+                var collectionNameThatDoesNotExist = newCollection.Name + "NowDoesNotExist";
+
+                _contentAreasServiceAgent.GetByCollectionNameAndApiKey(apiKey, collectionNameThatDoesNotExist);
+            }
+            catch (CollectionNameNotValidException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected CollectionNameNotValidException was not caught");
         }
     }
 }

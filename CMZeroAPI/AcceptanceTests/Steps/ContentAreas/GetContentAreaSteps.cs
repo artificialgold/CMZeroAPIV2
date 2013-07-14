@@ -64,14 +64,13 @@ namespace AcceptanceTests.Steps.ContentAreas
         [When(@"I request content areas for an apikey that does not exist")]
         public void WhenIRequestContentAreasForAnApikeyThatDoesNotExist()
         {
-            ScenarioContext.Current.Pending();
+            Remember(resource.GetContentAreasForApiKeyThatIsNotValid());
         }
 
-        [Then(@"I should get an ApiKeyNotValidException")]
-        public void ThenIShouldGetAnApiKeyNotValidException()
+        [When(@"I request content areas for name that does not exist")]
+        public void WhenIRequestContentAreasForNameThatDoesNotExist()
         {
-            ScenarioContext.Current.Pending();
+            Remember(resource.GetContentAreasForNameWithValidApiKey());
         }
-
     }
 }

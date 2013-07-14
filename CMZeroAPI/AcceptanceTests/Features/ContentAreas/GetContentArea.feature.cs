@@ -148,6 +148,23 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Get content areas by apikey and name where apikey is valid but name is not valid")]
+        [NUnit.Framework.CategoryAttribute("ContentAreas")]
+        public virtual void GetContentAreasByApikeyAndNameWhereApikeyIsValidButNameIsNotValid()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get content areas by apikey and name where apikey is valid but name is not valid", new string[] {
+                        "ContentAreas"});
+#line 29
+this.ScenarioSetup(scenarioInfo);
+#line 30
+ testRunner.When("I request content areas for name that does not exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 31
+ testRunner.Then("I should get a CollectionNameNotValidException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

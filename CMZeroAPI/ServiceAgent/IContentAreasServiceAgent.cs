@@ -13,5 +13,7 @@ namespace CMZero.API.ServiceAgent
         ContentArea Put(ContentArea contentArea);
 
         IEnumerable<ContentArea> GetByCollection(string collectionId);
+
+        IEnumerable<ContentArea> GetByCollectionNameAndApiKey(string apiKey, string collectionName);
     }
 }
