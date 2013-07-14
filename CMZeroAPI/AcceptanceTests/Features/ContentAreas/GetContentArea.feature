@@ -19,3 +19,8 @@ Scenario: Get content areas by collectionId that does not exist
 Scenario: Get content areas by collectionId that does exist
 	When I request content areas for a collectionId that does exist
 	Then I should get all content areas in the that collection
+
+@ContentAreas
+Scenario: Get content areas by apikey and name where apikey does not exist
+	When I request content areas for an apikey that does not exist
+	Then I should get an ApiKeyNotValidException

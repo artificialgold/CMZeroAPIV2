@@ -60,5 +60,18 @@ namespace AcceptanceTests.Steps.ContentAreas
             contentAreas.ShouldNotBe(null);
             contentAreas.Count().ShouldBe(1);
         }
+
+        [When(@"I request content areas for an apikey that does not exist")]
+        public void WhenIRequestContentAreasForAnApikeyThatDoesNotExist()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+        [Then(@"I should get an ApiKeyNotValidException")]
+        public void ThenIShouldGetAnApiKeyNotValidException()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
     }
 }

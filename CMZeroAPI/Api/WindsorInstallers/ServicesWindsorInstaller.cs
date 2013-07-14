@@ -1,6 +1,4 @@
-﻿using CMZero.API.DataAccess.Repositories;
-using CMZero.API.DataAccess.RepositoryInterfaces;
-using CMZero.API.Domain;
+﻿using CMZero.API.Domain;
 using CMZero.API.Domain.ApiKey;
 
 using Castle.MicroKernel.Registration;
@@ -8,7 +6,7 @@ using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 
-namespace Api.Infrastructure
+namespace Api.WindsorInstallers
 {
     public class ServicesWindsorInstaller : IWindsorInstaller
     {
@@ -26,21 +24,6 @@ namespace Api.Infrastructure
                 Component.For<IApiKeyCreator>().ImplementedBy<ApiKeyCreator>().LifeStyle.Transient);
 
             container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel));
-        }
-    }
-
-    public class DataAccessWindsorInstaller : IWindsorInstaller
-    {
-        public void Install(IWindsorContainer container, IConfigurationStore store)
-        {
-            container.Register(
-                Component.For<IApplicationRepository>().ImplementedBy<ApplicationRepository>().LifeStyle.Transient);
-            container.Register(
-                Component.For<ICollectionRepository>().ImplementedBy<CollectionRepository>().LifeStyle.Transient);
-            container.Register(
-                Component.For<IOrganisationRepository>().ImplementedBy<OrganisationRepository>().LifeStyle.Transient);
-            container.Register(
-                Component.For<IContentAreaRepository>().ImplementedBy<ContentAreaRepository>().LifeStyle.Transient);
         }
     }
 }

@@ -270,7 +270,7 @@ namespace UnitTests.Api
                 base.SetUp();
                 ContentAreaService.Stub(x => x.GetByCollection(collectionId)).Return(contentAreas);
 
-                returnedResponse = ContentAreaController.GetByCollection(collectionId);
+                returnedResponse = ContentAreaController.GetByCollectionId(collectionId);
             }
 
             [Test]
@@ -295,7 +295,7 @@ namespace UnitTests.Api
 
                 try
                 {
-                    ContentAreaController.GetByCollection(CollectionId);
+                    ContentAreaController.GetByCollectionId(CollectionId);
                 }
                 catch (HttpResponseException ex)
                 {

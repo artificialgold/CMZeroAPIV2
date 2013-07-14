@@ -131,6 +131,23 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Get content areas by apikey and name where apikey does not exist")]
+        [NUnit.Framework.CategoryAttribute("ContentAreas")]
+        public virtual void GetContentAreasByApikeyAndNameWhereApikeyDoesNotExist()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get content areas by apikey and name where apikey does not exist", new string[] {
+                        "ContentAreas"});
+#line 24
+this.ScenarioSetup(scenarioInfo);
+#line 25
+ testRunner.When("I request content areas for an apikey that does not exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 26
+ testRunner.Then("I should get an ApiKeyNotValidException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

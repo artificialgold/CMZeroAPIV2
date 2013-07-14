@@ -97,6 +97,7 @@
     <Compile Include="Infrastructure\IBootstrapperTask.cs" />
     <Compile Include="Infrastructure\WindsorDependencyResolver.cs" />
     <Compile Include="Infrastructure\WindsorDependencyScope.cs" />
+    <Compile Include="WindsorInstallers\DataAccessWindsorInstaller.cs" />
     <Compile Include="WindsorInstallers\ServicesWindsorInstaller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

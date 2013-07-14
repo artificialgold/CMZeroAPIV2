@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
@@ -102,7 +103,7 @@ namespace Api.Controllers
             }
         }
 
-        public HttpResponseMessage GetByCollection(string collectionId)
+        public HttpResponseMessage GetByCollectionId(string collectionId)
         {
             try
             {
@@ -112,6 +113,11 @@ namespace Api.Controllers
             {
                 throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ReasonPhrases.CollectionIdDoesNotExist });
             }
+        }
+
+        public HttpResponseMessage GetByCollectionNameAndApiKey(string apiKey, string collectionName)
+        {
+            throw new NotImplementedException();
         }
     }
 }
