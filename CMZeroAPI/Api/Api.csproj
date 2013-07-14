@@ -84,7 +84,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
-    <Compile Include="Controllers\CollectionApplicationController.cs" />
+    <Compile Include="Controllers\ApplicationCollectionController.cs" />
     <Compile Include="Controllers\CollectionController.cs" />
     <Compile Include="Controllers\ContentAreaController.cs" />
     <Compile Include="Controllers\OrganisationController.cs" />

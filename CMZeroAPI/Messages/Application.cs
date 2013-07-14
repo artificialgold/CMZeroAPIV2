@@ -6,5 +6,7 @@ namespace CMZero.API.Messages
     {
         //TODO: ensure organisation name is unique
         public string OrganisationId { get; set; }
+
+        public string ApiKey { get; set; }
     }
 }

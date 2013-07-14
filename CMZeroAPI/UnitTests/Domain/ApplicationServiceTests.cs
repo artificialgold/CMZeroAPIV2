@@ -2,6 +2,7 @@
 
 using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Domain;
+using CMZero.API.Domain.ApiKey;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions.Organisations;
 
@@ -17,18 +18,21 @@ namespace UnitTests.Domain
     {
         public class Given_an_application_service
         {
-            protected ApplicationService applicationService;
+            protected ApplicationService ApplicationService;
 
-            protected IApplicationRepository applicationRepository;
+            protected IApplicationRepository ApplicationRepository;
 
-            protected IOrganisationService organisationService;
+            protected IOrganisationService OrganisationService;
+
+            protected IApiKeyCreator ApiKeyCreator;
 
             [SetUp]
             public virtual void SetUp()
             {
-                organisationService = MockRepository.GenerateMock<IOrganisationService>();
-                applicationRepository = MockRepository.GenerateMock<IApplicationRepository>();
-                applicationService = new ApplicationService(applicationRepository, organisationService);
+                OrganisationService = MockRepository.GenerateMock<IOrganisationService>();
+                ApplicationRepository = MockRepository.GenerateMock<IApplicationRepository>();
+                ApiKeyCreator = MockRepository.GenerateMock<IApiKeyCreator>();
+                ApplicationService = new ApplicationService(ApplicationRepository, OrganisationService, ApiKeyCreator);
             }
         }
 
@@ -41,7 +45,7 @@ namespace UnitTests.Domain
             [SetUp]
             public new virtual void SetUp()
             {
-                organisationService.Stub(x => x.IdExists(organisationIdThatDoesNotExist)).Return(false);
+                OrganisationService.Stub(x => x.IdExists(organisationIdThatDoesNotExist)).Return(false);
                 Application application = new Application
                                               {
                                                   Name = "NewName",
@@ -49,7 +53,7 @@ namespace UnitTests.Domain
                                               };
                 try
                 {
-                    applicationService.Create(application);
+                    ApplicationService.Create(application);
                 }
                 catch (OrganisationDoesNotExistException exception)
                 {
@@ -73,18 +77,27 @@ namespace UnitTests.Domain
 
             private Application result;
 
+            private string apiKeyFromCreator = "createdApiKey";
+
             [SetUp]
             public new virtual void SetUp()
             {
                 application = new Application { OrganisationId = organisationIdThatExists };
-                organisationService.Stub(x => x.IdExists(organisationIdThatExists)).Return(true);
-                result = applicationService.Create(application);
+                OrganisationService.Stub(x => x.IdExists(organisationIdThatExists)).Return(true);
+                ApiKeyCreator.Stub(x => x.Create()).Return(apiKeyFromCreator);
+                result = ApplicationService.Create(application);
             }
 
             [Test]
             public void it_should_return_created_application()
             {
                 Assert.AreEqual(result, application);
+            }
+
+            [Test]
+            public void it_should_set_apikey_to_value_from_apikeycreator()
+            {
+                result.ApiKey.ShouldBe(apiKeyFromCreator);
             }
         }
 
@@ -102,8 +115,8 @@ namespace UnitTests.Domain
             {
                 base.SetUp();
                 objToReturn = new List<Application>();
-                applicationRepository.Stub(x=>x.GetApplicationsForOrganisation(organisationId)).Return(objToReturn);
-                result = applicationService.GetApplicationsForOrganisation(organisationId);
+                ApplicationRepository.Stub(x=>x.GetApplicationsForOrganisation(organisationId)).Return(objToReturn);
+                result = ApplicationService.GetApplicationsForOrganisation(organisationId);
             }
 
             [Test]
@@ -125,11 +138,11 @@ namespace UnitTests.Domain
             [SetUp]
             public new virtual void SetUp()
             {
-                applicationRepository.Stub(x => x.GetById(applicationToUpdate.Id))
+                ApplicationRepository.Stub(x => x.GetById(applicationToUpdate.Id))
                                      .Return(new Application { Id = ApplicationId, OrganisationId = "original" });
                 try
                 {
-                    applicationService.Update(applicationToUpdate);
+                    ApplicationService.Update(applicationToUpdate);
                 }
                 catch (OrganisationIdNotValidException ex)
                 {

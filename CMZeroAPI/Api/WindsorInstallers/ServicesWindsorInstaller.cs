@@ -1,6 +1,7 @@
 ﻿using CMZero.API.DataAccess.Repositories;
 using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Domain;
+using CMZero.API.Domain.ApiKey;
 
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
@@ -21,6 +22,8 @@ namespace Api.Infrastructure
                 Component.For<IOrganisationService>().ImplementedBy<OrganisationService>().LifeStyle.Transient);
             container.Register(
                 Component.For<IContentAreaService>().ImplementedBy<ContentAreaService>().LifeStyle.Transient);
+            container.Register(
+                Component.For<IApiKeyCreator>().ImplementedBy<ApiKeyCreator>().LifeStyle.Transient);
 
             container.Kernel.Resolver.AddSubResolver(new CollectionResolver(container.Kernel));
         }

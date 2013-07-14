@@ -3,7 +3,7 @@
 @Application
 Scenario: Creating an application with correct parameters	
 	Given I create a valid application
-	Then I should be able to get the application
+	Then I should be able to get the application with a new apikey
 
 @Application
 Scenario: Creating an application without name

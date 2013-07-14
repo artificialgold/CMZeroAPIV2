@@ -50,10 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\ApplicationCollectionControllerTests.cs" />
     <Compile Include="Api\ApplicationsControllerTests.cs" />
     <Compile Include="Api\CollectionControllerTests.cs" />
     <Compile Include="Api\ContentAreaControllerTests.cs" />
     <Compile Include="Api\OrganisationsControllerTests.cs" />
+    <Compile Include="Domain\ApiKey\ApiKeyCreatorTests.cs" />
     <Compile Include="Domain\ApplicationServiceTests.cs" />
     <Compile Include="Domain\CollectionServiceTests.cs" />
     <Compile Include="Domain\ContentAreaServiceTests.cs" />

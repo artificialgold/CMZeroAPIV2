@@ -31,13 +31,22 @@ namespace AcceptanceTests.Steps.Applications
             Remember(name, ApplicationNameKey);
         }
 
-        [Then(@"I should be able to get the application")]
-        public void ThenIShouldBeAbleToGetTheApplication()
+        [Then(@"I should be able to get the application with a new apikey")]
+        public void ThenIShouldBeAbleToGetTheApplicationWithANewApiKey()
         {
-            Application organisation = resource.GetApplication(Recall<string>(ApplicationIdKey));
-            organisation.Id.ShouldBe(Recall<string>(ApplicationIdKey));
-            organisation.Name.ShouldBe(Recall<string>(ApplicationNameKey));
+            Application application = resource.GetApplication(Recall<string>(ApplicationIdKey));
+            application.Id.ShouldBe(Recall<string>(ApplicationIdKey));
+            application.Name.ShouldBe(Recall<string>(ApplicationNameKey));
+            application.ApiKey.ShouldNotBe(null);
         }
+
+        [Then(@"I should receive a new apikey")]
+        public void ThenIShouldReceiveANewApikey()
+        {
+            ScenarioContext.Current.Pending();
+        }
+
+
         [Given(@"I create an application without a name")]
         public void GivenICreateAnApplicationWithoutAName()
         {

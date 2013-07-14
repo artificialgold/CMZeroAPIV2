@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Web.Http;
 
+using Api.App_Start;
 using Api.Infrastructure;
 
 namespace Api

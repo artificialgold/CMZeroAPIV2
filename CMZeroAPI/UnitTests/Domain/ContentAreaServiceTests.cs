@@ -216,7 +216,7 @@ namespace UnitTests.Domain
             private const string CollectionId = "collectionId";
 
             [SetUp]
-            public virtual void SetUp()
+            public new virtual void SetUp()
             {
                 base.SetUp();
                 try

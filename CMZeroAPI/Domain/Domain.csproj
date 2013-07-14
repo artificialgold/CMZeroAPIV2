@@ -45,10 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiKey\ApiKeyCreator.cs" />
     <Compile Include="ApplicationService.cs" />
     <Compile Include="BaseService.cs" />
     <Compile Include="CollectionService.cs" />
     <Compile Include="ContentAreaService.cs" />
+    <Compile Include="ApiKey\IApiKeyCreator.cs" />
     <Compile Include="IApplicationService.cs" />
     <Compile Include="IBaseService.cs" />
     <Compile Include="ICollectionService.cs" />
@@ -70,6 +72,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

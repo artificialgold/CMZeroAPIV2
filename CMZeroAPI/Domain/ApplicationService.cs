@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using CMZero.API.DataAccess.RepositoryInterfaces;
+using CMZero.API.Domain.ApiKey;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions.Organisations;
 
@@ -10,19 +11,24 @@ namespace CMZero.API.Domain
     {
         private readonly IOrganisationService organisationService;
 
-        public ApplicationService(IApplicationRepository applicationRepository, IOrganisationService organisationService)
+        private IApiKeyCreator _apiKeyCreator;
+
+        public ApplicationService(IApplicationRepository applicationRepository, IOrganisationService organisationService, IApiKeyCreator apiKeyCreator)
         {
             this.organisationService = organisationService;
+            _apiKeyCreator = apiKeyCreator;
             Repository = applicationRepository;
         }
 
         public new Application Create(Application application)
         {
-           if (!organisationService.IdExists(application.OrganisationId))
+            if (!organisationService.IdExists(application.OrganisationId))
                 throw new OrganisationDoesNotExistException();
 
+            application.ApiKey = _apiKeyCreator.Create();
+
             base.Create(application);
-            
+
             return application;
         }
 

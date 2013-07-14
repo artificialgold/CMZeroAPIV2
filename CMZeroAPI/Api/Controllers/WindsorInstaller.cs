@@ -18,8 +18,8 @@ namespace Api.Controllers
                 Component.For<CollectionController>().ImplementedBy<CollectionController>().LifeStyle.Transient);
 
             container.Register(
-                Component.For<CollectionApplicationController>()
-                         .ImplementedBy<CollectionApplicationController>()
+                Component.For<ApplicationCollectionController>()
+                         .ImplementedBy<ApplicationCollectionController>()
                          .LifeStyle.Transient);
 
             container.Register(
