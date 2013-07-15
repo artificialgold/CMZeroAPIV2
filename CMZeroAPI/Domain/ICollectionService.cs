@@ -7,5 +7,7 @@ namespace CMZero.API.Domain
     public interface ICollectionService : IBaseService<Collection>
     {
         IList<Collection> GetCollectionsForApplication(string applicationId);
+
+        Collection GetCollectionByApiKeyAndName(string apiKey, string collectionName);
     }
 }

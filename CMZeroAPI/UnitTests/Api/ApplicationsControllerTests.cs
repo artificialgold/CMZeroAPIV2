@@ -143,6 +143,11 @@ namespace UnitTests.Api
             {
                 throw new NotImplementedException();
             }
+
+            public Application GetApplicationByApiKey(string apiKey)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         [Ignore("Figure out to mock Request or delete test")]

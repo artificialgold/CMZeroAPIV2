@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using CMZero.API.DataAccess.RepositoryInterfaces;
@@ -12,26 +11,26 @@ namespace CMZero.API.Domain
 {
     public class CollectionService : BaseService<Collection>, ICollectionService
     {
-        private readonly IApplicationService applicationService;
+        private readonly IApplicationService _applicationService;
 
         public CollectionService(ICollectionRepository collectionRepository, IApplicationService applicationService)
         {
-            this.applicationService = applicationService;
+            _applicationService = applicationService;
             Repository = collectionRepository;
         }
 
         public new Collection Create(Collection collection)
         {
-            if (NameExistsInApplication(collection))
+            if (DoesNameExistInApplication(collection))
                 throw new CollectionNameAlreadyExistsException();
 
-            if (!ApplicationInOrganisation(collection))
+            if (!IsApplicationInOrganisation(collection))
                 throw new ApplicationIdNotPartOfOrganisationException();
 
             return base.Create(collection);
         }
 
-        private bool NameExistsInApplication(Collection collection)
+        private bool DoesNameExistInApplication(Collection collection)
         {
             var collectionRepository = (ICollectionRepository)Repository;
 
@@ -41,9 +40,9 @@ namespace CMZero.API.Domain
             return (from c in collectionsInApplication where c.Name == collection.Name select c).Any();
         }
 
-        private bool ApplicationInOrganisation(Collection collection)
+        private bool IsApplicationInOrganisation(Collection collection)
         {
-            IList<Application> applicationsInOrganisation = applicationService.GetApplicationsForOrganisation(
+            IList<Application> applicationsInOrganisation = _applicationService.GetApplicationsForOrganisation(
                 collection.OrganisationId);
 
             return (from a in applicationsInOrganisation
@@ -64,9 +63,22 @@ namespace CMZero.API.Domain
         {
             var collectionRepository = (ICollectionRepository)Repository;
 
-            var application = applicationService.GetById(applicationId);
+            var application = _applicationService.GetById(applicationId);
 
             return collectionRepository.GetCollectionsForApplication(applicationId, application.OrganisationId);
+        }
+
+        public Collection GetCollectionByApiKeyAndName(string apiKey, string collectionName)
+        {
+            var application = _applicationService.GetApplicationByApiKey(apiKey);
+            
+            var collectionRepository = (ICollectionRepository)Repository;
+            var collections = collectionRepository.GetCollectionsForApplication(application.Id, application.OrganisationId);
+            var collectionsWithName = (from c in collections where c.Name == collectionName select c);
+
+            if (!collectionsWithName.Any()) throw new CollectionNameNotValidException();
+
+            return collectionsWithName.First();
         }
     }
 }

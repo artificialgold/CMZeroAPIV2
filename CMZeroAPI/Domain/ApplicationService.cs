@@ -39,6 +39,12 @@ namespace CMZero.API.Domain
             return applicationRepository.GetApplicationsForOrganisation(organisationId);
         }
 
+        public Application GetApplicationByApiKey(string apiKey)
+        {
+            //TODO: Write this by returning value from repository and throwing ApiKeyNotValidException from repository where needed
+            throw new System.NotImplementedException();
+        }
+
         public new Application Update(Application application)
         {
             var applicationToCheck = GetById(application.Id);

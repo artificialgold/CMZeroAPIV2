@@ -72,5 +72,11 @@ namespace AcceptanceTests.Steps.ContentAreas
         {
             Remember(resource.GetContentAreasForNameWithValidApiKey());
         }
+
+        [When(@"I request content areas for a valid apikey and name")]
+        public void WhenIRequestContentAreasForAValidApikeyAndName()
+        {
+            Remember(resource.GetContentAreasForValidApiKeyAndCollectionName());
+        }
     }
 }

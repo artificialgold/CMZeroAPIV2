@@ -6,6 +6,7 @@ using System.Web.Http;
 using CMZero.API.Domain;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.ApiKeys;
 using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Exceptions.ContentAreas;
@@ -107,17 +108,44 @@ namespace Api.Controllers
         {
             try
             {
-               return Request.CreateResponse(HttpStatusCode.OK, _contentAreaService.GetByCollection(collectionId));
+                return Request.CreateResponse(HttpStatusCode.OK, _contentAreaService.GetByCollection(collectionId));
             }
             catch (CollectionIdNotValidException)
             {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ReasonPhrases.CollectionIdDoesNotExist });
+                throw new HttpResponseException(
+                    new HttpResponseMessage
+                        {
+                            StatusCode = HttpStatusCode.BadRequest,
+                            ReasonPhrase = ReasonPhrases.CollectionIdDoesNotExist
+                        });
             }
         }
 
         public HttpResponseMessage GetByCollectionNameAndApiKey(string apiKey, string collectionName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return Request.CreateResponse(
+                    HttpStatusCode.OK, _contentAreaService.GetByCollectionNameAndApiKey(apiKey, collectionName));
+            }
+            catch (ApiKeyNotValidException)
+            {
+                throw new HttpResponseException(
+                    new HttpResponseMessage
+                        {
+                            StatusCode = HttpStatusCode.BadRequest,
+                            ReasonPhrase = ReasonPhrases.ApiKeyNotValid
+                        });
+            }
+            catch (CollectionNameNotValidException)
+            {
+                throw new HttpResponseException(
+                    new HttpResponseMessage
+                        {
+                            StatusCode = HttpStatusCode.BadRequest,
+                            ReasonPhrase = ReasonPhrases.CollectionNameNotValidException
+                        });
+            }
         }
     }
 }

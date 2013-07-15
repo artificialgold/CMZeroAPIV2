@@ -19,19 +19,19 @@ namespace UnitTests.Domain
     {
         public class Given_a_CollectionService
         {
-            protected CollectionService collectionService;
+            protected CollectionService CollectionService;
 
-            protected ICollectionRepository collectionRepository;
+            protected ICollectionRepository CollectionRepository;
 
-            protected IApplicationService applicationService;
+            protected IApplicationService ApplicationService;
 
             [SetUp]
             public virtual void SetUp()
             {
-                collectionRepository = MockRepository.GenerateMock<ICollectionRepository>();
+                CollectionRepository = MockRepository.GenerateMock<ICollectionRepository>();
 
-                applicationService = MockRepository.GenerateMock<IApplicationService>();
-                collectionService = new CollectionService(collectionRepository, applicationService);
+                ApplicationService = MockRepository.GenerateMock<IApplicationService>();
+                CollectionService = new CollectionService(CollectionRepository, ApplicationService);
             }
         }
 
@@ -48,13 +48,13 @@ namespace UnitTests.Domain
             public new virtual void SetUp()
             {
                 base.SetUp();
-                collectionRepository.Stub(x => x.GetCollectionsForApplication("appid", "orgid"))
+                CollectionRepository.Stub(x => x.GetCollectionsForApplication("appid", "orgid"))
                     .IgnoreArguments()
                     .Return(new List<Collection> { new Collection() });
-                applicationService.Stub(x => x.GetApplicationsForOrganisation(organisationIdToQueryWith)).Return(new List<Application>());
+                ApplicationService.Stub(x => x.GetApplicationsForOrganisation(organisationIdToQueryWith)).Return(new List<Application>());
                 try
                 {
-                    collectionService.Create(
+                    CollectionService.Create(
                         new Collection
                             {
                                 Name = "I do not yet exist",
@@ -89,12 +89,12 @@ namespace UnitTests.Domain
             [SetUp]
             public new virtual void SetUp()
             {
-                collectionRepository.Stub(x => x.GetCollectionsForApplication(applicationId, organisationId))
+                CollectionRepository.Stub(x => x.GetCollectionsForApplication(applicationId, organisationId))
                                     .Return(new List<Collection> { new Collection { Name = nameThatAlreadyExists } });
 
                 try
                 {
-                    collectionService.Create(new Collection { Name = nameThatAlreadyExists, ApplicationId = applicationId, OrganisationId = organisationId });
+                    CollectionService.Create(new Collection { Name = nameThatAlreadyExists, ApplicationId = applicationId, OrganisationId = organisationId });
                 }
                 catch (CollectionNameAlreadyExistsException ex)
                 {
@@ -120,11 +120,11 @@ namespace UnitTests.Domain
             public new virtual void SetUp()
             {
                 base.SetUp();
-                collectionRepository.Stub(x => x.GetById(collectionId))
+                CollectionRepository.Stub(x => x.GetById(collectionId))
                                     .Return(new Collection { Id = collectionId, ApplicationId = "old" });
                 try
                 {
-                    collectionService.Update(new Collection { Id = collectionId, ApplicationId = "new" });
+                    CollectionService.Update(new Collection { Id = collectionId, ApplicationId = "new" });
                 }
                 catch (ApplicationIdNotValidException ex)
                 {
@@ -152,11 +152,11 @@ namespace UnitTests.Domain
             public new virtual void SetUp()
             {
                 base.SetUp();
-                collectionRepository.Stub(x => x.GetById(collectionId))
+                CollectionRepository.Stub(x => x.GetById(collectionId))
                                         .Return(new Collection { Id = collectionId, ApplicationId = applicationId, OrganisationId = "old" });
                 try
                 {
-                    collectionService.Update(new Collection { Id = collectionId, ApplicationId = applicationId, OrganisationId = "new" });
+                    CollectionService.Update(new Collection { Id = collectionId, ApplicationId = applicationId, OrganisationId = "new" });
                 }
                 catch (OrganisationIdNotValidException ex)
                 {
@@ -187,17 +187,106 @@ namespace UnitTests.Domain
             {
                 base.SetUp();
                 listToReturn = new List<Collection>();
-                applicationService.Stub(x => x.GetById(applicationId))
+                ApplicationService.Stub(x => x.GetById(applicationId))
                                   .Return(new Application { OrganisationId = organisationId, Id = applicationId });
-                collectionRepository.Stub(x => x.GetCollectionsForApplication(applicationId, organisationId))
+                CollectionRepository.Stub(x => x.GetCollectionsForApplication(applicationId, organisationId))
                                     .Return(listToReturn);
-                result = collectionService.GetCollectionsForApplication(applicationId);
+                result = CollectionService.GetCollectionsForApplication(applicationId);
             }
 
             [Test]
             public void it_should_return_value_from_repository_GetCollectionsForApplication()
             {
                 result.ShouldBe(listToReturn);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_get_collection_by_ApiKey_and_name_with_valid_parameters : Given_a_CollectionService
+        {
+            private const string apiKey = "apiKey";
+
+            private const string CollectionName = "collectionName";
+
+            private Collection _result;
+
+            private const string ApplicationId = "applicationId";
+
+            private const string OrganisationId = "organisationId";
+
+            private Collection _collectionToReturn;
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                ApplicationService.Stub(x => x.GetApplicationByApiKey(apiKey)).Return(new Application { Id = ApplicationId, OrganisationId = OrganisationId});
+                _collectionToReturn = new Collection { Name = CollectionName };
+                CollectionRepository.Stub(x => x.GetCollectionsForApplication(ApplicationId, OrganisationId))
+                                 .Return(new List<Collection> { _collectionToReturn });
+                _result = CollectionService.GetCollectionByApiKeyAndName(apiKey, CollectionName);
+            }
+
+            [Test]
+            public void it_should_return_collection_from_correct_application()
+            {
+                _result.ShouldBe(_collectionToReturn);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_GetCollectionByApiKeyAndName : Given_a_CollectionService
+        {
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                CollectionService.GetCollectionByApiKeyAndName("badApiKey", "CollectionName");
+            }
+
+            [Test]
+            public void it_should_throw_ApiKeyNotValidException()
+            {
+                Assert.Fail("Write this test and functionality properly");
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_GetCollectionByApiKeyAndName_with_bad_collection_name : Given_a_CollectionService
+        {
+            private CollectionNameNotValidException exception;
+
+            private string applicationId="applicationId";
+
+            private string organisationId="organisationId";
+
+            private const string CollectionName = "BadCollectionName";
+
+            private const string ApiKey = "apiKey";
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                ApplicationService.Stub(x => x.GetApplicationByApiKey(ApiKey))
+                                  .Return(new Application { Id = applicationId, OrganisationId = organisationId });
+                CollectionRepository.Stub(x => x.GetCollectionsForApplication(applicationId, organisationId))
+                                    .Return(new List<Collection>());
+
+                try
+                {
+                    CollectionService.GetCollectionByApiKeyAndName(ApiKey, CollectionName);
+                }
+                catch (CollectionNameNotValidException ex)
+                {
+                    exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_return_CollectionNameNotValidException()
+            {
+                exception.ShouldNotBe(null);
             }
         }
     }

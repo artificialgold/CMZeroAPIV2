@@ -26,12 +26,14 @@ namespace UnitTests.Domain
 
             protected IContentAreaRepository ContentAreaRepository;
 
+            protected IApplicationService ApplicationService;
+
             [SetUp]
             public virtual void SetUp()
             {
                 ContentAreaRepository = MockRepository.GenerateMock<IContentAreaRepository>();
                 CollectionService = MockRepository.GenerateMock<ICollectionService>();
-
+                ApplicationService = MockRepository.GenerateMock<IApplicationService>();
                 ContentAreaService = new ContentAreaService(ContentAreaRepository, CollectionService);
             }
         }
@@ -175,7 +177,7 @@ namespace UnitTests.Domain
         [TestFixture]
         public class When_I_call_put_with_a_collectionId_that_is_not_part_of_application : Given_a_content_area_service
         {
-            private ContentArea contentArea = new ContentArea{Id = ContentAreaId, ApplicationId = ApplicationId, CollectionId = "collectionIdNotInReturnedCollection"};
+            private ContentArea contentArea = new ContentArea { Id = ContentAreaId, ApplicationId = ApplicationId, CollectionId = "collectionIdNotInReturnedCollection" };
 
             private CollectionIdNotPartOfApplicationException exception;
 
@@ -187,9 +189,9 @@ namespace UnitTests.Domain
             public new virtual void SetUp()
             {
                 base.SetUp();
-                ContentAreaRepository.Stub(x => x.GetById(ContentAreaId)).Return(new ContentArea {ApplicationId = ApplicationId});
+                ContentAreaRepository.Stub(x => x.GetById(ContentAreaId)).Return(new ContentArea { ApplicationId = ApplicationId });
                 CollectionService.Stub(x => x.GetCollectionsForApplication(ApplicationId))
-                                 .Return(new List<Collection>{new Collection{}});
+                                 .Return(new List<Collection> { new Collection { } });
 
                 try
                 {
@@ -211,7 +213,7 @@ namespace UnitTests.Domain
         [TestFixture]
         public class When_I_call_GetByCollection_with_a_collectionId_that_does_not_exist : Given_a_content_area_service
         {
-            private CollectionIdNotValidException exception;
+            private CollectionIdNotValidException _exception;
 
             private const string CollectionId = "collectionId";
 
@@ -226,14 +228,14 @@ namespace UnitTests.Domain
                 }
                 catch (CollectionIdNotValidException ex)
                 {
-                    exception = ex;
+                    _exception = ex;
                 }
             }
 
             [Test]
             public void it_should_return_CollectionIdNotValidException()
             {
-                exception.ShouldNotBe(null);
+                _exception.ShouldNotBe(null);
             }
         }
 
@@ -262,5 +264,7 @@ namespace UnitTests.Domain
                 returned.ShouldBe(contentAreasFromRepository);
             }
         }
+
+
     }
 }

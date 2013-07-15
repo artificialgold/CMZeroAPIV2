@@ -2,6 +2,10 @@
 {
     public class ReasonPhrases
     {
+        public const string CollectionNameNotValidException = "Collection Name is not valid";
+
+        public const string ApiKeyNotValid = "ApiKey is not valid";
+
         public const string CollectionNotPartOfApplication = "CollectionId is not part of the application specified";
 
         public const string ContentAreaNameAlreadyExistsInCollection = "Content area name already exists in collection";

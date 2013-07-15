@@ -165,6 +165,23 @@ this.ScenarioSetup(scenarioInfo);
 #line hidden
             this.ScenarioCleanup();
         }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Get content areas by apikey and name where both are valid")]
+        [NUnit.Framework.CategoryAttribute("ContentAreas")]
+        public virtual void GetContentAreasByApikeyAndNameWhereBothAreValid()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get content areas by apikey and name where both are valid", new string[] {
+                        "ContentAreas"});
+#line 34
+this.ScenarioSetup(scenarioInfo);
+#line 35
+ testRunner.When("I request content areas for a valid apikey and name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 36
+ testRunner.Then("I should get all content areas in the that collection", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
     }
 }
 #pragma warning restore

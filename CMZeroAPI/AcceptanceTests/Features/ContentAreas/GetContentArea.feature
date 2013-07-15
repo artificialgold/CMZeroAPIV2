@@ -29,3 +29,8 @@ Scenario: Get content areas by apikey and name where apikey does not exist
 Scenario: Get content areas by apikey and name where apikey is valid but name is not valid
 	When I request content areas for name that does not exist
 	Then I should get a CollectionNameNotValidException
+
+@ContentAreas
+Scenario: Get content areas by apikey and name where both are valid
+	When I request content areas for a valid apikey and name
+	Then I should get all content areas in the that collection

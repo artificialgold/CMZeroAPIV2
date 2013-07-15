@@ -9,6 +9,7 @@ using Api.Controllers;
 using CMZero.API.Domain;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.ApiKeys;
 using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Exceptions.ContentAreas;
@@ -258,9 +259,9 @@ namespace UnitTests.Api
         [TestFixture]
         public class When_I_call_GetByCollection_with_valid_collectionId : Given_a_content_area_controller
         {
-            private string collectionId="collectionId";
+            private string collectionId = "collectionId";
 
-            private IEnumerable<ContentArea> contentAreas=new List<ContentArea>();
+            private IEnumerable<ContentArea> contentAreas = new List<ContentArea>();
 
             private HttpResponseMessage returnedResponse;
 
@@ -313,6 +314,84 @@ namespace UnitTests.Api
             public void it_should_return_reason_phrase_collection_id_does_not_exist()
             {
                 exception.Response.ReasonPhrase.ShouldBe(ReasonPhrases.CollectionIdDoesNotExist);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_GetByCollectionWithApiKeyAndName_with_invalid_apikey : Given_a_content_area_controller
+        {
+            private const string ApiKey = "invalid_api_key";
+
+            private const string CollectionName = "collectionName";
+
+            private HttpResponseException _exception;
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                ContentAreaService.Stub(x => x.GetByCollectionNameAndApiKey(ApiKey, CollectionName))
+                                  .Throw(new ApiKeyNotValidException());
+
+                try
+                {
+                    ContentAreaController.GetByCollectionNameAndApiKey(ApiKey, CollectionName);
+                }
+                catch (HttpResponseException ex)
+                {
+                    _exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_return_HttpResponseException_with_status_code_BadRequest()
+            {
+                _exception.Response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            }
+
+            [Test]
+            public void it_should_return_reason_phrase_collection_id_does_not_exist()
+            {
+                _exception.Response.ReasonPhrase.ShouldBe(ReasonPhrases.ApiKeyNotValid);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_GetByCollectionWithApiKeyAndName_with_valid_ApiKey_and_invalid_name : Given_a_content_area_controller
+        {
+            private string validApiKey="apiKey";
+
+            private string collectionNameNotValid="collectionNameIsNotValid";
+
+            private HttpResponseException _exception;
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                ContentAreaService.Stub(x => x.GetByCollectionNameAndApiKey(validApiKey, collectionNameNotValid))
+                    .Throw(new CollectionNameNotValidException());
+
+                try
+                {
+                    ContentAreaController.GetByCollectionNameAndApiKey(validApiKey, collectionNameNotValid);
+                }
+                catch (HttpResponseException ex)
+                {
+                    _exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_return_HttpResponseException_with_status_code_BadRequest()
+            {
+                _exception.Response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            }
+
+            [Test]
+            public void it_should_return_reason_phrase_collection_id_does_not_exist()
+            {
+                _exception.Response.ReasonPhrase.ShouldBe(ReasonPhrases.CollectionNameNotValidException);
             }
         }
     }

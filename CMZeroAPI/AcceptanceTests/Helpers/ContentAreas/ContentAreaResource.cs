@@ -337,5 +337,30 @@ namespace AcceptanceTests.Helpers.ContentAreas
 
             throw new SpecFlowException("Expected CollectionNameNotValidException was not caught");
         }
+
+        public IEnumerable<ContentArea> GetContentAreasForValidApiKeyAndCollectionName()
+        {
+            CollectionResource collectionResource = new Api().Resource<CollectionResource>();
+            var newCollection = collectionResource.NewCollection();
+
+            var applicationId = newCollection.ApplicationId;
+            var application = _applicationsServiceAgent.Get(applicationId);
+
+            var apiKey = application.ApiKey;
+            var collectionName = newCollection.Name;
+
+            _contentAreasServiceAgent.Post(
+                     new ContentArea
+                     {
+                         Active = true,
+                         Name = "name",
+                         ApplicationId = applicationId,
+                         Content = "testContentArea",
+                         ContentType = ContentAreaType.HtmlArea,
+                         CollectionId = newCollection.Id
+                     });
+
+            return _contentAreasServiceAgent.GetByCollectionNameAndApiKey(apiKey, collectionName);
+        }
     }
 }
