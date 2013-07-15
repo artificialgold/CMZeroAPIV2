@@ -41,8 +41,9 @@ namespace CMZero.API.Domain
 
         public Application GetApplicationByApiKey(string apiKey)
         {
-            //TODO: Write this by returning value from repository and throwing ApiKeyNotValidException from repository where needed
-            throw new System.NotImplementedException();
+            IApplicationRepository applicationRepository = (IApplicationRepository)Repository;
+
+            return applicationRepository.GetByApiKey(apiKey);
         }
 
         public new Application Update(Application application)

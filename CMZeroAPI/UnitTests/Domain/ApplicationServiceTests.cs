@@ -4,6 +4,7 @@ using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Domain;
 using CMZero.API.Domain.ApiKey;
 using CMZero.API.Messages;
+using CMZero.API.Messages.Exceptions.ApiKeys;
 using CMZero.API.Messages.Exceptions.Organisations;
 
 using NUnit.Framework;
@@ -154,6 +155,59 @@ namespace UnitTests.Domain
             public void it_should_throw_OrganisationIdNotValidException()
             {
                 exception.ShouldNotBe(null);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_GetByApiKey_with_invalid_api_key : Given_an_application_service
+        {
+            private string apiKeyThatDoesNotExist="doesNotExist";
+
+            private ApiKeyNotValidException exception;
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                try
+                {
+                    ApplicationRepository.Stub(x=>x.GetByApiKey(apiKeyThatDoesNotExist)).Throw(new ApiKeyNotValidException());
+                    ApplicationService.GetApplicationByApiKey(apiKeyThatDoesNotExist);
+                }
+                catch (ApiKeyNotValidException ex)
+                {
+                    exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_throw_a_ApiKeyNotValidException()
+            {
+                exception.ShouldNotBe(null);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_GetApplicationByApiKey_with_valid_apikey : Given_an_application_service
+        {
+            private string apiKey="apiKeyThatIsValid";
+
+            private Application result;
+
+            private Application ApplicationToReturn = new Application();
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                ApplicationRepository.Stub(x => x.GetByApiKey(apiKey)).Return(ApplicationToReturn);
+                result = ApplicationService.GetApplicationByApiKey(apiKey);
+            }
+
+            [Test]
+            public void it_should_return_application_from_repository()
+            {
+                result.ShouldBe(ApplicationToReturn);
             }
         }
     }

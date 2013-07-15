@@ -5,6 +5,7 @@ using System.Net.Http.Formatting;
 
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.ApiKeys;
 using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Exceptions.ContentAreas;
@@ -72,6 +73,8 @@ namespace CMZero.API.ServiceAgent
                 if (response.ReasonPhrase == ReasonPhrases.CollectionIdDoesNotExist) throw new CollectionIdNotValidException();
                 if (response.ReasonPhrase == ReasonPhrases.ContentAreaNameAlreadyExistsInCollection) throw new ContentAreaNameAlreadyExistsInCollectionException();
                 if (response.ReasonPhrase == ReasonPhrases.CollectionNotPartOfApplication) throw new CollectionIdNotPartOfApplicationException();
+                if (response.ReasonPhrase == ReasonPhrases.CollectionNameNotValidException) throw new CollectionNameNotValidException();
+                if (response.ReasonPhrase == ReasonPhrases.ApiKeyNotValid) throw new ApiKeyNotValidException();
 
                 var validationErrors = response.Content.ReadAsAsync<ValidationErrors>(new[] { new JsonMediaTypeFormatter() }).Result;
 

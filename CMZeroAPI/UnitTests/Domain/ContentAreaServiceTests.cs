@@ -4,6 +4,7 @@ using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Domain;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.ApiKeys;
 using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Exceptions.ContentAreas;
@@ -265,6 +266,99 @@ namespace UnitTests.Domain
             }
         }
 
+        [TestFixture]
+        public class When_I_call_GetByCollectionNameAndApiKey_with_valid_parameters : Given_a_content_area_service
+        {
+            private List<ContentArea> _contentAreasToReturn;
 
+            private IEnumerable<ContentArea> _result;
+
+            private const string ApiKey = "apiKey";
+            private const string CollectionName = "collectionName";
+            private const string CollectionId = "collectionId";
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                CollectionService.Stub(x => x.GetCollectionByApiKeyAndName(ApiKey, CollectionName))
+                                 .Return(new Collection { Id = CollectionId });
+                _contentAreasToReturn = new List<ContentArea>();
+                ContentAreaRepository.Stub(x => x.ContentAreasInCollection(CollectionId))
+                                     .Return(_contentAreasToReturn);
+                _result=ContentAreaService.GetByCollectionNameAndApiKey(ApiKey, CollectionName);
+            }
+
+            [Test]
+            public void it_should_return_value_from_repository()
+            {
+                _result.ShouldBe(_contentAreasToReturn);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_GetByCollectionNameAndApiKey_with_invalid_api_key : Given_a_content_area_service
+        {
+            private string collectionName="collectionName";
+
+            private ApiKeyNotValidException exception;
+
+            private const string ApiKeyThatIsNotValid = "IDoNotExist";
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                CollectionService.Stub(x=>x.GetCollectionByApiKeyAndName(ApiKeyThatIsNotValid, collectionName)).Throw(new ApiKeyNotValidException());
+
+                try
+                {
+                    ContentAreaService.GetByCollectionNameAndApiKey(ApiKeyThatIsNotValid, collectionName);
+                }
+                catch (ApiKeyNotValidException ex)
+                {
+                    exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_throw_ApiKeyNotValidException()
+            {
+                exception.ShouldNotBe(null);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_GetCollectionByApiKeyAndName : Given_a_content_area_service
+        {
+            private CollectionNameNotValidException exception;
+
+            private const string ApiKey = "apiKey";
+
+            private const string CollectionNameThatIsNotValid = "IAmNotValid";
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                CollectionService.Stub(x => x.GetCollectionByApiKeyAndName(ApiKey, CollectionNameThatIsNotValid))
+                                 .Throw(new CollectionNameNotValidException());
+
+                try
+                {
+                    ContentAreaService.GetByCollectionNameAndApiKey(ApiKey, CollectionNameThatIsNotValid);
+                }
+                catch (CollectionNameNotValidException ex)
+                {
+                    exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_return_CollectionNameNotValidException()
+            {
+                exception.ShouldNotBe(null);
+            }
+        }
     }
 }

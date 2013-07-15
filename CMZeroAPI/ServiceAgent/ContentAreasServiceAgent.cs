@@ -61,12 +61,10 @@ namespace CMZero.API.ServiceAgent
         {
             var uriBuilder = new UriBuilder(_baseUri)
                                  {
-                                     Path =
-                                         string.Format(
-                                             "/contentarea/collection/?apiKey={0}&collectionName={1}",
-                                             apiKey,
-                                             collectionName)
+                                     Path ="/contentarea/collection/"
                                  };
+            
+            uriBuilder.Query = string.Format("apiKey={0}&collectionName={1}", apiKey, collectionName);
 
             var request = new HttpRequestMessage(HttpMethod.Get, uriBuilder.Uri);
 

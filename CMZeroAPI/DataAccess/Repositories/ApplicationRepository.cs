@@ -4,6 +4,7 @@ using System.Linq;
 
 using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Messages;
+using CMZero.API.Messages.Exceptions.ApiKeys;
 
 namespace CMZero.API.DataAccess.Repositories
 {
@@ -28,6 +29,23 @@ namespace CMZero.API.DataAccess.Repositories
             }
         }
 
+        public Application GetByApiKey(string apiKey)
+        {
+            try
+            {
+                using (var session = GetSession())
+                {
+                    var result = (from a in session.Query<Application>() where a.ApiKey == apiKey select a);
 
+                    if (result.Count() == 1) return result.First();
+                    throw new ApiKeyNotValidException();
+                }
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log and get correct exceptions
+                throw ex;
+            }
+        }
     }
 }

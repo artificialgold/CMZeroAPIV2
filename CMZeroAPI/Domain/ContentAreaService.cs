@@ -82,16 +82,9 @@ namespace CMZero.API.Domain
 
         public IEnumerable<ContentArea> GetByCollectionNameAndApiKey(string apiKey, string collectionName)
         {
-            //TODO: Get Application from ApiKey
+            var collection = _collectionService.GetCollectionByApiKeyAndName(apiKey, collectionName);
 
-            //TODO: Get Collections by applications
-
-            //TODO: Get collection by name
-
-            //TOD: Get ContentAreas
-
-            //TODO: Test and implement this
-            throw new NotImplementedException();
+            return _contentAreaRepository.ContentAreasInCollection(collection.Id);
         }
     }
 }
