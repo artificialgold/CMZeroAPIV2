@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 using AcceptanceTests.Helpers.Applications;
 
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.ApiKeys;
 using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Exceptions.Organisations;
@@ -26,16 +28,26 @@ namespace AcceptanceTests.Helpers.Collections
         public Collection NewCollection()
         {
             return NewCollectionWithSpecifiedName(
-                string.Format("Test{0}", DateTime.Now.ToString(CultureInfo.InvariantCulture)));
+                NameGenerator());
+        }
+
+        private static string NameGenerator()
+        {
+            return string.Format("Test{0}", DateTime.Now.ToString(CultureInfo.InvariantCulture));
         }
 
         public Collection NewCollectionWithSpecifiedName(string name)
         {
-            ApplicationResource applicationResource = new Api().Resource<ApplicationResource>();
+            var applicationResource = new Api().Resource<ApplicationResource>();
             var newApplication = applicationResource.NewApplication();
             var applicationId = newApplication.Id;
             var organisationId = newApplication.OrganisationId;
 
+            return NewCollectionWithSpecifiedNameAndApplicationIdAndOrganisationId(name, applicationId, organisationId);
+        }
+
+        public Collection NewCollectionWithSpecifiedNameAndApplicationIdAndOrganisationId(string name, string applicationId, string organisationId)
+        {
             Collection response =
                 _collectionServiceAgent.Post(
                     new Collection
@@ -270,6 +282,34 @@ namespace AcceptanceTests.Helpers.Collections
             }
 
             throw new SpecFlowException("Expected OrganisationIdNotValidException was not caught");
+        }
+
+        public IEnumerable<Collection> GetCollectionsForValidApiKey()
+        {
+            var collection = NewCollection();
+            var applicationId = collection.ApplicationId;
+            var organisationId = collection.OrganisationId;
+            NewCollectionWithSpecifiedNameAndApplicationIdAndOrganisationId(NameGenerator(), applicationId, organisationId);
+
+            ApplicationResource applicationResource = new Api().Resource<ApplicationResource>();
+            var apiKey = applicationResource.GetApplication(applicationId).ApiKey;
+
+
+            return _collectionServiceAgent.GetByApiKey(apiKey);
+        }
+
+        public ApiKeyNotValidException GetCollectionsForInvalidApiKey()
+        {
+            try
+            {
+                _collectionServiceAgent.GetByApiKey("IDoNotExistAsAnApiKey");
+            }
+            catch (ApiKeyNotValidException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected ApiKeyNotValidException was not caught");
         }
     }
 }

@@ -1,6 +1,7 @@
-﻿using AcceptanceTests.Helpers;
+﻿using System.Collections.Generic;
+using AcceptanceTests.Helpers;
 using AcceptanceTests.Helpers.Collections;
-
+using CMZero.API.Messages;
 using Shouldly;
 
 using TechTalk.SpecFlow;
@@ -10,7 +11,7 @@ namespace AcceptanceTests.Steps.Collections
     [Binding]
     public class GetCollectionSteps : StepBase
     {
-        private readonly CollectionResource resource = new Api().Resource<CollectionResource>();
+        private readonly CollectionResource _resource = new Api().Resource<CollectionResource>();
 
         private const string ApplicationIdKey = "ApplicationIdKey";
 
@@ -19,7 +20,7 @@ namespace AcceptanceTests.Steps.Collections
         [When(@"I request an existing collection")]
         public void WhenIRequestAnExistingCollection()
         {
-            var collection = resource.NewCollection();
+            var collection = _resource.NewCollection();
             Remember(collection.Id, CollectionIdKey);
             Remember(collection.ApplicationId, ApplicationIdKey);
         }
@@ -29,7 +30,7 @@ namespace AcceptanceTests.Steps.Collections
         {
             var collectionId = Recall<string>(CollectionIdKey);
             var applicationId = Recall<string>(ApplicationIdKey);
-            var collection = resource.GetCollection(collectionId, applicationId);
+            var collection = _resource.GetCollection(collectionId, applicationId);
             collection.ApplicationId.ShouldBe(applicationId);
             collection.Id.ShouldBe(collectionId);
             collection.Name.ShouldNotBe(null);
@@ -38,8 +39,28 @@ namespace AcceptanceTests.Steps.Collections
         [When(@"I request a non-existing collection")]
         public void WhenIRequestANon_ExistingCollection()
         {
-            Remember(resource.GetCollectionThatDoesNotExist());
+            Remember(_resource.GetCollectionThatDoesNotExist());
         }
 
+        [When(@"I request collections for a valid apikey")]
+        public void WhenIRequestCollectionsForAValidApikey()
+        {
+            Remember(_resource.GetCollectionsForValidApiKey());
+        }
+
+        [Then(@"the collections should be returned")]
+        public void ThenTheCollectionsShouldBeReturned()
+        {
+            var result = Recall<IList<Collection>>();
+
+            result.ShouldNotBe(null);
+            result.Count.ShouldBe(2);
+        }
+
+        [When(@"I request collections for an invalid apikey")]
+        public void WhenIRequestCollectionsForAnInvalidApikey()
+        {
+            Remember(_resource.GetCollectionsForInvalidApiKey());
+        }
     }
 }

@@ -1,10 +1,12 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
 using CMZero.API.Domain;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.ApiKeys;
 using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Exceptions.Organisations;
@@ -85,6 +87,21 @@ namespace Api.Controllers
                     {
                         ReasonPhrase =
                            ReasonPhrases.OrganisationIdNotValid
+                    });
+            }
+        }
+
+        public HttpResponseMessage GetByApiKey(string apiKey)
+        {
+            try
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, _collectionService.GetCollectionsByApiKey(apiKey));
+            }
+            catch (ApiKeyNotValidException)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
+                    {
+                        ReasonPhrase = ReasonPhrases.ApiKeyNotValid
                     });
             }
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 
 using CMZero.API.Messages;
@@ -41,6 +42,18 @@ namespace CMZero.API.ServiceAgent
             HttpRequestMessage request = CreatePutRequest(collection, "/collection/");
 
             return CheckResult<Collection>(request);
+        }
+
+        public IEnumerable<Collection> GetByApiKey(string apiKey)
+        {
+            var uriBuilder = new UriBuilder(_baseUri)
+            {
+                Path = string.Format("apikey/{0}/collections/", apiKey)
+            };
+
+            var request = new HttpRequestMessage(HttpMethod.Get, uriBuilder.Uri);
+
+            return GetResult<IEnumerable<Collection>>(request);
         }
     }
 }

@@ -9,5 +9,7 @@ namespace CMZero.API.Domain
         IList<Collection> GetCollectionsForApplication(string applicationId);
 
         Collection GetCollectionByApiKeyAndName(string apiKey, string collectionName);
+
+        IEnumerable<Collection> GetCollectionsByApiKey(string apiKey);
     }
 }

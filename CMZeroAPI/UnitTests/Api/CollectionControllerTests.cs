@@ -7,6 +7,7 @@ using Api.Controllers;
 using CMZero.API.Domain;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.ApiKeys;
 using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Organisations;
 
@@ -180,6 +181,41 @@ namespace UnitTests.Api
             public void it_should_throw_exception_with_ReasonPhrase_application_id_not_valid()
             {
                 exception.Response.ReasonPhrase.ShouldBe(ReasonPhrases.OrganisationIdNotValid);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_GetByApiKey_with_invalid_apiKey : Given_a_CollectonController
+        {
+            private HttpResponseException exception;
+            private const string ApiKey = "apiKey";
+
+            [SetUp]
+            public void SetUp()
+            {
+                base.SetUp();
+                CollectionService.Stub(x => x.GetCollectionsByApiKey(ApiKey)).Throw(new ApiKeyNotValidException());
+
+                try
+                {
+                    CollectionController.GetByApiKey(ApiKey);
+                }
+                catch (HttpResponseException ex)
+                {
+                    exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_return_HttpResponseException_with_status_code_bad_request()
+            {
+                exception.Response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            }
+
+            [Test]
+            public void it_should_return_HttpResponseException_with_reason_phrase_ApiKeyNotValid()
+            {
+                exception.Response.ReasonPhrase.ShouldBe(ReasonPhrases.ApiKeyNotValid);
             }
         }
     }

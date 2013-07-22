@@ -80,5 +80,13 @@ namespace CMZero.API.Domain
 
             return collectionsWithName.First();
         }
+
+        public IEnumerable<Collection> GetCollectionsByApiKey(string apiKey)
+        {
+            var application = _applicationService.GetApplicationByApiKey(apiKey);
+
+            var collectionRepository = (ICollectionRepository) Repository;
+            return collectionRepository.GetCollectionsForApplication(application.Id, application.OrganisationId);
+        }
     }
 }

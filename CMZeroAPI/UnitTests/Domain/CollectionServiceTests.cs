@@ -3,6 +3,7 @@
 using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Domain;
 using CMZero.API.Messages;
+using CMZero.API.Messages.Exceptions.ApiKeys;
 using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Collections;
 using CMZero.API.Messages.Exceptions.Organisations;
@@ -174,9 +175,9 @@ namespace UnitTests.Domain
         [TestFixture]
         public class When_I_call_GetCollectionsForApplication : Given_a_CollectionService
         {
-            private string applicationId="appId";
+            private string applicationId = "appId";
 
-            private string organisationId="orgId";
+            private string organisationId = "orgId";
 
             private IList<Collection> result;
 
@@ -220,7 +221,7 @@ namespace UnitTests.Domain
             public new virtual void SetUp()
             {
                 base.SetUp();
-                ApplicationService.Stub(x => x.GetApplicationByApiKey(apiKey)).Return(new Application { Id = ApplicationId, OrganisationId = OrganisationId});
+                ApplicationService.Stub(x => x.GetApplicationByApiKey(apiKey)).Return(new Application { Id = ApplicationId, OrganisationId = OrganisationId });
                 _collectionToReturn = new Collection { Name = CollectionName };
                 CollectionRepository.Stub(x => x.GetCollectionsForApplication(ApplicationId, OrganisationId))
                                  .Return(new List<Collection> { _collectionToReturn });
@@ -237,17 +238,28 @@ namespace UnitTests.Domain
         [TestFixture]
         public class When_I_call_GetCollectionByApiKeyAndName : Given_a_CollectionService
         {
+            private ApiKeyNotValidException exception;
+
             [SetUp]
             public new virtual void SetUp()
             {
                 base.SetUp();
-                CollectionService.GetCollectionByApiKeyAndName("badApiKey", "CollectionName");
+                string apiKey = "badApiKey";
+                ApplicationService.Stub(x => x.GetApplicationByApiKey(apiKey)).Throw(new ApiKeyNotValidException());
+                try
+                {
+                    CollectionService.GetCollectionByApiKeyAndName(apiKey, "CollectionName");
+                }
+                catch (ApiKeyNotValidException ex)
+                {
+                    exception = ex;
+                }
             }
 
             [Test]
             public void it_should_throw_ApiKeyNotValidException()
             {
-                Assert.Fail("Write this test and functionality properly");
+                exception.ShouldNotBe(null);
             }
         }
 
@@ -256,9 +268,9 @@ namespace UnitTests.Domain
         {
             private CollectionNameNotValidException exception;
 
-            private string applicationId="applicationId";
+            private string applicationId = "applicationId";
 
-            private string organisationId="organisationId";
+            private string organisationId = "organisationId";
 
             private const string CollectionName = "BadCollectionName";
 
@@ -287,6 +299,60 @@ namespace UnitTests.Domain
             public void it_should_return_CollectionNameNotValidException()
             {
                 exception.ShouldNotBe(null);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_GetCollectionsByApiKey_with_invalid_apiKey : Given_a_CollectionService
+        {
+            private string apiKey = "invalidApiKey";
+            private ApiKeyNotValidException _exception;
+
+            [SetUp]
+            public new void SetUp()
+            {
+                base.SetUp();
+                ApplicationService.Stub(x => x.GetApplicationByApiKey(apiKey)).Throw(new ApiKeyNotValidException());
+                try
+                {
+                    CollectionService.GetCollectionsByApiKey(apiKey);
+                }
+                catch (ApiKeyNotValidException ex)
+                {
+                    _exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_throw_a_ApiKeyNotValidException()
+            {
+                _exception.ShouldNotBe(null);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_GetCollectionsByApiKey_with_valid_api_key : Given_a_CollectionService
+        {
+            private const string ApiKey = "validApiKey";
+            private IEnumerable<Collection> _result;
+            private readonly List<Collection> _collectionsToReturn = new List<Collection>();
+            private string applicationId = "applicationId";
+            private string organisationId = "orgId";
+
+            [SetUp]
+            public new void SetUp()
+            {
+                base.SetUp();
+                ApplicationService.Stub(x => x.GetApplicationByApiKey(ApiKey))
+                                  .Return(new Application { Id = applicationId, OrganisationId = organisationId });
+                CollectionRepository.Stub(x => x.GetCollectionsForApplication(applicationId, organisationId)).Return(_collectionsToReturn);
+                _result = CollectionService.GetCollectionsByApiKey(ApiKey);
+            }
+
+            [Test]
+            public void it_should_return_results_from_repository()
+            {
+                _result.ShouldBe(_collectionsToReturn);
             }
         }
     }

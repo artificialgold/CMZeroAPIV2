@@ -44,7 +44,7 @@ namespace CMZero.API.Domain
             IApplicationRepository applicationRepository = (IApplicationRepository)Repository;
 
             return applicationRepository.GetByApiKey(apiKey);
-        }
+        }   
 
         public new Application Update(Application application)
         {

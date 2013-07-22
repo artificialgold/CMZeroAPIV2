@@ -1,4 +1,5 @@
-﻿using CMZero.API.Messages;
+﻿using System.Collections.Generic;
+using CMZero.API.Messages;
 
 namespace CMZero.API.ServiceAgent
 {
@@ -9,5 +10,6 @@ namespace CMZero.API.ServiceAgent
         Collection Post(Collection collection);
 
         Collection Put(Collection collection);
+        IEnumerable<Collection> GetByApiKey(string apiKey);
     }
 }
