@@ -206,7 +206,7 @@ namespace UnitTests.Api
                 }
             }
 
-            [Test]3
+            [Test]
             public void it_should_return_HttpResponseException_with_status_code_bad_request()
             {
                 exception.Response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
