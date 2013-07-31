@@ -31,13 +31,13 @@ namespace CMZero.API.ServiceAgent
             return GetResult<Application>(request);
         }
 
-        public IList<Application> Get()
+        public IEnumerable<Application> Get()
         {
             var uriBuilder = new UriBuilder(_baseUri) { Path = "/application/" };
 
             var request = new HttpRequestMessage(HttpMethod.Get, uriBuilder.Uri);
 
-            return GetResult<IList<Application>>(request);
+            return GetResult<IEnumerable<Application>>(request);
         }
 
         public Application Post(Application application)
@@ -52,6 +52,18 @@ namespace CMZero.API.ServiceAgent
             HttpRequestMessage request = CreatePutRequest(application, "/application/");
 
             return CheckResult<Application>(request);
+        }
+
+        public IEnumerable<Application> GetByOrganisation(string organisationId)
+        {
+            var uriBuilder = new UriBuilder(_baseUri)
+            {
+                Path = string.Format("/application/organisation/{0}", organisationId)
+            };
+
+            var request = new HttpRequestMessage(HttpMethod.Get, uriBuilder.Uri);
+
+            return GetResult<IEnumerable<Application>>(request);
         }
     }
 }

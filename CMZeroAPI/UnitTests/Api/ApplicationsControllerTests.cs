@@ -260,5 +260,41 @@ namespace UnitTests.Api
                 exception.Response.StatusCode.ShouldBe(HttpStatusCode.NotFound);                
             }
         }
+
+        [TestFixture]
+        public class When_I_call_GetByOrganisationId_with_invalid_organisationId : Given_an_ApplicationsController
+        {
+            private const string OrganisationId = "IDoNotExist";
+            private HttpResponseException _exception;
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                ApplicationService.Stub(x => x.GetApplicationsForOrganisation(OrganisationId))
+                                  .Throw(new OrganisationIdNotValidException());
+
+                try
+                {
+                    ApplicationsController.GetByOrganisationId(OrganisationId);
+                }
+                catch (HttpResponseException ex)
+                {
+                    _exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_return_exception_with_status_code_bad_request()
+            {
+                _exception.Response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            }
+
+            [Test]
+            public void it_should_return_exception_with_ReasonPhrase_OrganisationIdNotValid()
+            {
+                _exception.Response.ReasonPhrase.ShouldBe(ReasonPhrases.OrganisationIdNotValid);
+            }
+        }
     }
 }

@@ -37,6 +37,22 @@ namespace Api.Controllers
             }
         }
 
+        public HttpResponseMessage GetByOrganisationId(string organisationId)
+        {
+            try
+            {
+                var applications = _applicationService.GetApplicationsForOrganisation(organisationId);
+                return Request.CreateResponse(HttpStatusCode.OK, applications);
+            }
+            catch (OrganisationIdNotValidException)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
+                    {
+                        ReasonPhrase = ReasonPhrases.OrganisationIdNotValid
+                    });
+            }
+        }
+
         public HttpResponseMessage Post([FromBody]Application application)
         {
             try

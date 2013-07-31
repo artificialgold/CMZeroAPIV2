@@ -3,6 +3,7 @@
 using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Domain.ApiKey;
 using CMZero.API.Messages;
+using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Exceptions.Organisations;
 
 namespace CMZero.API.Domain
@@ -34,6 +35,15 @@ namespace CMZero.API.Domain
 
         public IList<Application> GetApplicationsForOrganisation(string organisationId)
         {
+            try
+            {
+                organisationService.GetById(organisationId);
+            }
+            catch (ItemNotFoundException)
+            {
+                throw new OrganisationIdNotValidException();
+            }
+
             IApplicationRepository applicationRepository = (IApplicationRepository)Repository;
 
             return applicationRepository.GetApplicationsForOrganisation(organisationId);
@@ -44,7 +54,7 @@ namespace CMZero.API.Domain
             IApplicationRepository applicationRepository = (IApplicationRepository)Repository;
 
             return applicationRepository.GetByApiKey(apiKey);
-        }   
+        }
 
         public new Application Update(Application application)
         {

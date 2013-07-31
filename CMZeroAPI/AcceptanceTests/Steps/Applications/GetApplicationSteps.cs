@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using AcceptanceTests.Helpers;
 using AcceptanceTests.Helpers.Applications;
 using AcceptanceTests.Helpers.Organisations;
@@ -59,6 +59,27 @@ namespace AcceptanceTests.Steps.Applications
             IEnumerable<Application> result = Recall<IEnumerable<Application>>();
         
             result.ShouldNotBeEmpty();
+        }
+
+        [When(@"I request applications for an organisation that does not exist")]
+        public void WhenIRequestApplicationsForAnOrganisationThatDoesNotExist()
+        {
+            Remember(resource.GetApplicationsForOrganisationThatDoesNotExist());
+        }
+
+        [When(@"I request applications for an organisation that exists")]
+        public void WhenIRequestApplicationsForAnOrganisationThatExists()
+        {
+            Remember(resource.GetApplicationsForOrganisationThatExists());
+        }
+
+        [Then(@"I should get all applications for that organisation")]
+        public void ThenIShouldGetAllApplicationsForThatOrganisation()
+        {
+           var result = Recall<IEnumerable<Application>>();
+
+            result.ShouldNotBeEmpty();
+            result.Count().ShouldBe(1);
         }
 
     }

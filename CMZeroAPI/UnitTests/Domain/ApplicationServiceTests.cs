@@ -4,6 +4,7 @@ using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Domain;
 using CMZero.API.Domain.ApiKey;
 using CMZero.API.Messages;
+using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Exceptions.ApiKeys;
 using CMZero.API.Messages.Exceptions.Organisations;
 
@@ -116,14 +117,42 @@ namespace UnitTests.Domain
             {
                 base.SetUp();
                 objToReturn = new List<Application>();
-                ApplicationRepository.Stub(x=>x.GetApplicationsForOrganisation(organisationId)).Return(objToReturn);
+                ApplicationRepository.Stub(x => x.GetApplicationsForOrganisation(organisationId)).Return(objToReturn);
                 result = ApplicationService.GetApplicationsForOrganisation(organisationId);
             }
 
             [Test]
             public void it_should_return_result_from_repository()
             {
-               Assert.AreEqual(result, objToReturn);
+                Assert.AreEqual(result, objToReturn);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_GetApplicationsForOrganisation_with_not_existent_organisationId : Given_an_application_service
+        {
+            private OrganisationIdNotValidException _exception;
+            private const string OrganisationId = "doesNotExist";
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                OrganisationService.Stub(x => x.GetById(OrganisationId)).Throw(new ItemNotFoundException());
+                try
+                {
+                    ApplicationService.GetApplicationsForOrganisation(OrganisationId);
+                }
+                catch (OrganisationIdNotValidException ex)
+                {
+                    _exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_throw_organisationIdNotValidException()
+            {
+                _exception.ShouldNotBe(null);
             }
         }
 
@@ -132,7 +161,7 @@ namespace UnitTests.Domain
         {
             private OrganisationIdNotValidException exception;
 
-            private readonly Application applicationToUpdate=new Application{Id=ApplicationId, OrganisationId = "newId"};
+            private readonly Application applicationToUpdate = new Application { Id = ApplicationId, OrganisationId = "newId" };
 
             private const string ApplicationId = "toUpdate";
 
@@ -161,7 +190,7 @@ namespace UnitTests.Domain
         [TestFixture]
         public class When_I_call_GetByApiKey_with_invalid_api_key : Given_an_application_service
         {
-            private string apiKeyThatDoesNotExist="doesNotExist";
+            private string apiKeyThatDoesNotExist = "doesNotExist";
 
             private ApiKeyNotValidException exception;
 
@@ -171,7 +200,7 @@ namespace UnitTests.Domain
                 base.SetUp();
                 try
                 {
-                    ApplicationRepository.Stub(x=>x.GetByApiKey(apiKeyThatDoesNotExist)).Throw(new ApiKeyNotValidException());
+                    ApplicationRepository.Stub(x => x.GetByApiKey(apiKeyThatDoesNotExist)).Throw(new ApiKeyNotValidException());
                     ApplicationService.GetApplicationByApiKey(apiKeyThatDoesNotExist);
                 }
                 catch (ApiKeyNotValidException ex)
@@ -190,7 +219,7 @@ namespace UnitTests.Domain
         [TestFixture]
         public class When_I_call_GetApplicationByApiKey_with_valid_apikey : Given_an_application_service
         {
-            private string apiKey="apiKeyThatIsValid";
+            private string apiKey = "apiKeyThatIsValid";
 
             private Application result;
 

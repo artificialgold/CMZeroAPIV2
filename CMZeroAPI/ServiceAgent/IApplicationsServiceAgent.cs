@@ -8,10 +8,12 @@ namespace CMZero.API.ServiceAgent
     {
         Application Get(string id);
 
-        IList<Application> Get();
+        IEnumerable<Application> Get();
 
         Application Post(Application application);
 
         Application Put(Application application);
+
+        IEnumerable<Application> GetByOrganisation(string organisationId);
     }
 }

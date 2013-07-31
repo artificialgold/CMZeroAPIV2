@@ -11,6 +11,9 @@ namespace Api.App_Start
                 "contentarea/collection/{collectionId}",
                 new { controller = "ContentArea", action = "GetByCollectionId" });
 
+            config.Routes.MapHttpRoute("ApplicationsByOrganisation", "application/organisation/{organisationId}",
+                                       new {controller = "Application", action = "GetByOrganisationId"});
+
             config.Routes.MapHttpRoute(
                 "CollectionContentAreasByNameAndApiKey",
                 "contentarea/collection/",

@@ -21,6 +21,11 @@ Scenario: Create a new collection with applicationId blank
 	Then I should get a BadRequestException
 
 @Collection
+Scenario: Create a new collection with organisationId that does not exist
+	When I post a collection with a non-existent organisationId
+	Then I should get a OrganisationIdNotValidException
+
+@Collection
 Scenario: Create a new collection with organisationId blank
 	When I post a collection with no organisationId
 	Then I should get a BadRequestException

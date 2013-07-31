@@ -82,7 +82,7 @@ namespace AcceptanceTests.Helpers.Applications
             throw new SpecFlowException("Expected HttpResponseException not thrown");
         }
 
-        public IList<Application> GetApplications()
+        public IEnumerable<Application> GetApplications()
         {
             return _applicationsServiceAgent.Get();
         }
@@ -145,7 +145,7 @@ namespace AcceptanceTests.Helpers.Applications
         {
             try
             {
-                _applicationsServiceAgent.Put(new Application{Id = "khjsassd", Name="madeUp"});
+                _applicationsServiceAgent.Put(new Application { Id = "khjsassd", Name = "madeUp" });
             }
             catch (ItemNotFoundException ex)
             {
@@ -153,6 +153,27 @@ namespace AcceptanceTests.Helpers.Applications
             }
 
             throw new SpecFlowException("Expected ItemNotFoundException not caught");
+        }
+
+        public OrganisationIdNotValidException GetApplicationsForOrganisationThatDoesNotExist()
+        {
+            try
+            {
+                _applicationsServiceAgent.GetByOrganisation("organisationIdThatDoesNoteExist");
+            }
+            catch(OrganisationIdNotValidException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected OrganisationIdNotValidException was not caught");
+        }
+
+        public IEnumerable<Application> GetApplicationsForOrganisationThatExists()
+        {
+            var application = NewApplication();
+
+            return _applicationsServiceAgent.GetByOrganisation(application.OrganisationId);
         }
     }
 }

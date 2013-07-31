@@ -69,6 +69,13 @@ namespace AcceptanceTests.Steps.Collections
             Remember(resource.NewCollectionWithNoApplicationId());
         }
 
+        [When(@"I post a collection with a non-existent organisationId")]
+        public void WhenIPostACollectionWithANon_ExistentOrganisationId()
+        {
+            Remember(resource.NewCollectionWithNonExistentOrganisationId());
+        }
+
+
         [When(@"I post a collection with no organisationId")]
         public void WhenIPostACollectionWithNoOrganisationId()
         {

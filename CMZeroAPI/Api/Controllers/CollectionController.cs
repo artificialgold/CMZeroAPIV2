@@ -54,9 +54,18 @@ namespace Api.Controllers
             {
                 throw new HttpResponseException(
                     new HttpResponseMessage
+                    {
+                        StatusCode = HttpStatusCode.BadRequest,
+                        ReasonPhrase = ReasonPhrases.ApplicationNotPartOfOrganisation
+                    });
+            }
+            catch (OrganisationIdNotValidException)
+            {
+                throw new HttpResponseException(
+                    new HttpResponseMessage
                         {
                             StatusCode = HttpStatusCode.BadRequest,
-                            ReasonPhrase = ReasonPhrases.ApplicationNotPartOfOrganisation
+                            ReasonPhrase = ReasonPhrases.OrganisationIdNotValid
                         });
             }
         }

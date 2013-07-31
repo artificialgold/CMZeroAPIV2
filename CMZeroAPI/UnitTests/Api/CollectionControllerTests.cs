@@ -21,7 +21,7 @@ namespace UnitTests.Api
 {
     public class CollectionControllerTests
     {
-        public class Given_a_CollectonController
+        public class Given_a_CollectionController
         {
             protected CollectionController CollectionController;
 
@@ -37,7 +37,7 @@ namespace UnitTests.Api
 
         [Ignore("Figure out how to mock Request or delete the test")]
         [TestFixture]
-        public class When_I_call_Get : Given_a_CollectonController
+        public class When_I_call_Get : Given_a_CollectionController
         {
             private string id = "collectionId";
 
@@ -62,7 +62,7 @@ namespace UnitTests.Api
 
         [Ignore("Figure out how to deal with mocking Request or delete")]
         [TestFixture]
-        public class When_I_call_Post : Given_a_CollectonController
+        public class When_I_call_Post : Given_a_CollectionController
         {
             protected HttpResponseMessage Outcome;
             protected Collection CollectionIntoService;
@@ -86,7 +86,42 @@ namespace UnitTests.Api
         }
 
         [TestFixture]
-        public class When_I_call_Put_with_collection_that_does_not_exist : Given_a_CollectonController
+        public class When_I_call_Post_with_invalid_organisationId : Given_a_CollectionController
+        {
+            private readonly Collection _collection = new Collection();
+            private HttpResponseException _exception;
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                CollectionService.Stub(x => x.Create(_collection))
+                                 .Throw(new OrganisationIdNotValidException());
+                try
+                {
+                    CollectionController.Post(_collection);
+                }
+                catch (HttpResponseException ex)
+                {
+                    _exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_return_exception_with_bad_request_status_code()
+            {
+                _exception.Response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            }
+
+            [Test]
+            public void it_should_return_reason_phrase_OrganisationIdNotValid()
+            {
+                _exception.Response.ReasonPhrase.ShouldBe(ReasonPhrases.OrganisationIdNotValid);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_Put_with_collection_that_does_not_exist : Given_a_CollectionController
         {
             private Collection collectionThatDoesNotExist = new Collection();
 
@@ -115,7 +150,7 @@ namespace UnitTests.Api
         }
 
         [TestFixture]
-        public class When_I_call_Put_with_collection_that_has_applicationId_changed : Given_a_CollectonController
+        public class When_I_call_Put_with_collection_that_has_applicationId_changed : Given_a_CollectionController
         {
             private Collection collection = new Collection();
 
@@ -150,7 +185,7 @@ namespace UnitTests.Api
         }
 
         [TestFixture]
-        public class When_I_call_Put_with_collection_that_has_organisationId_changed : Given_a_CollectonController
+        public class When_I_call_Put_with_collection_that_has_organisationId_changed : Given_a_CollectionController
         {
             private Collection collection = new Collection();
 
@@ -185,7 +220,7 @@ namespace UnitTests.Api
         }
 
         [TestFixture]
-        public class When_I_call_GetByApiKey_with_invalid_apiKey : Given_a_CollectonController
+        public class When_I_call_GetByApiKey_with_invalid_apiKey : Given_a_CollectionController
         {
             private HttpResponseException exception;
             private const string ApiKey = "apiKey";

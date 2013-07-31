@@ -151,7 +151,9 @@
     <Compile Include="Steps\StepBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Features\Applications\CreateApplication.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>CreateApplication.feature.cs</LastGenOutput>

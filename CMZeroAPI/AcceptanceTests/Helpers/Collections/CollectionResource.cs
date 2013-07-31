@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 
 using AcceptanceTests.Helpers.Applications;
-
+using AcceptanceTests.Helpers.Organisations;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Exceptions.ApiKeys;
@@ -93,10 +93,14 @@ namespace AcceptanceTests.Helpers.Collections
 
         public ApplicationIdNotPartOfOrganisationException NewCollectionWithApplicationIdNotPartOfOrganisationId()
         {
+            Organisation organisationThatIsNotTheOneForTheApplication = new Api().Resource<OrganisationResource>().NewOrganisation();
+
+
             ApplicationResource applicationResource = new Api().Resource<ApplicationResource>();
-            var application = applicationResource.NewApplication();
-            var applicationId = application.Id;
-            var organisationId = application.OrganisationId + "xx";
+            var applicationWeWantToAddCollectionTo = applicationResource.NewApplication();
+            var applicationIdForOneWeWantToAddCollectionTo = applicationWeWantToAddCollectionTo.Id;
+
+            var organisationIdDifferentToApplicationWeWantToAddTo = organisationThatIsNotTheOneForTheApplication.Id;
 
             try
             {
@@ -105,8 +109,8 @@ namespace AcceptanceTests.Helpers.Collections
                         {
                             Name = "testNameForBadOrganisationId",
                             Active = true,
-                            ApplicationId = applicationId,
-                            OrganisationId = organisationId
+                            ApplicationId = applicationIdForOneWeWantToAddCollectionTo,
+                            OrganisationId = organisationIdDifferentToApplicationWeWantToAddTo
                         });
             }
             catch (ApplicationIdNotPartOfOrganisationException exception)
@@ -158,7 +162,7 @@ namespace AcceptanceTests.Helpers.Collections
                 return exception;
             }
 
-            return null;
+            throw new SpecFlowException("Expected BadRequestException was not caught");
         }
 
         public CollectionNameAlreadyExistsException NewCollectionWithExistingNameInApplication()
@@ -310,6 +314,31 @@ namespace AcceptanceTests.Helpers.Collections
             }
 
             throw new SpecFlowException("Expected ApiKeyNotValidException was not caught");
+        }
+
+        public OrganisationIdNotValidException NewCollectionWithNonExistentOrganisationId()
+        {
+            ApplicationResource applicationResource = new Api().Resource<ApplicationResource>();
+            var application = applicationResource.NewApplication();
+            var applicationId = application.Id;
+
+            try
+            {
+                _collectionServiceAgent.Post(
+                    new Collection
+                    {
+                        Name = "testNameForNoOrganisationId",
+                        Active = true,
+                        ApplicationId = applicationId,
+                        OrganisationId = applicationId + "xx"
+                    });
+            }
+            catch (OrganisationIdNotValidException exception)
+            {
+                return exception;
+            }
+
+            return null;
         }
     }
 }
