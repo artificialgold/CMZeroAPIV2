@@ -123,29 +123,29 @@ namespace UnitTests.Api
         [TestFixture]
         public class When_I_call_Put_with_collection_that_does_not_exist : Given_a_CollectionController
         {
-            private Collection collectionThatDoesNotExist = new Collection();
+            private readonly Collection _collectionThatDoesNotExist = new Collection();
 
-            private HttpResponseException exception;
+            private HttpResponseException _exception;
 
             [SetUp]
             public new virtual void SetUp()
             {
                 base.SetUp();
-                CollectionService.Stub(x => x.Update(collectionThatDoesNotExist)).Throw(new ItemNotFoundException());
+                CollectionService.Stub(x => x.Update(_collectionThatDoesNotExist)).Throw(new ItemNotFoundException());
                 try
                 {
-                    CollectionController.Put(collectionThatDoesNotExist);
+                    CollectionController.Put(_collectionThatDoesNotExist);
                 }
                 catch (HttpResponseException ex)
                 {
-                    exception = ex;
+                    _exception = ex;
                 }
             }
 
             [Test]
             public void it_should_throw_exception_with_statuscode_notfound()
             {
-                exception.Response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+                _exception.Response.StatusCode.ShouldBe(HttpStatusCode.NotFound);
             }
         }
 
