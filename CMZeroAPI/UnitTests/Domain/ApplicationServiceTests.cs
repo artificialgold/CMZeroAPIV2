@@ -6,6 +6,7 @@ using CMZero.API.Domain.ApiKey;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
 using CMZero.API.Messages.Exceptions.ApiKeys;
+using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Organisations;
 
 using NUnit.Framework;
@@ -40,91 +41,123 @@ namespace UnitTests.Domain
 
         public class When_I_call_create_with_an_organisationId_that_does_not_exist : Given_an_application_service
         {
-            private string organisationIdThatDoesNotExist = "doesnotexist";
+            private const string OrganisationIdThatDoesNotExist = "doesnotexist";
 
-            private OrganisationDoesNotExistException exception;
+            private OrganisationDoesNotExistException _exception;
 
             [SetUp]
             public new virtual void SetUp()
             {
-                OrganisationService.Stub(x => x.IdExists(organisationIdThatDoesNotExist)).Return(false);
+                OrganisationService.Stub(x => x.IdExists(OrganisationIdThatDoesNotExist)).Return(false);
                 Application application = new Application
                                               {
                                                   Name = "NewName",
-                                                  OrganisationId = organisationIdThatDoesNotExist
+                                                  OrganisationId = OrganisationIdThatDoesNotExist
                                               };
                 try
                 {
                     ApplicationService.Create(application);
                 }
-                catch (OrganisationDoesNotExistException exception)
+                catch (OrganisationDoesNotExistException ex)
                 {
-                    this.exception = exception;
+                    _exception = ex;
                 }
             }
 
             [Test]
             public void it_should_return_OrganisationIdNotValid_exception()
             {
-                Assert.NotNull(exception);
+                Assert.NotNull(_exception);
             }
         }
 
         [TestFixture]
-        public class When_I_call_with_an_organisationId_that_exists : Given_an_application_service
+        public class When_I_call_create_with_application_name_that_exists_for_that_organisation : Given_an_application_service
         {
-            private Application application;
-
-            private string organisationIdThatExists = "IExist";
-
-            private Application result;
-
-            private string apiKeyFromCreator = "createdApiKey";
+            private ApplicationNameAlreadyExistsException _exception;
+            private const string NameThatAlreadyExists = "nameThatAlreadyExists";
+            private const string OrganisationId = "orgId";
 
             [SetUp]
             public new virtual void SetUp()
             {
-                application = new Application { OrganisationId = organisationIdThatExists };
-                OrganisationService.Stub(x => x.IdExists(organisationIdThatExists)).Return(true);
-                ApiKeyCreator.Stub(x => x.Create()).Return(apiKeyFromCreator);
-                result = ApplicationService.Create(application);
+                base.SetUp();
+                OrganisationService.Stub(x => x.IdExists(OrganisationId)).Return(true);
+                ApplicationRepository.Stub(x => x.GetApplicationsForOrganisation(OrganisationId))
+                                     .Return(new List<Application> {new Application {Name = NameThatAlreadyExists, OrganisationId = OrganisationId}});
+                try
+                {
+                    ApplicationService.Create(new Application {Name = NameThatAlreadyExists, OrganisationId = OrganisationId});
+                }
+                catch (ApplicationNameAlreadyExistsException ex)
+                {
+                    _exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_throw_ApplicationNameAlreadyExistsException()
+            {
+                _exception.ShouldNotBe(null);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_create_with_a_valid_application : Given_an_application_service
+        {
+            private Application _application;
+
+            private const string OrganisationIdThatExists = "IExist";
+
+            private Application _result;
+
+            private const string ApiKeyFromCreator = "createdApiKey";
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                _application = new Application { Name="name", OrganisationId = OrganisationIdThatExists };
+                OrganisationService.Stub(x => x.IdExists(OrganisationIdThatExists)).Return(true);
+                ApplicationRepository.Stub(x => x.GetApplicationsForOrganisation(OrganisationIdThatExists)).Return(new List<Application>());
+                ApiKeyCreator.Stub(x => x.Create()).Return(ApiKeyFromCreator);
+                _result = ApplicationService.Create(_application);
             }
 
             [Test]
             public void it_should_return_created_application()
             {
-                Assert.AreEqual(result, application);
+                Assert.AreEqual(_result, _application);
             }
 
             [Test]
             public void it_should_set_apikey_to_value_from_apikeycreator()
             {
-                result.ApiKey.ShouldBe(apiKeyFromCreator);
+                _result.ApiKey.ShouldBe(ApiKeyFromCreator);
             }
         }
 
         [TestFixture]
         public class When_I_call_GetApplicationsForOrganisation : Given_an_application_service
         {
-            private string organisationId = "orgId";
+            private const string OrganisationId = "orgId";
 
-            private IList<Application> result;
+            private IList<Application> _result;
 
-            private List<Application> objToReturn;
+            private List<Application> _objToReturn;
 
             [SetUp]
             public new virtual void SetUp()
             {
                 base.SetUp();
-                objToReturn = new List<Application>();
-                ApplicationRepository.Stub(x => x.GetApplicationsForOrganisation(organisationId)).Return(objToReturn);
-                result = ApplicationService.GetApplicationsForOrganisation(organisationId);
+                _objToReturn = new List<Application>();
+                ApplicationRepository.Stub(x => x.GetApplicationsForOrganisation(OrganisationId)).Return(_objToReturn);
+                _result = ApplicationService.GetApplicationsForOrganisation(OrganisationId);
             }
 
             [Test]
             public void it_should_return_result_from_repository()
             {
-                Assert.AreEqual(result, objToReturn);
+                Assert.AreEqual(_result, _objToReturn);
             }
         }
 

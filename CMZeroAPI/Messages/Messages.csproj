@@ -52,6 +52,7 @@
     <Compile Include="Exceptions\ApiKeys\ApiKeyNotValidException.cs" />
     <Compile Include="Exceptions\Applications\ApplicationIdNotPartOfOrganisationException.cs" />
     <Compile Include="Exceptions\Applications\ApplicationIdNotValidException.cs" />
+    <Compile Include="Exceptions\Applications\ApplicationNameAlreadyExistsException.cs" />
     <Compile Include="Exceptions\BadRequestException.cs" />
     <Compile Include="Exceptions\BadResponseException.cs" />
     <Compile Include="Exceptions\BaseHttpException.cs" />

@@ -1,30 +1,38 @@
 ﻿using System.Collections.Generic;
-
+using System.Linq;
 using CMZero.API.DataAccess.RepositoryInterfaces;
 using CMZero.API.Domain.ApiKey;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Organisations;
 
 namespace CMZero.API.Domain
 {
     public class ApplicationService : BaseService<Application>, IApplicationService
     {
-        private readonly IOrganisationService organisationService;
+        private readonly IOrganisationService _organisationService;
 
-        private IApiKeyCreator _apiKeyCreator;
+        private readonly IApiKeyCreator _apiKeyCreator;
 
         public ApplicationService(IApplicationRepository applicationRepository, IOrganisationService organisationService, IApiKeyCreator apiKeyCreator)
         {
-            this.organisationService = organisationService;
+            _organisationService = organisationService;
             _apiKeyCreator = apiKeyCreator;
             Repository = applicationRepository;
         }
 
         public new Application Create(Application application)
         {
-            if (!organisationService.IdExists(application.OrganisationId))
+            if (!_organisationService.IdExists(application.OrganisationId))
                 throw new OrganisationDoesNotExistException();
+
+            IList<Application> applications = GetApplicationsForOrganisation(application.OrganisationId);
+            bool nameExists = (from a in applications
+                               where a.Name == application.Name
+                               select a).Any();
+
+            if (nameExists) throw new ApplicationNameAlreadyExistsException();
 
             application.ApiKey = _apiKeyCreator.Create();
 
@@ -35,9 +43,10 @@ namespace CMZero.API.Domain
 
         public IList<Application> GetApplicationsForOrganisation(string organisationId)
         {
+            //TODO: Change to IdExists
             try
             {
-                organisationService.GetById(organisationId);
+                _organisationService.GetById(organisationId);
             }
             catch (ItemNotFoundException)
             {

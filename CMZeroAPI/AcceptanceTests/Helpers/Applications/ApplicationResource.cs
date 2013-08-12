@@ -6,6 +6,7 @@ using AcceptanceTests.Helpers.Organisations;
 
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Organisations;
 using CMZero.API.ServiceAgent;
 
@@ -58,6 +59,26 @@ namespace AcceptanceTests.Helpers.Applications
 
             return null;
         }
+
+        public ApplicationNameAlreadyExistsException NewApplicationWithExistingNameInOrganisation()
+        {
+            var organisationResource = new Api().Resource<OrganisationResource>();
+            var organisationId = organisationResource.NewOrganisation().Id;
+
+            try
+            {
+                const string alreadyExistingName = "nameThatWillAlreadyExist";
+                _applicationsServiceAgent.Post(new Application {Active = true, Name = alreadyExistingName, OrganisationId = organisationId});
+                _applicationsServiceAgent.Post(new Application {Active = true, Name = alreadyExistingName, OrganisationId = organisationId});
+            }
+            catch (ApplicationNameAlreadyExistsException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException();
+        }
+
 
         public Application GetApplication(string id)
         {
@@ -175,5 +196,12 @@ namespace AcceptanceTests.Helpers.Applications
 
             return _applicationsServiceAgent.GetByOrganisation(application.OrganisationId);
         }
+
+        [Then(@"I should get a ApplicationNameAlreadyExistsException")]
+        public void ThenIShouldGetAApplicationNameAlreadyExistsException()
+        {
+
+        }
+
     }
 }

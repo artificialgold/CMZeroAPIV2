@@ -67,5 +67,14 @@ namespace AcceptanceTests.Steps.Shared
 
             result.ShouldNotBe(null);
         }
+
+        [Then(@"I should get a ApplicationNameAlreadyExistsException")]
+        public void ThenIShouldGetAApplicationNameAlreadyExistsException()
+        {
+            ApplicationNameAlreadyExistsException result = Recall<ApplicationNameAlreadyExistsException>();
+
+            result.ShouldNotBe(null);
+        }
+
     }
 }

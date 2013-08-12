@@ -75,6 +75,8 @@ namespace CMZero.API.ServiceAgent
                 if (response.ReasonPhrase == ReasonPhrases.CollectionNotPartOfApplication) throw new CollectionIdNotPartOfApplicationException();
                 if (response.ReasonPhrase == ReasonPhrases.CollectionNameNotValidException) throw new CollectionNameNotValidException();
                 if (response.ReasonPhrase == ReasonPhrases.ApiKeyNotValid) throw new ApiKeyNotValidException();
+                if (response.ReasonPhrase == ReasonPhrases.ApplicationNameAlreadyExists) throw new ApplicationNameAlreadyExistsException();
+
 
                 var validationErrors = response.Content.ReadAsAsync<ValidationErrors>(new[] { new JsonMediaTypeFormatter() }).Result;
 

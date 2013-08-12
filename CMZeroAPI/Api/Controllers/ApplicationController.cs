@@ -5,6 +5,7 @@ using System.Web.Http;
 using CMZero.API.Domain;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.Applications;
 using CMZero.API.Messages.Exceptions.Organisations;
 
 namespace Api.Controllers
@@ -62,7 +63,19 @@ namespace Api.Controllers
             }
             catch (OrganisationDoesNotExistException)
             {
-                throw new HttpResponseException(new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest, ReasonPhrase = ReasonPhrases.OrganisationIdDoesNotExist });
+                throw new HttpResponseException(new HttpResponseMessage
+                    {
+                        StatusCode = HttpStatusCode.BadRequest,
+                        ReasonPhrase = ReasonPhrases.OrganisationIdDoesNotExist
+                    });
+            }
+            catch (ApplicationNameAlreadyExistsException)
+            {
+                throw new HttpResponseException(new HttpResponseMessage
+                    {
+                        StatusCode = HttpStatusCode.BadRequest,
+                        ReasonPhrase = ReasonPhrases.ApplicationNameAlreadyExists
+                    });
             }
         }
 

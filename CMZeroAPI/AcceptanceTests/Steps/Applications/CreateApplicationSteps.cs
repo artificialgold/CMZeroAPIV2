@@ -66,5 +66,11 @@ namespace AcceptanceTests.Steps.Applications
             exception.ShouldNotBe(null);
         }
 
+        [Given(@"I create an application with a name already existing for an organisation")]
+        public void GivenICreateAnApplicationWithANameAlreadyExistingForAnOrganisation()
+        {
+            Remember(resource.NewApplicationWithExistingNameInOrganisation());
+        }
+
     }
 }
