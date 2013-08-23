@@ -4,6 +4,7 @@ using System.Globalization;
 
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.Organisations;
 using CMZero.API.ServiceAgent;
 
 using TechTalk.SpecFlow;
@@ -12,7 +13,7 @@ namespace AcceptanceTests.Helpers.Organisations
 {
     public class OrganisationResource : IResource
     {
-        IOrganisationsServiceAgent _organisationsServiceAgent;
+        readonly IOrganisationsServiceAgent _organisationsServiceAgent;
 
         public OrganisationResource(IOrganisationsServiceAgent organisationsServiceAgent)
         {
@@ -22,7 +23,7 @@ namespace AcceptanceTests.Helpers.Organisations
         public Organisation NewOrganisation()
         {
             return NewOrganisationWithSpecifiedName(
-                   string.Format("Test{0}", DateTime.Now.ToString(CultureInfo.InvariantCulture)));
+                   string.Format("Test{0}{1}", DateTime.Now.ToString(CultureInfo.InvariantCulture), DateTime.Now.Ticks));
         }
 
         public Organisation NewOrganisationWithSpecifiedName(string name)
@@ -114,6 +115,42 @@ namespace AcceptanceTests.Helpers.Organisations
             }
 
             throw new SpecFlowException("Expected ItemNotFoundException was not caught");
+        }
+
+        public OrganisationNameAlreadyExistsException NewOrganisationWithExistingName()
+        {
+            var organisationNameThatWillBeUsedTwice = "orgisationNameThatExists" +DateTime.Now.Ticks;
+            NewOrganisationWithSpecifiedName(organisationNameThatWillBeUsedTwice);
+
+            try
+            {
+                NewOrganisationWithSpecifiedName(organisationNameThatWillBeUsedTwice);
+            }
+            catch (OrganisationNameAlreadyExistsException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected OrganisationNameAlreadyExistsException was not caught");
+        }
+
+        public OrganisationNameAlreadyExistsException UpdateOrganisationWithExistingName()
+        {
+            string organisationNameToDuplicate = "organisationNameToDuplicate" + DateTime.Now.Ticks;
+            NewOrganisationWithSpecifiedName(organisationNameToDuplicate);
+            var organisationToUpdate = NewOrganisation();
+            organisationToUpdate.Name = organisationNameToDuplicate;
+
+            try
+            {
+                _organisationsServiceAgent.Put(organisationToUpdate);
+            }
+            catch(OrganisationNameAlreadyExistsException ex)
+            {
+                return ex;
+            }
+
+            throw new SpecFlowException("Expected OrganisationNameAlreadyExistsException was not caught");
         }
     }
 }

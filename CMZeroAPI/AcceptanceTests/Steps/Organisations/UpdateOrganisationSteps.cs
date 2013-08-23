@@ -15,40 +15,42 @@ namespace AcceptanceTests.Steps.Organisations
     [Binding]
     public class UpdateOrganisationSteps : StepBase
     {
-        private readonly OrganisationResource resource = new Api().Resource<OrganisationResource>();
-
-        private string updateName = "updatedName";
-
-        private string updateStartKey = "updateStartKey";
-
-        private string updateEndKey = "updateEndKey";
-
-        private string organisationidkey = "organisationIdKey";
+        private readonly OrganisationResource _resource = new Api().Resource<OrganisationResource>();
+        private readonly string _updateName = "updatedName" + DateTime.Now.Ticks;
+        private const string UpdateStartKey = "updateStartKey";
+        private const string UpdateEndKey = "updateEndKey";
+        private const string Organisationidkey = "organisationIdKey";
 
         [Given(@"an existing organisation")]
         public void GivenAnExistingOrganisation()
         {
-            string id = resource.NewOrganisationWithSpecifiedName("preUpdate").Id;
-            Remember(id, organisationidkey);
+            string id = _resource.NewOrganisationWithSpecifiedName("preUpdate" + DateTime.Now.Ticks).Id;
+            Remember(id, Organisationidkey);
         }
 
         [When(@"I update the organisation name with a valid name")]
         public void WhenIUpdateTheOrganisationNameWithAValidName()
         {
-            var organisation = resource.GetOrganisation(Recall<string>(organisationidkey));
-            organisation.Name = updateName;
+            var organisation = _resource.GetOrganisation(Recall<string>(Organisationidkey));
+            organisation.Name = _updateName;
             DateTime startUpdateTime = DateTime.UtcNow;
-            resource.UpdateOrganisation(organisation);
+            _resource.UpdateOrganisation(organisation);
             DateTime endUpdateTime = DateTime.UtcNow;
-            Remember(startUpdateTime, updateStartKey);
-            Remember(endUpdateTime, updateEndKey);
+            Remember(startUpdateTime, UpdateStartKey);
+            Remember(endUpdateTime, UpdateEndKey);
+        }
+
+        [When(@"I update the organisaton name to an existing name")]
+        public void WhenIUpdateTheOrganisatonNameToAnExistingName()
+        {
+            Remember(_resource.UpdateOrganisationWithExistingName());
         }
 
         [When(@"I update the organisation name with no name")]
         public void WhenIUpdateTheOrganisationNameWithNoName()
         {
-            var organisation = resource.GetOrganisation(Recall<string>(organisationidkey));
-            var exception = resource.UpdateOrganisationWithUnspecifiedName(organisation);
+            var organisation = _resource.GetOrganisation(Recall<string>(Organisationidkey));
+            var exception = _resource.UpdateOrganisationWithUnspecifiedName(organisation);
             Remember(exception);
         }
 
@@ -56,22 +58,22 @@ namespace AcceptanceTests.Steps.Organisations
         [Then(@"the organisation should have the new name")]
         public void ThenTheOrganisationShouldHaveTheNewName()
         {
-            var organisation = resource.GetOrganisation(Recall<string>(organisationidkey));
-            organisation.Name.ShouldBe(updateName);
+            var organisation = _resource.GetOrganisation(Recall<string>(Organisationidkey));
+            organisation.Name.ShouldBe(_updateName);
         }
 
         [Then(@"the organisation should have the new updated date")]
         public void ThenTheOrganisationShouldHaveTheNewUpdatedDate()
         {
-            var organisation = resource.GetOrganisation(Recall<string>(organisationidkey));
-            organisation.Updated.ShouldBeGreaterThanOrEqualTo(Recall<DateTime>(updateStartKey));
-            organisation.Updated.ShouldBeLessThan(Recall<DateTime>(updateEndKey).AddTicks(1));
+            var organisation = _resource.GetOrganisation(Recall<string>(Organisationidkey));
+            organisation.Updated.ShouldBeGreaterThanOrEqualTo(Recall<DateTime>(UpdateStartKey));
+            organisation.Updated.ShouldBeLessThan(Recall<DateTime>(UpdateEndKey).AddTicks(1));
         }
 
         [When(@"I update an organisation that does not exist")]
         public void WhenIUpdateAnOrganisationThatDoesNotExist()
         {
-            Remember(resource.UpdateOrganisationThatDoesNotExist());
+            Remember(_resource.UpdateOrganisationThatDoesNotExist());
         }
 
         [Then(@"I should get an ItemNotFoundException")]

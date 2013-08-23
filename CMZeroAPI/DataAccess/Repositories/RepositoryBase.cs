@@ -96,8 +96,9 @@ namespace CMZero.API.DataAccess.Repositories
             {
                 documentStore = new DocumentStore
                                     {
-                                        Url = ConfigurationManager.AppSettings["RavenDBAddress"],
-                                        ApiKey = ConfigurationManager.AppSettings["RavenDBApiKey"]
+                                        Url = ConfigurationManager.AppSettings["RavenDBLocalAddress"],
+                                        ApiKey = ConfigurationManager.AppSettings["RavenDBApiKey"],
+                                        DefaultDatabase = ConfigurationManager.AppSettings["DefaultDatabase"]
                                     };
             }
 

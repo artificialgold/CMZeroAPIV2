@@ -50,7 +50,7 @@ namespace AcceptanceTests.Steps.Applications
         [When(@"I request all applications")]
         public void WhenIRequestAllApplications()
         {
-            Remember<IEnumerable<Application>>(resource.GetApplications());
+            Remember(resource.GetApplications());
         }
 
         [Then(@"I should get a list of applications")]

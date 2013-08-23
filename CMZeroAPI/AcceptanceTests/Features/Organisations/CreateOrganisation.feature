@@ -9,3 +9,8 @@ Scenario: Creating an organisation with correct parameters
 Scenario: Creating an organisation without name
 	Given I create an organisation without a name
 	Then I should get a BadRequestException
+
+@Organisation
+Scenario: Creating an organisation with a name that already exists
+	Given I create an organisation with a name that already exists
+	Then I should get a OrganisationNameAlreadyExistsException

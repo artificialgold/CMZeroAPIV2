@@ -5,6 +5,7 @@ using System.Web.Http;
 using CMZero.API.Domain;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
+using CMZero.API.Messages.Exceptions.Organisations;
 
 namespace Api.Controllers
 {
@@ -37,10 +38,21 @@ namespace Api.Controllers
         }
 
         // POST api/values
-        public HttpResponseMessage Post([FromBody]Organisation organisation)
+        public HttpResponseMessage Post([FromBody] Organisation organisation)
         {
-            organisation = _organisationService.Create(organisation);
-            return Request.CreateResponse(HttpStatusCode.Created, organisation);
+            try
+            {
+                organisation = _organisationService.Create(organisation);
+                return Request.CreateResponse(HttpStatusCode.Created, organisation);
+            }
+            catch (OrganisationNameAlreadyExistsException ex)
+            {
+                throw new
+                   HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
+                       {
+                           ReasonPhrase = ReasonPhrases.OrganisationNameAlreadyExists
+                       });
+            }
         }
 
         // PUT api/values/5
@@ -54,6 +66,10 @@ namespace Api.Controllers
             catch (ItemNotFoundException)
             {
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
+            catch (OrganisationNameAlreadyExistsException)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ReasonPhrases.OrganisationNameAlreadyExists });
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
@@ -7,9 +8,10 @@ using Api.Controllers;
 using CMZero.API.Domain;
 using CMZero.API.Messages;
 using CMZero.API.Messages.Exceptions;
-
+using CMZero.API.Messages.Exceptions.Organisations;
 using NUnit.Framework;
 using Rhino.Mocks;
+using Shouldly;
 
 namespace UnitTests.Api
 {
@@ -50,6 +52,49 @@ namespace UnitTests.Api
             public void it_should_return_the_organisation_from_organisation_service_in_the_response()
             {
                 Assert.AreEqual(Outcome.Content, organisationFromService);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_call_Create_with_name_that_already_exists : Given_an_OrganisationController
+        {
+            private const string OrganisationThatAlreadyExists = "nameAlreadyExists";
+            private Organisation _organisation;
+            private HttpResponseException _exception;
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                _organisation = new Organisation { Name = OrganisationThatAlreadyExists };
+                OrganisationService.Stub(x => x.Create(_organisation))
+                                   .Throw(new OrganisationNameAlreadyExistsException());
+                try
+                {
+                    OrganisationsController.Post(_organisation);
+                }
+                catch (HttpResponseException ex)
+                {
+                    _exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_throw_exception()
+            {
+                _exception.ShouldNotBe(null);
+            }
+
+            [Test]
+            public void it_should_throw_exception_with_reason_phrase_OrganisationNameAlreadyExists()
+            {
+                _exception.Response.ReasonPhrase.ShouldBe(ReasonPhrases.OrganisationNameAlreadyExists);
+            }
+
+            [Test]
+            public void it_should_throw_exception_with_status_code_BadRequest()
+            {
+                _exception.Response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
             }
         }
 
@@ -181,6 +226,47 @@ namespace UnitTests.Api
             public void it_should_return_response_with_organisation_from_service()
             {
                 Assert.AreEqual(outcome.Content, updatedOrganisation);
+            }
+        }
+
+        [TestFixture]
+        public class When_I_update_an_organisation_with_an_existing_name : Given_an_OrganisationController
+        {
+            private HttpResponseException _exception;
+
+            [SetUp]
+            public new virtual void SetUp()
+            {
+                base.SetUp();
+                const string organisationNameExists = "nameExists";
+                var organisation = new Organisation { Name = organisationNameExists };
+                OrganisationService.Stub(x => x.Update(organisation)).Throw(new OrganisationNameAlreadyExistsException());
+                try
+                {
+                    OrganisationsController.Put(organisation);
+                }
+                catch (HttpResponseException ex)
+                {
+                    _exception = ex;
+                }
+            }
+
+            [Test]
+            public void it_should_return_HttpResponseException()
+            {
+                _exception.ShouldNotBe(null);
+            }
+
+            [Test]
+            public void it_should_return_status_code_bad_request()
+            {
+                _exception.Response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+            }
+
+            [Test]
+            public void it_shouldd_return_reason_phrase_organisation_name_already_exists()
+            {
+                _exception.Response.ReasonPhrase.ShouldBe(ReasonPhrases.OrganisationNameAlreadyExists);
             }
         }
     }

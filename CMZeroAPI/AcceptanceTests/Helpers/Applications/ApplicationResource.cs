@@ -79,7 +79,6 @@ namespace AcceptanceTests.Helpers.Applications
             throw new SpecFlowException();
         }
 
-
         public Application GetApplication(string id)
         {
             var result = _applicationsServiceAgent.Get(id);

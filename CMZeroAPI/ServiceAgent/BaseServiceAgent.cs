@@ -76,7 +76,7 @@ namespace CMZero.API.ServiceAgent
                 if (response.ReasonPhrase == ReasonPhrases.CollectionNameNotValidException) throw new CollectionNameNotValidException();
                 if (response.ReasonPhrase == ReasonPhrases.ApiKeyNotValid) throw new ApiKeyNotValidException();
                 if (response.ReasonPhrase == ReasonPhrases.ApplicationNameAlreadyExists) throw new ApplicationNameAlreadyExistsException();
-
+                if (response.ReasonPhrase == ReasonPhrases.OrganisationNameAlreadyExists) throw new OrganisationNameAlreadyExistsException();
 
                 var validationErrors = response.Content.ReadAsAsync<ValidationErrors>(new[] { new JsonMediaTypeFormatter() }).Result;
 

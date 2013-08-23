@@ -2,6 +2,8 @@
 {
     public class ReasonPhrases
     {
+        public const string OrganisationNameAlreadyExists= "Organisation name already exists";
+        
         public const string ApplicationNameAlreadyExists="Application name already exists for this organisation";
 
         public const string CollectionNameNotValidException = "Collection Name is not valid";
